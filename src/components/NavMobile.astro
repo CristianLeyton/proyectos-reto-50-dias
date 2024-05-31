@@ -9,19 +9,15 @@ allNames.map((project, index) => (
 ---
 
 <!-- LINKS -->
-<div class="hidden w-full md:hidden" id="nav-links">
-  <ul
-    class="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-slate-50"
-  >
-    <li>
-      <div
-        id="MostrarSubMenu"
-        class="cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
+
+<div 
+    id="MostrarSubMenu"
+        class="absolute md:hidden top-4 left-[165px] cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
       >
         Proyectos <span class="text-sm">&#9660;</span>
       </div>
-      <div id="SubMenu" class="hidden">
-        <nav class="ml-6">
+      <div id="SubMenu" class="hidden mt-5">
+        <nav class="text-left">
           {allProjects.map((project, index) => (
             <a
             href={project.url}
@@ -32,7 +28,17 @@ allNames.map((project, index) => (
           ))
           }
         </nav>
-      </div>
+</div>
+<div class="hidden w-full md:hidden" id="nav-links">
+  <ul
+    class="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-slate-50"
+  >
+    <li>
+      <a
+        href="/"
+        class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
+        >Inicio</a
+      >
     </li>
     <li>
       <a
