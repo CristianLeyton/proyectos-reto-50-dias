@@ -1,9 +1,12 @@
 ---
+const allProjects = await Astro.glob("../pages/projects/*/*.astro");
+const allNames = await Astro.glob("../pages/projects/*/*.md");
 
+var names = [];
+allNames.map((project, index) => (names[index] = project.frontmatter.name));
 ---
 
 <nav class="">
-
   <!-- Hamburguesa -->
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
     <button
@@ -31,61 +34,63 @@
   </div>
 
   <!-- LINKS -->
-<div
-class="hidden w-full md:block"
-id="nav-desktop"
->
-<ul
-  class="flex gap-6 p-4 font-medium border border-gray-100 rounded-lg bg-slate-50"
->
-  <li class="relative">
-    <div
-      id="MostrarSubMenuD"
-      class="cursor-pointer text-gray-900 rounded hover:text-[#5bb2e7] transition-all duration-150 ease-in-out"
-      >Proyectos <span class="text-sm">&#9660;</span>
-    </div>
-      <div
-      id="SubMenuD"
-      class="hidden">
-      <nav class="absolute flex flex-col font-medium border border-gray-100 rounded-lg bg-slate-50 min-w-64 top-12">
-        <a href="#" class="text-gray-900 rounded px-4 py-3 hover:text-[#5bb2e7] transition-all duration-150 ease-in-out">
-          Dia 1: Expanding Cards
-        </a>
-        <a href="#" class="text-gray-900 rounded px-4 py-3 hover:text-[#5bb2e7] transition-all duration-150 ease-in-out">
-          Dia 2: Expanding Cards ASD
-        </a>
-      </nav>
-      </div>
-  </li>
-  <li>
-    <a
-      href="https://cdl.net.ar/"
-      class="text-gray-900 rounded hover:text-[#5bb2e7] transition-all duration-150 ease-in-out"
-      target="_blank"
-      >Portafolio</a
+  <div class="hidden w-full md:block" id="nav-desktop">
+    <ul
+      class="flex gap-6 p-4 font-medium border border-gray-100 rounded-lg bg-slate-50"
     >
-  </li>
-  <li>
-    <a
-      href="https://api.whatsapp.com/send/?phone=3875459077&text=Hola!%20Vengo%20de%20tu%20sitio%20web%20&type=phone_number&app_absent=0"
-      class="text-gray-900 rounded hover:text-[#5bb2e7] transition-all duration-150 ease-in-out"
-      target="_blank"
-      >Contacto</a
-    >
-  </li>
-  <li>
-    <a
-      href="https://github.com/CristianLeyton/proyectos-reto-50-dias"
-      class="text-gray-900 rounded hover:text-[#5bb2e7] transition-all duration-150 ease-in-out"
-      target="_blank"
-      >Ver código</a>
-  </li>
-</ul>
-</div>
+      <li class="relative">
+        <div
+          id="MostrarSubMenuD"
+          class="cursor-pointer text-gray-900 rounded hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
+        >
+          Proyectos <span class="text-sm">&#9660;</span>
+        </div>
+        <div id="SubMenuD" class="hidden">
+          <nav
+            class="absolute flex flex-col font-medium border border-gray-100 rounded-lg bg-slate-50 min-w-64 top-12"
+          >
+            {
+              allProjects.map((project, index) => (
+                <a
+                  href={project.url}
+                  class="text-gray-900 rounded px-4 py-3 hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
+                >
+                  Día {index + 1}: {names[index]}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </li>
+      <li>
+        <a
+          href="https://cdl.net.ar/"
+          class="text-gray-900 rounded hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
+          target="_blank">Portafolio</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://api.whatsapp.com/send/?phone=3875459077&text=Hola!%20Vengo%20de%20tu%20sitio%20web%20&type=phone_number&app_absent=0"
+          class="text-gray-900 rounded hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
+          target="_blank">Contacto</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/CristianLeyton/proyectos-reto-50-dias"
+          class="text-gray-900 rounded hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
+          target="_blank">Ver código</a
+        >
+      </li>
+    </ul>
+  </div>
 </nav>
 
 <script>
-  document.querySelector("#MostrarSubMenuD").addEventListener("click", () => {
-    document.querySelector("#SubMenuD").classList.toggle("hidden");
+  document.addEventListener("astro:page-load", () => {
+    document.querySelector("#MostrarSubMenuD").addEventListener("click", () => {
+      document.querySelector("#SubMenuD").classList.toggle("hidden");
+    });
   });
 </script>

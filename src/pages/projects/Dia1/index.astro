@@ -1,0 +1,144 @@
+---
+import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+---
+
+<LayoutProyecto title="Día 1" subtitle="Expanding Cards">
+  <article class="main">
+    <div class="contenedor">
+      <div class="imagen uno">
+        <p>Descripcion uno</p>
+      </div>
+      <div class="imagen dos">
+        <p>Descripcion dos</p>
+      </div>
+      <div class="imagen tres">
+        <p>Descripcion tres</p>
+      </div>
+      <div class="imagen cuatro">
+        <p>Descripcion cuatro</p>
+      </div>
+      <div class="imagen cinco">
+        <p>Descripcion cinco</p>
+      </div>
+      <div class="imagen active seis">
+        <p>❮ Click en las imagenes</p>
+      </div>
+    </div>
+    <article></article>
+  </article>
+
+  <style>
+    article {
+      font-family: "Muli", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 72vh;
+      overflow: hidden;
+    }
+
+    .contenedor {
+      box-sizing: border-box;
+      display: flex;
+      width: 90vw;
+      gap: 1rem;
+      overflow: hidden;
+    }
+
+    .imagen {
+      flex: 0.5;
+      transition: 0.7s all ease-in-out;
+      border-radius: 50px;
+      background-size: cover;
+      background-position: center center;
+      position: relative;
+      height: 69vh;
+      filter: saturate(0.5);
+    }
+
+    .imagen p {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      font-size: normal;
+      font-weight: bolder;
+      color: transparent;
+      position: absolute;
+      bottom: 20px;
+      left: 25px;
+    }
+
+    .imagen:hover {
+      cursor: pointer;
+    }
+
+    .imagen.active {
+      flex: 5;
+      filter: saturate(1.7);
+    }
+
+    .seis.active {
+      filter: saturate(1.4);
+    }
+
+    .imagen.active p {
+      color: white;
+      font-size: x-large;
+      transition: 0.8s all ease-in-out;
+    }
+
+    /* Imagenes */
+
+    .uno {
+      background-image: url("./images/1.avif");
+    }
+
+    .dos {
+      background-image: url("./images/2.avif");
+    }
+
+    .tres {
+      background-image: url("./images/3.avif");
+    }
+
+    .cuatro {
+      background-image: url("./images/4.avif");
+    }
+
+    .cinco {
+      background-image: url("./images/5.avif");
+    }
+
+    .seis {
+      background-image: url("./images/CDL.png");
+    }
+
+    @media (max-width: 500px) {
+      .imagen:nth-of-type(3),
+      .imagen:nth-of-type(4),
+      .imagen:nth-of-type(5) {
+        display: none;
+      }
+    }
+  </style>
+
+  <script>
+
+document.addEventListener("astro:page-load", () => {
+
+    let imagenes = document.querySelectorAll(".imagen");
+
+    imagenes.forEach((imagen) => {
+      imagen.addEventListener("click", () => {
+        removeActive();
+        imagen.classList.toggle("active");
+      });
+    });
+
+    function removeActive() {
+      imagenes.forEach((imagen) => {
+        imagen.classList.remove("active");
+      });
+    }
+  });
+  </script>
+</LayoutProyecto>

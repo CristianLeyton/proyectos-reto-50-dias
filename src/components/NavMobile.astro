@@ -1,12 +1,15 @@
 ---
+const allProjects = await Astro.glob('../pages/projects/*/*.astro');
+const allNames = await Astro.glob('../pages/projects/*/*.md');
 
+var names = [];
+allNames.map((project, index) => (
+        names[index] = project.frontmatter.name)
+)
 ---
 
 <!-- LINKS -->
-<div
-  class="hidden w-full md:hidden"
-  id="nav-links"
->
+<div class="hidden w-full md:hidden" id="nav-links">
   <ul
     class="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-slate-50"
   >
@@ -14,55 +17,56 @@
       <div
         id="MostrarSubMenu"
         class="cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
-        >Proyectos <span class="text-sm">&#9660;</span>
+      >
+        Proyectos <span class="text-sm">&#9660;</span>
       </div>
-        <div
-        id="SubMenu"
-        class="hidden">
+      <div id="SubMenu" class="hidden">
         <nav class="ml-6">
-          <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out">
-            ITEM 1
+          {allProjects.map((project, index) => (
+            <a
+            href={project.url}
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
+          >
+            Día {index+1}: {names[index]} 
           </a>
-          <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out">
-            ITEM 2
-          </a>
+          ))
+          }
         </nav>
-        </div>
+      </div>
     </li>
     <li>
       <a
         href="https://cdl.net.ar/"
         class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
-        target="_blank"
-        >Portafolio</a
+        target="_blank">Portafolio</a
       >
     </li>
     <li>
       <a
         href="https://api.whatsapp.com/send/?phone=3875459077&text=Hola!%20Vengo%20de%20tu%20sitio%20web%20&type=phone_number&app_absent=0"
         class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
-        target="_blank"
-        >Contacto</a
+        target="_blank">Contacto</a
       >
     </li>
     <li>
       <a
         href="https://github.com/CristianLeyton/proyectos-reto-50-dias"
         class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
-        target="_blank"
-        >GitHub</a
+        target="_blank">GitHub</a
       >
     </li>
   </ul>
 </div>
 
-
 <script>
-  document.querySelector("#MostrarSubMenu").addEventListener("click", () => {
-    document.querySelector("#SubMenu").classList.toggle("hidden");
+  document.addEventListener("astro:page-load", () => {
+    document.querySelector("#MostrarSubMenu").addEventListener("click", () => {
+      document.querySelector("#SubMenu").classList.toggle("hidden");
+    });
   });
-
-  document.querySelector("#hamburguer").addEventListener("click", () => {
-    document.querySelector("#nav-links").classList.toggle("hidden");
+  document.addEventListener("astro:page-load", () => {
+    document.querySelector("#hamburguer").addEventListener("click", () => {
+      document.querySelector("#nav-links").classList.toggle("hidden");
+    });
   });
 </script>

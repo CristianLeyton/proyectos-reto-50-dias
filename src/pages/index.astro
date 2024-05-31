@@ -2,15 +2,27 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Card from '../components/Card.astro';
+
+// Obtener todas las rutas de los archivos en la carpeta projects que tengan un archivo .md o .astro (ajusta esto según tu estructura de archivos)
+const allProjects = await Astro.glob('./projects/*/*.astro');
+const allNames = await Astro.glob('./projects/*/*.md');
+
+var names = [];
+allNames.map((project, index) => (
+        names[index] = project.frontmatter.name)
+)
 ---
 
 <Layout title="50 proyectos en 50 días">
-    <Hero/>
+    <Hero />
     <section class="flex mx-auto w-[90%] flex-wrap gap-2 justify-center py-8">
-    <Card/>
-    <Card/>
+      {allProjects.map((project, index) => (
+        <Card key={index} project={project} title={names[index]} />
+      ))
+      }
     </section>
 </Layout>
-
-<style>
-</style>
+  
+  <style>
+  /* Aquí puedes añadir tus estilos */
+  </style>

@@ -1,7 +1,8 @@
 ---
+import { slide } from "astro:transitions";
 ---
 
-<h1 class="mt-20 text-center century-gothic font-black p-6 flex flex-col">
+<h1 transition:animate={slide({ duration: '.7s' })} class="mt-20 text-center century-gothic font-black p-6 flex flex-col">
     <span class="text-color text-[2.4rem] md:text-6xl">50 proyectos</span>
     <span class="celeste-oscuro text-5xl mt-[-10px] mb-1 md:text-[4.8rem] md:mt-0">en 50 días</span>
     <p class="text-center onest text-[1.1rem] text-secondary font-normal md:text-[1.8rem]">

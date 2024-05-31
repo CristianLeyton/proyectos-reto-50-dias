@@ -1,0 +1,16 @@
+---
+import Layout from "./Layout.astro";
+import Title from "../components/Title.astro";
+
+const { title , subtitle } = Astro.props;
+---
+
+<Layout title="Proyectos">
+
+<Title title={title} subtitle={subtitle} />
+
+<section class="w-[90vw] sm:w-auto mx-auto flex items-center justify-center">
+    <slot/>
+</section>
+
+</Layout>
