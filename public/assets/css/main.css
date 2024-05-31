@@ -1,0 +1,60 @@
+@import "fonts.css";
+
+:root {
+    --text-color: #313949;
+    --text-color-secondary: #90969d;
+
+    --celeste: #5bb2e7;
+    --celeste-oscuro: #38b8ff;
+    --celeste-claro: #abe1fd;
+    --azul-oscuro: #264659;
+
+    --naranja: #fe853a;
+    --naranja-oscuro: #fc6238;
+    --naranja-claro: #feab3a;
+    --naranja-muy-claro: #f9d5b7;
+}
+
+body {
+    font-family: "Onest";
+    height: auto;
+    color: var(--text-color);
+    overflow-x: hidden;
+} 
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+.logo {
+    font-family: "Iceberg";
+    transition: 0.15s all ease-in-out;
+    user-select: none;
+    cursor: pointer;
+}
+
+.celeste-oscuro {
+    color: var(--celeste-oscuro);
+}
+
+.naranja {
+    color: var(--naranja-claro);
+}
+
+.text-color {
+    color: var(--text-color);
+}
+
+.text-secondary {
+    color: var(--text-color-secondary)
+}
+
+.century-gothic {
+    font-family: 'Century';
+}
+
+.onest {
+    font-family: 'Onest';
+}
+
