@@ -3,15 +3,15 @@ const { title, subtitle } = Astro.props;
 import { slide } from "astro:transitions";
 
 const allProjects = await Astro.glob("../pages/projects/*/*.astro");
-const urlActual = Astro.url.pathname;
+const urlActual = Astro.url.pathname + "/" ;
  
 let urlAnterior, urlSiguiente;
 
 
 allProjects.forEach((project, index) => {
-  if (urlActual + "/" == project.url) {
+  if (urlActual == project.url ) {
     if (index != 0) {
-      urlAnterior = allProjects[index - 1].url;
+      urlAnterior = allProjects[index - 1].url ;
     }
     if (index < allProjects.length - 1) {
       urlSiguiente = allProjects[index + 1].url;
