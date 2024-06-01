@@ -3,13 +3,17 @@ const { title, subtitle } = Astro.props;
 import { slide } from "astro:transitions";
 
 const allProjects = await Astro.glob("../pages/projects/*/*.astro");
-const urlActual = Astro.url.pathname;
- 
+let urlActual = Astro.url.pathname;
+
+//Tuve que poner esto porque en vercel la url termina con una barra "/"
+if (urlActual.endsWith('/')) {
+  urlActual = urlActual.slice(0, -1);
+}
+
 let urlAnterior, urlSiguiente;
 
-
 allProjects.forEach((project, index) => {
-  if (urlActual == project.url + "/"  ) {
+  if (urlActual == project.url) {
     if (index != 0) {
       urlAnterior = allProjects[index - 1].url ;
     }
