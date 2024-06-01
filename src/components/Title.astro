@@ -1,16 +1,54 @@
 ---
-const { title , subtitle } = Astro.props;
-
+const { title, subtitle } = Astro.props;
 import { slide } from "astro:transitions";
+
+const allProjects = await Astro.glob("../pages/projects/*/*.astro");
+const urlActual = Astro.url.pathname;
+/* console.log(urlActual)  */
+let urlAnterior, urlSiguiente;
+
+
+allProjects.forEach((project, index) => {
+  if (urlActual == project.url) {
+    if (index != 0) {
+      urlAnterior = allProjects[index - 1].url;
+    }
+    if (index < allProjects.length - 1) {
+      urlSiguiente = allProjects[index + 1].url;
+    }
+  }
+});
 ---
 
-<span transition:animate={slide({ duration: '.7s' })} class="mt-20 text-center century-gothic font-black p-6 flex flex-col">
+<section class="mt-20 text-color flex items-center justify-evenly">
+  <a
+    href={urlAnterior || "#"}
+    title="Anterior"
+    class={`bg-[#feab3a] size-8 text-lg md:size-12 md:text-2xl grid items-center justify-center text-white rounded-full duration-150 transition-all ease-in-out ${urlAnterior ? "opacity-70 hover:opacity-100" : "invisible"}`}
+  >
+    ❮
+  </a>
+
+  <span
+    transition:animate={slide({ duration: ".7s" })}
+    class="text-center century-gothic font-black p-6 flex flex-col"
+  >
     <span class="text-color text-4xl md:mt-3 md:text-5xl">{subtitle}</span>
     <span class="naranja text-5xl mb-1 md:text-6xl">{title}</span>
-    <p class="text-center onest text-[1.1rem] text-secondary font-normal md:text-[1.8rem]">
-        <slot/>
+    <p
+      class="text-center onest text-[1.1rem] text-secondary font-normal md:text-[1.8rem]"
+    >
+      <slot />
     </p>
-</span>
+  </span>
 
-<hr class="mx-6 md:mx-0">
+  <a
+    href={urlSiguiente || "#"}
+    title="Anterior"
+    class={`bg-[#feab3a] size-8 text-lg md:size-12 md:text-2xl grid items-center justify-center text-white rounded-full duration-150 transition-all ease-in-out ${urlSiguiente ? "opacity-70 hover:opacity-100" : "invisible"}`}
+  >
+    ❯
+  </a>
+</section>
 
+<hr class="mx-6 md:mx-0" />
