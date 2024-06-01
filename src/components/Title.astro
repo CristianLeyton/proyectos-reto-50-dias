@@ -4,7 +4,7 @@ import { slide } from "astro:transitions";
 
 const allProjects = await Astro.glob("../pages/projects/*/*.astro");
 const urlActual = Astro.url.pathname;
-/* console.log(urlActual)  */
+ 
 let urlAnterior, urlSiguiente;
 
 
@@ -18,6 +18,8 @@ allProjects.forEach((project, index) => {
     }
   }
 });
+
+console.log(urlActual, urlAnterior, urlSiguiente) 
 ---
 
 <section class="mt-20 text-color flex items-center justify-evenly">
