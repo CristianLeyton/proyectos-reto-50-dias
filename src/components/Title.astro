@@ -9,7 +9,7 @@ let urlAnterior, urlSiguiente;
 
 
 allProjects.forEach((project, index) => {
-  if (urlActual == project.url) {
+  if (urlActual + "/" == project.url) {
     if (index != 0) {
       urlAnterior = allProjects[index - 1].url;
     }
@@ -23,11 +23,11 @@ console.log(urlActual, urlAnterior, urlSiguiente)
 ---
 
 
-
 <section class="mt-20 text-color flex items-center justify-evenly">
     Actual: {urlActual} 
-    Anterior: {urlAnterior} 
-    Siguiente: {urlSiguiente}
+    - Anterior: {urlAnterior} 
+    - Siguiente: {urlSiguiente}
+
   <a
     href={urlAnterior || "#"}
     title="Anterior"
