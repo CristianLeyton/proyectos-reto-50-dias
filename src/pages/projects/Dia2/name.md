@@ -1,3 +1,3 @@
 ---
-name: 'Expanding Cards 2'
+name: 'Progress Steps'
 ---
