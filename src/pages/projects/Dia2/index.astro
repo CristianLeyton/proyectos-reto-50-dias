@@ -2,6 +2,89 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 2" subtitle="Expanding Cards">
-  Dia 2
+<LayoutProyecto title="Día 2" subtitle="Progress Steps">
+  <section>
+    <div id="barra">
+      <div id="progreso"></div>
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
+      <span>4</span>
+    </div>
+
+    <div id="botones">
+      <button id="btnPrev">Prev</button>
+      <button id="btnNext">Next</button>
+    </div>
+  </section>
 </LayoutProyecto>
+
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  #barra {
+    margin: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 320px;
+    position: relative;
+  }
+
+  #progreso {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #eee;
+    z-index: -10;
+  }
+
+  #progreso::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: #3498db;
+    z-index: -5;
+  }
+
+  #botones {
+    display: flex;
+    width: fit-content;
+    gap: 0.75rem;
+  }
+
+  span {
+    display: block;
+    background: #fff;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    width: 30px;
+    text-align: center;
+    transition: border 0.3s ease-in;
+  }
+
+  span.active {
+    border: 3px solid #3498db;
+  }
+  button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 30px;
+    border-radius: 6px;
+  }
+
+  button:active {
+    transform: scale(0.96);
+  }
+
+  button:disabled {
+    background-color: #eeeeee;
+    cursor: not-allowed;
+  }
+</style>
