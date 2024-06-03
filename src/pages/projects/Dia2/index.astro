@@ -6,10 +6,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <section>
     <div id="barra">
       <div id="progreso"></div>
-      <span>1</span>
+      <div id="progresoTotal"></div>
+      <span class="active">1</span>
       <span>2</span>
       <span>3</span>
       <span>4</span>
+      <span>5</span>
     </div>
 
     <div id="botones">
@@ -20,6 +22,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </LayoutProyecto>
 
 <style>
+
+  :root {
+    --active: #3498db;
+    --inactive: #eee;
+  }  
+
   section {
     display: flex;
     flex-direction: column;
@@ -32,7 +40,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 320px;
+    width: 360px;
     position: relative;
   }
 
@@ -40,17 +48,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     position: absolute;
     width: 100%;
     height: 3px;
-    background: #eee;
+    background: var(--inactive);
     z-index: -10;
   }
 
-  #progreso::after {
-    content: "";
+  #progresoTotal {
     position: absolute;
     width: 0;
     height: 3px;
-    background: #3498db;
+    background: var(--active);
     z-index: -5;
+    transition: all 0.4s linear;
   }
 
   #botones {
@@ -63,17 +71,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: block;
     background: #fff;
     border-radius: 50%;
-    border: 3px solid #eee;
+    border: 3px solid var(--inactive);
     width: 30px;
     text-align: center;
-    transition: border 0.3s ease-in;
+    transition: border 0.4s ease-in;
   }
 
   span.active {
-    border: 3px solid #3498db;
+    border: 3px solid var(--active);
   }
   button {
-    background-color: #3498db;
+    background-color: var(--active);
     color: #fff;
     padding: 8px 30px;
     border-radius: 6px;
@@ -84,7 +92,61 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   button:disabled {
-    background-color: #eeeeee;
+    background-color: var(--inactive);
     cursor: not-allowed;
   }
 </style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const btnPrev = document.querySelector("#btnPrev");
+    const btnNext = document.querySelector("#btnNext");
+    const barra = document.querySelector("#barra");
+    let secciones = barra.childElementCount - 3; //Le resto tres porque no cuenta el primer elemento que no se ve. Y la barra se divide en el total de secciones -1
+    const progresoTotal = document.querySelector("#progresoTotal");
+    let porcentajeAvance = 100 / secciones;
+    let porcentajeActual = 0;
+    const pasos = document.querySelectorAll("#barra span");
+    let pasoActual = 0; //Empiezo por el 0 porque asi empiezan los arrays y el "pasos" es un array
+
+    //Boton Next Step
+    btnNext.addEventListener("click", () => {
+      if (porcentajeActual < 100) {
+        pasoActual += 1;
+        porcentajeActual += porcentajeAvance;
+        pasos[pasoActual].classList.add("active");
+        progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
+      }
+
+      if (porcentajeActual >= 100) {
+        btnNext.setAttribute("disabled", "");
+      }
+
+      if (porcentajeActual > 0) {
+        btnPrev.removeAttribute("disabled");
+      }
+    });
+
+    //Boton Prev Step
+    if (porcentajeActual <= 0) {
+      btnPrev.setAttribute("disabled", "");
+    }
+
+    btnPrev.addEventListener("click", () => {
+      if (porcentajeActual > 0) {
+        porcentajeActual -= porcentajeAvance;
+        pasos[pasoActual].classList.remove("active");
+        pasoActual -= 1;
+        progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
+      }
+
+      if (porcentajeActual <= 0) {
+        btnPrev.setAttribute("disabled", "");
+      }
+
+      if (porcentajeActual < 100) {
+        btnNext.removeAttribute("disabled");
+      }
+    });
+  });
+</script>
