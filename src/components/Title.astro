@@ -41,13 +41,8 @@ allProjects.forEach((project, index) => {
     transition:animate={slide({ duration: ".7s" })}
     class="text-center century-gothic font-black p-6 flex flex-col"
   >
-    <span class="text-color text-4xl md:mt-3 md:text-5xl">{subtitle}</span>
-    <span class="naranja text-5xl mb-1 md:text-6xl">{title}</span>
-    <p
-      class="text-center onest text-[1.1rem] text-secondary font-normal md:text-[1.8rem]"
-    >
-      <slot />
-    </p>
+    <span class="naranja text-5xl md:mt-3 md:text-6xl">{title}</span>
+    <span class="text-color text-4xl -mt-1 mb-1  md:text-5xl">{subtitle}</span>
   </span>
 
   <a
