@@ -1,3 +1,3 @@
 ---
-name: 'Expanding Cards 3'
+name: 'Rotating Navigation'
 ---
