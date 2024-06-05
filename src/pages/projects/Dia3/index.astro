@@ -5,7 +5,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <LayoutProyecto title="Día 3" subtitle="Rotating Navigation">
   <div class="background">
     <nav class="navbar">
-      <a href="#">
+      <a href="#" class="home">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -19,7 +19,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
         Home</a
       >
-      <a href="#">
+      <a href="#" class="about">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -32,7 +32,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         >
         About</a
       >
-      <a href="#">
+      <a href="#" class="contact">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -47,13 +47,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       >
     </nav>
     <div class="container">
-      <nav>
+      <nav class="open">
         <button type="button" id="close" title="Cerrar" class="close">
           <svg
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
+            width="32"
+            height="32"
             fill="none"
             viewBox="0 0 19 19"
           >
@@ -71,8 +71,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 17 14"
-            width="40"
-            height="30"
+            width="30"
+            height="25"
           >
             <path
               stroke="currentColor"
@@ -105,12 +105,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           </article>
           <article>
             <h2>My Dog</h2>
-            <img
-              src="/src/pages/projects/Dia3/images/dog.avif"
-              alt="Cachorro rubio"
-              width="100%"
-              style="aspect-ratio: 3/2"
-            />
+            <div id="dog" title="Cachorro rubio"></div>
             <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit
               libero deleniti rerum quo, incidunt vel consequatur culpa ullam.
@@ -131,25 +126,35 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <style>
   .background {
-    background-color: #1d1d1d;
-    z-index: -2;
+    background-color: #333;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    max-height: 71vh;
+    overflow-y: scroll;
   }
   .container {
-    padding: 1rem;
+    padding: 3rem;
+    padding-top: 100px;
     max-width: 768px;
     background-color: #fff;
     transform-origin: left top;
-    transform: rotate(-15deg);
+   transform: rotate(-20deg); 
     z-index: -1;
   }
-  nav {
-  }
-  .hamburguer {
-  }
-
-  .close {
+  .open {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    padding: 45px 10px;
+    background-color: #ff7979;
+    color: #fff;
+    transform: rotate(-70deg); 
   }
 
   h1,
@@ -175,19 +180,39 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     margin: 15px 0;
   }
 
+  #dog {
+    width: 100%;
+    aspect-ratio: 3/2;
+    background-image: url("./dog.webp");
+    background-size: contain;
+  }
   .navbar {
-    position: absolute;
+    position: fixed;
     color: #fff;
-    bottom: 0;
-    left: 0;
+    bottom: 80px;
+    left: 50px;
     display: flex;
     flex-direction: column;
+    gap: 20px;
+  }
+
+  .navbar a {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-transform: uppercase;
     gap: 10px;
   }
 
-  .nabvar a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .home {
+    margin-left: 0px;
+  }
+
+  .about {
+    margin-left: 12px;
+  }
+
+  .contact {
+    margin-left: 24px;
   }
 </style>
