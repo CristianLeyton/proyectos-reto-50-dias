@@ -5,7 +5,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <LayoutProyecto title="Día 4" subtitle="Hidden Search">
   <div class="container">
     <div class="search">
-      <input  placeholder="Search..." type="text" name="search-bar" id="search-bar" class="search-bar" autofocus/>
+      <input  placeholder="Search..." type="text" name="search-bar" id="search-bar" class="search-bar"/>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     iconSearch.addEventListener("click", () => {
       barSearch.classList.toggle("show");
-      /* input.focus() */
+      input.focus();
     });
   });
 </script>

@@ -3,5 +3,97 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 5" subtitle="Blurry Loading">
-  Blurry Loading
+  <div class="container">
+    <div class="image">
+      <span class="reload"><a href="#">⭯</a></span>
+    </div>
+    <section class="card">
+      <p id="percent">100%</p>
+    </section>
+  </div>
 </LayoutProyecto>
+
+<style>
+  .container {
+    display: grid;
+    place-items: center;
+    height: 71vh;
+  }
+  .image {
+    height: 100%;
+    width: 100%;
+    background: url('photo.avif') center/cover no-repeat ;
+    display: grid;
+    place-items: center;
+    transition: all 4s linear;
+    position: relative;
+    filter: blur(10px);
+  }
+
+  .card {
+    height: 10rem;
+    width: 15rem;
+    display: grid;
+    place-items: center;
+    background-color: #27272731;
+    color: #fff;
+    font-size: xx-large;
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    transition: all 4s linear;
+    position: absolute;
+  }
+
+
+  .reload {
+    position: absolute;
+    color: #fff;
+    top: 50px;
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: all 0.3s linear;
+  }
+
+  .reload a {
+    padding: 7px 15px;
+    background-color: #2e2e2e46;
+    font-size: x-large;
+    border-radius: 10px;
+  }
+
+  .reload.load {
+    opacity: 1;
+  }
+
+  .card.load {
+    opacity: 0;
+  }
+
+  .image.load {
+    filter: blur(0px);
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+  const image = document.querySelector('.image');
+  const card = document.querySelector('.card');
+  let percent = document.querySelector('#percent');
+  const reload = document.querySelector('.reload');
+
+  image.classList.add('load');
+  card.classList.add('load');
+
+  for (let i = 0; i <= 100; i++) {
+    setTimeout(() => {
+      percent.innerHTML = i + '%';
+    }, i*35); 
+  } 
+
+  setTimeout(() => {
+
+    reload.classList.add('load');
+
+  }, 4000)
+  });
+</script>
