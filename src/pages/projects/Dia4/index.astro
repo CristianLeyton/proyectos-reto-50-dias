@@ -5,7 +5,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <LayoutProyecto title="Día 4" subtitle="Hidden Search">
   <div class="container">
     <div class="search">
-      <input placeholder="Search..." type="text" name="search-bar" id="search-bar" class="search-bar" autofocus/>
+      <input  placeholder="Search..." type="text" name="search-bar" id="search-bar" class="search-bar" autofocus/>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -43,10 +43,16 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .search-bar.show {
-    width: 320px;
     padding: 10px;
-    max-width: 90vw;
+    width: 350px;
   }
+
+  @media (max-width: 500px) {
+    .search-bar.show
+    {
+      width: 250px;
+    }
+    }
 
   .search-icon {
     background-color: #fff;
