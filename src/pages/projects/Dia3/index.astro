@@ -46,8 +46,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         Contact</a
       >
     </nav>
-    <div class="container">
-      <nav class="open">
+    <div id="container" class="container">
+      <nav id="open" class="open">
         <button type="button" id="close" title="Cerrar" class="close">
           <svg
             aria-hidden="true"
@@ -138,8 +138,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     max-width: 768px;
     background-color: #fff;
     transform-origin: left top;
-   transform: rotate(-20deg); 
     z-index: -1;
+    transition: transform 0.5s linear;
+  }
+
+  .rotate-container {
+    transform: rotate(-20deg);
   }
   .open {
     position: absolute;
@@ -154,9 +158,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     padding: 45px 10px;
     background-color: #ff7979;
     color: #fff;
-    transform: rotate(-70deg); 
+    transition: transform 0.5s linear;
   }
 
+  .rotate-open {
+    transform: rotate(-70deg); 
+  }
   h1,
   h2 {
     font-weight: bolder;
@@ -204,15 +211,47 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     gap: 10px;
   }
 
-  .home {
+  .home, .about, .contact {
+    padding: 0px 5px;
+    width: fit-content;
+    margin-left: -250px;
+    transition: all 0.8s ease-out;
+    visibility: hidden;
+  }
+
+
+  .home.show {
+    visibility: visible;
     margin-left: 0px;
   }
 
-  .about {
+  .about.show {
+    visibility: visible;
     margin-left: 12px;
   }
 
-  .contact {
+  .contact.show {
+    visibility: visible;
     margin-left: 24px;
   }
+
+
 </style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const open = document.querySelector("#open");
+    const container = document.querySelector("#container");
+    const home = document.querySelector(".home");
+    const about = document.querySelector(".about");
+    const contact = document.querySelector(".contact");
+
+    open.addEventListener("click", () => {
+      container.classList.toggle("rotate-container");
+      open.classList.toggle("rotate-open");
+      home.classList.toggle("show");
+      about.classList.toggle("show");
+      contact.classList.toggle("show");
+    });
+  });
+</script>
