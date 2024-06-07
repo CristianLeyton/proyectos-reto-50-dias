@@ -2,6 +2,61 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 5" subtitle="Blurry Loading">
-  Blurry Loading
+<LayoutProyecto title="Día 6" subtitle="Scroll animation">
+  <div class="container">
+    <h3>Scroll to see the animation</h3>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+    <article class="card">Content</article>
+  </div>
 </LayoutProyecto>
+
+<style>
+    .container {
+    background-color: #efedd6 ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 71vh;
+    overflow-y: scroll;
+    gap: 10px;
+  }
+  h3 {
+    color: var(--text-color);
+    font-weight: bolder;
+    font-size: x-large;
+    padding: 0.7rem;
+  }
+
+  .card {
+    background-color: var(--celeste);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    min-height: 200px;
+    width: 400px;
+    font-size: x-large;
+    font-weight: bolder;
+    border-radius: 12px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 500px) {
+    .card
+    {
+      width: 300px;
+    }
+    }
+</style>

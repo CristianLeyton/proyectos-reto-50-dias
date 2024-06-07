@@ -93,7 +93,19 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     image.classList.add("load");
     card.classList.add("load");
 
-    for (let i = 0; i <= 100; i++) {
+    let i = 0;
+    const interval = setInterval(() => {
+      percent.innerHTML = i + '%';
+      if (i === 100) {
+        clearInterval(interval); // Detiene el intervalo cuando i alcanza 100
+        reload.classList.add("load");
+      }
+      i++;
+    }, 35);
+
+
+    //Forma más dificil de actualizar, pero igual funciona
+    /* for (let i = 0; i <= 100; i++) {
       setTimeout(() => {
         percent.innerHTML = i + "%";
       }, i * 35);
@@ -101,6 +113,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     setTimeout(() => {
       reload.classList.add("load");
-    }, 4000);
-  });
+    }, 4000);*/
+  }); 
 </script>

@@ -1,3 +1,3 @@
 ---
-name: 'Blurry Loading'
+name: 'Scroll animation'
 ---
