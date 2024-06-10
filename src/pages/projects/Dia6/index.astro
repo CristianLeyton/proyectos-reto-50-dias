@@ -28,10 +28,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-color: #efedd6 ;
     display: flex;
     flex-direction: column;
-    align-items: center;
     height: 71vh;
     overflow-y: scroll;
     gap: 10px;
+    text-align: center;
+    overflow-x: hidden;
   }
   h3 {
     color: var(--text-color);
@@ -51,12 +52,57 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     font-weight: bolder;
     border-radius: 12px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    margin: 0 auto;
   }
 
+
+  .card:nth-child(odd) {
+    position: relative;
+    left: -80%;
+    opacity: 0;
+  }
+
+  .card:nth-child(even) {
+    position: relative;
+    left: 80%;
+    opacity: 0;
+  }
+
+  .card.show {
+    position: relative;
+    left: 0;
+    opacity: 1;
+  }
   @media (max-width: 500px) {
     .card
     {
       width: 300px;
     }
     }
+
+
 </style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+
+    // Crear el observador con una callback y opciones
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const cards = document.querySelectorAll('.card');
+
+    // Empezar a observar cada elemento
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script>

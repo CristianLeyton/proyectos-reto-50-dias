@@ -4,7 +4,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 5" subtitle="Blurry Loading">
   <div class="container">
-    <div class="image">
+    <div class="image load">
       <span class="reload"
         ><a href="#">
           <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512" fill="currentColor"
@@ -34,9 +34,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background: url("photo.avif") center/cover no-repeat;
     display: grid;
     place-items: center;
-    transition: all 4s linear;
     position: relative;
-    filter: blur(10px);
   }
 
   .card {
@@ -49,7 +47,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     font-size: xx-large;
     backdrop-filter: blur(5px);
     border-radius: 10px;
-    transition: all 4s linear;
+    transition: all 0.5s linear; 
     position: absolute;
   }
 
@@ -74,13 +72,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     opacity: 1;
   }
 
-  .card.load {
-    opacity: 0;
-  }
-
-  .image.load {
-    filter: blur(0px);
-  }
 </style>
 
 <script>
@@ -96,15 +87,18 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     let i = 0;
     const interval = setInterval(() => {
       percent.innerHTML = i + '%';
+      image.setAttribute("style",`filter: blur(${10-(i/10)}px);`);
+      card.setAttribute("style",`opacity: ${25/(i)}`);
       if (i === 100) {
         clearInterval(interval); // Detiene el intervalo cuando i alcanza 100
         reload.classList.add("load");
+        card.setAttribute("style",`opacity: 0`);
       }
       i++;
-    }, 35);
+    }, 40);
 
 
-    //Forma más dificil de actualizar, pero igual funciona
+    //Forma más dificil de mantener, pero igual funciona
     /* for (let i = 0; i <= 100; i++) {
       setTimeout(() => {
         percent.innerHTML = i + "%";
