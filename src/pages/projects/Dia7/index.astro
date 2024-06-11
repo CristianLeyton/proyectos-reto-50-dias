@@ -3,44 +3,89 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 7" subtitle="Split landing page">
-<div class="container">
-  <div class="ps"></div>
-  <div class="xbox"></div>
-</div>
+  <div class="container">
+    <div class="ps">
+      <span class="info">
+        <h2>Playstation 5</h2>
+        <button> BUY NOW </button>
+      </span>
+    </div>
+    <div class="xbox">
+      <span class="info">
+        <h2>Xbox Series X</h2>
+        <button> BUY NOW </button>
+      </span>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      display: flex;
-      height: 71vh;
-    }
-
-    .ps {
-      background-color: aliceblue;
-      flex: 1;
-      }
-
-    .xbox {
-      background-color: aqua;
-      flex: 1;
-    }
-
-    .container div {
-      transition: flex 0.3s ease-out;
-    }
-    .container div:hover {
-      flex: 2;
-    }
-
-  @media (max-width: 500px) {
   .container {
-    flex-direction: column;
-  }  
+    display: flex;
+    height: 71vh;
   }
 
+  .ps, .xbox{
+    flex: 1;
+    position: relative;
+  }
+  .info {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: 1rem;
+    text-align: center;
+    color: #fff;
+    font-weight: bolder;
+    font-size: xx-large;
+  }
+
+  .ps .info {
+    background: rgba(87, 84, 236, 0.5);
+  }
+
+  .xbox .info {
+    background: rgba(43, 43, 43, 0.5);
+  }
+  button {
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 15px 50px;
+    font-weight: bolder;
+    font-size: large;
+  }
+
+  .ps button:hover {
+    background: rgba(87, 84, 236, 1);
+    border: 2px solid rgba(87, 84, 236, 1);
+  }
+
+  .xbox button:hover {
+    background: rgba(28, 122, 28, 1);
+    border: 2px solid rgba(28, 122, 28, 1);
+  }
+
+  .container div {
+    transition: flex 0.8s ease-in-out;
+  }
+  .container div:hover {
+    flex: 2;
+  }
+
+  @media (max-width: 500px) {
+    .container {
+      flex-direction: column;
+    }
+  }
+
+  .ps {
+    background: url("./img/ps.webp") center center/cover;
+  }
+
+  .xbox {
+    background: url("./img/xbox.webp") center center/cover;
+  }
 </style>
 
-<script>
-
-</script>
+<script></script>
