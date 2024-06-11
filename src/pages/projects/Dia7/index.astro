@@ -2,6 +2,45 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 5" subtitle="Blurry Loading">
-  Blurry Loading
+<LayoutProyecto title="Día 7" subtitle="Split landing page">
+<div class="container">
+  <div class="ps"></div>
+  <div class="xbox"></div>
+</div>
 </LayoutProyecto>
+
+<style>
+
+    .container {
+      display: flex;
+      height: 71vh;
+    }
+
+    .ps {
+      background-color: aliceblue;
+      flex: 1;
+      }
+
+    .xbox {
+      background-color: aqua;
+      flex: 1;
+    }
+
+    .container div {
+      transition: flex 0.3s ease-out;
+    }
+    .container div:hover {
+      flex: 2;
+    }
+
+  @media (max-width: 500px) {
+  .container {
+    flex-direction: column;
+  }  
+  }
+
+</style>
+
+<script>
+
+</script>

@@ -1,3 +1,3 @@
 ---
-name: 'Blurry Loading'
+name: 'Split landing page'
 ---
