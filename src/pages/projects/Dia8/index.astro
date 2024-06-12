@@ -49,7 +49,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
   input {
     background-color: transparent;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid var(--azul-oscuro);
     outline: none;
     padding: 0.5rem 0;
     width: 100%;
@@ -66,17 +66,20 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     top: 20%;
     user-select:unset;
     transition: all 0.3s ease-in-out;
+    color: var(--azul-oscuro);
   }
 
-
+  .user-placeholder span {
+    position: relative;
+  }
 
   input:focus {
-    border-bottom: 2px solid var(--azul-oscuro);
+    border-bottom: 2px solid #fff;
   }
 
-  input:focus + .user-placeholder, input:focus + .password-placeholder {
+  input:focus + .user-placeholder span:first-child, input:focus + .password-placeholder {
     top: -40%;
-    color: var(--azul-oscuro);
+    color: #fff;
   }
   button {
     background: var(--azul-oscuro);
