@@ -55,31 +55,83 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     width: 100%;
   }
 
-  .user-box, .password-box {
-    position: relative;
+  .user-box,
+  .password-box {
     width: 100%;
   }
 
-  .user-placeholder, .password-placeholder {
-    position: absolute;
+  .user-placeholder,
+  .password-placeholder {
     left: 0;
     top: 20%;
-    user-select:unset;
+    user-select: unset;
     transition: all 0.3s ease-in-out;
     color: var(--azul-oscuro);
   }
 
-  .user-placeholder span {
+  .user-placeholder span,
+  .password-placeholder span {
     position: relative;
+    top: -2rem;
   }
 
   input:focus {
     border-bottom: 2px solid #fff;
   }
 
-  input:focus + .user-placeholder span:first-child, input:focus + .password-placeholder {
-    top: -40%;
-    color: #fff;
+
+  .user-placeholder {
+    span:first-child {
+      transition-duration: 0.3s;
+      transition-delay: 0s;
+    }
+
+    span:nth-child(2) {
+      transition-duration: 0.3s;
+      transition-delay: 0.05s;
+    }
+
+    span:nth-child(3) {
+      transition-duration: 0.3s;
+      transition-delay: 0.1s;
+    }
+
+    span:nth-child(4) {
+      transition-duration: 0.3s;
+      transition-delay: 0.15s;
+    }
+
+    span:nth-child(5) {
+      transition-duration: 0.3s;
+      transition-delay: 0.2s;
+    }
+  }
+
+  input:focus + .user-placeholder {
+    span:first-child {
+      top: -3.5rem;
+      color: #fff;
+    }
+
+    span:nth-child(2) {
+      top: -3.5rem;
+      color: #fff;
+    }
+
+    span:nth-child(3) {
+      top: -3.5rem;
+      color: #fff;
+    }
+
+    span:nth-child(4) {
+      top: -3.5rem;
+      color: #fff;
+    }
+
+    span:nth-child(5) {
+      top: -3.5rem;
+      color: #fff;
+    }
   }
   button {
     background: var(--azul-oscuro);
