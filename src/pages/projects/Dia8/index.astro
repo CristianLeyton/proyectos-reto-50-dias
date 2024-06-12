@@ -2,29 +2,102 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 8" subtitle="Dia 8">
-<div class="container">
+<LayoutProyecto title="Día 8" subtitle="Form Wave">
+  <div class="container">
+    <form action="">
+      <h1>Please Login</h1>
 
-</div>
+      <div class="user-box">
+        <input id="user" type="text" required />
+        <span class="user-placeholder">
+          <span>E</span><span>m</span><span>a</span><span>i</span><span>l</span>
+        </span>
+      </div>
+      <div class="password-box">
+        <input id="password" type="password" required />
+        <span class="password-placeholder">Password</span>
+      </div>
+      <button>Login</button>
+      <p>Don't have an account? <a href="#">Register</a></p>
+    </form>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      display: flex;
-      height: 71vh;
-    }
-
-
-
-  @media (max-width: 500px) {
   .container {
-    flex-direction: column;
-  }  
+    display: grid;
+    height: 71vh;
+    background-color: var(--celeste-claro);
+    place-items: center;
   }
 
+  form {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--celeste);
+    color: #fff;
+    align-items: center;
+    border-radius: 0.4rem;
+    gap: 2rem;
+    min-width: 320px;
+  }
+
+  h1 {
+    font-size: xx-large;
+    font-weight: bold;
+  }
+  input {
+    background-color: transparent;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    padding: 0.5rem 0;
+    width: 100%;
+  }
+
+  .user-box, .password-box {
+    position: relative;
+    width: 100%;
+  }
+
+  .user-placeholder, .password-placeholder {
+    position: absolute;
+    left: 0;
+    top: 20%;
+    user-select:unset;
+    transition: all 0.3s ease-in-out;
+  }
+
+
+
+  input:focus {
+    border-bottom: 2px solid var(--azul-oscuro);
+  }
+
+  input:focus + .user-placeholder, input:focus + .password-placeholder {
+    top: -40%;
+    color: var(--azul-oscuro);
+  }
+  button {
+    background: var(--azul-oscuro);
+    padding: 10px 0px;
+    width: 100%;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  p {
+    font-size: small;
+    text-align: left;
+    width: 100%;
+  }
+  a {
+    color: var(--azul-oscuro);
+    font-weight: bold;
+  }
+
+  @media (max-width: 500px) {
+  }
 </style>
 
-<script>
-
-</script>
+<script></script>

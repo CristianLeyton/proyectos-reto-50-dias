@@ -1,3 +1,3 @@
 ---
-name: 'Split landing page'
+name: 'Form Wave'
 ---
