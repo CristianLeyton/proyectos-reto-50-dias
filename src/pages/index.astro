@@ -7,17 +7,32 @@ import Card from '../components/Card.astro';
 const allProjects = await Astro.glob('./projects/*/*.astro');
 const allNames = await Astro.glob('./projects/*/*.md');
 
-var names = [];
-allNames.map((project, index) => (
-        names[index] = project.frontmatter.name)
-)
+//Ordeno el array de projectos de acuerdo a la url que siempre termina con un numero
+var projects = Array.from(allProjects);
+
+//Ordena el array de projectos correctamente
+projects.sort((a, b) => {
+    const dayA = parseInt(a.url.match(/\d+/)[0]);
+    const dayB = parseInt(b.url.match(/\d+/)[0]);
+    return dayA - dayB;
+});
+
+//Ordeno el array de nombres de acuerdo al numero de dia
+var names = Array.from(allNames);
+names.sort((a, b) => {
+    const dayA = parseInt(a.frontmatter.dia);
+    const dayB = parseInt(b.frontmatter.dia);
+    return dayA - dayB;
+});
+
+/* console.log(names) */
 ---
 
 <Layout title="50 proyectos en 50 días">
     <Hero />
     <section class="flex mx-auto w-[90%] flex-wrap gap-2 justify-center py-8">
-      {allProjects.map((project, index) => (
-        <Card key={index} project={project} title={names[index]} />
+      {projects.map((project, index) => (
+        <Card key={index} project={project} title={names[index].frontmatter.name} />
       ))
       }
     </section>

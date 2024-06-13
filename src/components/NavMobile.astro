@@ -2,10 +2,23 @@
 const allProjects = await Astro.glob('../pages/projects/*/*.astro');
 const allNames = await Astro.glob('../pages/projects/*/*.md');
 
-var names = [];
-allNames.map((project, index) => (
-        names[index] = project.frontmatter.name)
-)
+//Ordeno el array de projectos de acuerdo a la url que siempre termina con un numero
+var projects = Array.from(allProjects);
+
+//Ordena el array de projectos correctamente
+projects.sort((a, b) => {
+    const dayA = parseInt(a.url.match(/\d+/)[0]);
+    const dayB = parseInt(b.url.match(/\d+/)[0]);
+    return dayA - dayB;
+});
+
+//Ordeno el array de nombres de acuerdo al numero de dia
+var names = Array.from(allNames);
+names.sort((a, b) => {
+    const dayA = parseInt(a.frontmatter.dia);
+    const dayB = parseInt(b.frontmatter.dia);
+    return dayA - dayB;
+});
 ---
 
 <!-- LINKS -->
@@ -18,12 +31,12 @@ allNames.map((project, index) => (
       </div>
       <div id="SubMenu" class="hidden mt-5">
         <nav class="text-left">
-          {allProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <a
             href={project.url}
             class="block py-2 px-3 text-gray-900 rounded hover:bg-[#5bb2e7] hover:text-white transition-all duration-150 ease-in-out"
           >
-            Día {index+1}: {names[index]} 
+            Día {names[index].frontmatter.dia}: {names[index].frontmatter.name}
           </a>
           ))
           }

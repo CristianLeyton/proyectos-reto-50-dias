@@ -2,30 +2,37 @@
 const { title, subtitle } = Astro.props;
 import { slide } from "astro:transitions";
 
-const allProjects = await Astro.glob("../pages/projects/*/*.astro");
+const allProjects = await Astro.glob("../pages/projects/*/*.astro");//Todos los proyectos en la carpeta projects
 let urlActual = Astro.url.pathname;
 
 //Tuve que poner esto porque en vercel la url termina con una barra "/"
 if (urlActual.endsWith('/')) {
   urlActual = urlActual.slice(0, -1);
 }
-
 let urlAnterior, urlSiguiente;
 
-allProjects.forEach((project, index) => {
+var projects = Array.from(allProjects);
+
+//Ordena el array de projectos correctamente
+projects.sort((a, b) => {
+    const dayA = parseInt(a.url.match(/\d+/)[0]);
+    const dayB = parseInt(b.url.match(/\d+/)[0]);
+    return dayA - dayB;
+});
+
+projects.forEach((project, index) => {
   if (urlActual == project.url) {
     if (index != 0) {
-      urlAnterior = allProjects[index - 1].url ;
+      urlAnterior = projects[index - 1].url ;
     }
-    if (index < allProjects.length - 1) {
-      urlSiguiente = allProjects[index + 1].url;
+    if (index < projects.length - 1) {
+      urlSiguiente = projects[index + 1].url;
     }
   }
 });
 
 /* console.log(urlActual, urlAnterior, urlSiguiente)  */
 ---
-
 
 <section class="mt-20 text-color flex items-center justify-evenly max-w-[98vw] mx-auto">
 
