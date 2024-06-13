@@ -22,11 +22,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </LayoutProyecto>
 
 <style>
-
   :root {
     --active: #3498db;
     --inactive: #eee;
-  }  
+  }
 
   section {
     display: flex;
@@ -104,51 +103,54 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const btnPrev = document.querySelector("#btnPrev");
     const btnNext = document.querySelector("#btnNext");
     const barra = document.querySelector("#barra");
-    let secciones = barra.childElementCount - 3; //Le resto tres porque no cuenta el primer elemento que no se ve. Y la barra se divide en el total de secciones -1
-    const progresoTotal = document.querySelector("#progresoTotal");
-    let porcentajeAvance = 100 / secciones;
-    let porcentajeActual = 0;
-    const pasos = document.querySelectorAll("#barra span");
-    let pasoActual = 0; //Empiezo por el 0 porque asi empiezan los arrays y el "pasos" es un array
 
-    //Boton Next Step
-    btnNext.addEventListener("click", () => {
-      if (porcentajeActual < 100) {
-        pasoActual += 1;
-        porcentajeActual += porcentajeAvance;
-        pasos[pasoActual].classList.add("active");
-        progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
-      }
+    if (barra) {
+      let secciones = barra.childElementCount - 3; //Le resto tres porque no cuenta el primer elemento que no se ve. Y la barra se divide en el total de secciones -1
+      const progresoTotal = document.querySelector("#progresoTotal");
+      let porcentajeAvance = 100 / secciones;
+      let porcentajeActual = 0;
+      const pasos = document.querySelectorAll("#barra span");
+      let pasoActual = 0; //Empiezo por el 0 porque asi empiezan los arrays y el "pasos" es un array
 
-      if (porcentajeActual >= 100) {
-        btnNext.setAttribute("disabled", "");
-      }
+      //Boton Next Step
+      btnNext.addEventListener("click", () => {
+        if (porcentajeActual < 100) {
+          pasoActual += 1;
+          porcentajeActual += porcentajeAvance;
+          pasos[pasoActual].classList.add("active");
+          progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
+        }
 
-      if (porcentajeActual > 0) {
-        btnPrev.removeAttribute("disabled");
-      }
-    });
+        if (porcentajeActual >= 100) {
+          btnNext.setAttribute("disabled", "");
+        }
 
-    //Boton Prev Step
-    if (porcentajeActual <= 0) {
-      btnPrev.setAttribute("disabled", "");
-    }
+        if (porcentajeActual > 0) {
+          btnPrev.removeAttribute("disabled");
+        }
+      });
 
-    btnPrev.addEventListener("click", () => {
-      if (porcentajeActual > 0) {
-        porcentajeActual -= porcentajeAvance;
-        pasos[pasoActual].classList.remove("active");
-        pasoActual -= 1;
-        progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
-      }
-
+      //Boton Prev Step
       if (porcentajeActual <= 0) {
         btnPrev.setAttribute("disabled", "");
       }
 
-      if (porcentajeActual < 100) {
-        btnNext.removeAttribute("disabled");
-      }
-    });
+      btnPrev.addEventListener("click", () => {
+        if (porcentajeActual > 0) {
+          porcentajeActual -= porcentajeAvance;
+          pasos[pasoActual].classList.remove("active");
+          pasoActual -= 1;
+          progresoTotal.setAttribute("style", `width: ${porcentajeActual}%;`);
+        }
+
+        if (porcentajeActual <= 0) {
+          btnPrev.setAttribute("disabled", "");
+        }
+
+        if (porcentajeActual < 100) {
+          btnNext.removeAttribute("disabled");
+        }
+      });
+    }
   });
 </script>

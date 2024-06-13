@@ -3,19 +3,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 8" subtitle="Form Wave">
-  <div class="container">
+  <div class="container containerForm">
     <form action="">
       <h1>Please Login</h1>
 
       <div class="user-box">
-        <input id="user" type="text" required />
-        <span class="user-placeholder">
-          <span>E</span><span>m</span><span>a</span><span>i</span><span>l</span>
-        </span>
+        <input id="user" type="text" required autocomplete="off" />
+        <label class="user-placeholder">Email</label>
       </div>
       <div class="password-box">
         <input id="password" type="password" required />
-        <span class="password-placeholder"><span>Password</span></span>
+        <label class="password-placeholder">Password</label>
       </div>
       <button>Login</button>
       <p>Don't have an account? <a href="#">Register</a></p>
@@ -23,15 +21,16 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   </div>
 </LayoutProyecto>
 
-<style>
-  .container {
+<style is:inline>
+  
+  .containerForm {
     display: grid;
-    height: 71vh;
+    height: 70vh;
     background-color: var(--celeste-claro);
     place-items: center;
   }
 
-  form {
+  .containerForm form{
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -40,19 +39,20 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     align-items: center;
     border-radius: 0.4rem;
     gap: 2rem;
-    min-width: 320px;
+    min-width: 350px;
   }
 
-  h1 {
+  .containerForm h1 {
     font-size: xx-large;
     font-weight: bold;
   }
-  input {
+  .containerForm input {
     background-color: transparent;
     border-bottom: 2px solid var(--azul-oscuro);
     outline: none;
     padding: 0.5rem 0;
     width: 100%;
+    z-index: 1;
   }
 
   .user-box,
@@ -60,99 +60,122 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     width: 100%;
   }
 
-  .user-placeholder,
-  .password-placeholder {
-    left: 0;
-    top: 20%;
-    user-select: unset;
-    transition: all 0.3s ease-in-out;
-    color: var(--azul-oscuro);
-  }
-
-  .user-placeholder span,
-  .password-placeholder span {
-    position: relative;
-    top: -2rem;
-  }
-
-  input:focus {
+  .containerForm input:focus {
     border-bottom: 2px solid #fff;
   }
 
-
-  .user-placeholder {
-    span:first-child {
-      transition-duration: 0.3s;
-      transition-delay: 0s;
-    }
-
-    span:nth-child(2) {
-      transition-duration: 0.3s;
-      transition-delay: 0.05s;
-    }
-
-    span:nth-child(3) {
-      transition-duration: 0.3s;
-      transition-delay: 0.1s;
-    }
-
-    span:nth-child(4) {
-      transition-duration: 0.3s;
-      transition-delay: 0.15s;
-    }
-
-    span:nth-child(5) {
-      transition-duration: 0.3s;
-      transition-delay: 0.2s;
-    }
+  .containerForm label {
+    transition: all 0.3s ease-in-out;
+    color: var(--azul-oscuro);
+    user-select: unset;
+    z-index: -1;
   }
 
-  input:focus + .user-placeholder {
-    span:first-child {
-      top: -3.5rem;
-      color: #fff;
-    }
-
-    span:nth-child(2) {
-      top: -3.5rem;
-      color: #fff;
-    }
-
-    span:nth-child(3) {
-      top: -3.5rem;
-      color: #fff;
-    }
-
-    span:nth-child(4) {
-      top: -3.5rem;
-      color: #fff;
-    }
-
-    span:nth-child(5) {
-      top: -3.5rem;
-      color: #fff;
-    }
-  }
-  button {
+  .containerForm button {
     background: var(--azul-oscuro);
     padding: 10px 0px;
     width: 100%;
     font-weight: bold;
-    transition: transform 0.3s ease-in-out;
+  }
+  .containerForm button:active {
+    transform: scale(0.98);
   }
 
-  p {
+  .containerForm p {
     font-size: small;
     text-align: left;
     width: 100%;
   }
-  a {
+  .containerForm a {
     color: var(--azul-oscuro);
     font-weight: bold;
   }
 
+  .letter {
+    position: relative;
+    top: -2rem;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .wave {
+    top: -4rem;
+    color: #fff;
+  }
+
+  /* Cuando el input tiene un valor valido, dejo a las letras arriba, en su lugar */ 
+  .containerForm input:valid + label span  {
+    top: -4rem;
+    color: #fff;
+  }
   @media (max-width: 500px) {
+    .containerForm form {
+      width: 300px;
+    }
   }
 </style>
 
-<script></script>
+<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    const inputPass = document.querySelector("#password");
+    const inputUser = document.querySelector("#user");
+    const labelPass = document.querySelector(".password-placeholder");
+    const labelUser = document.querySelector(".user-placeholder");
+
+    const labels = document.querySelectorAll("label");
+
+    labels.forEach((label) => {
+      let text = label.textContent.split("");
+      label.innerHTML = "";
+      text.forEach((letter, i) => {
+        const span = document.createElement("span");
+        span.innerText = letter;
+        span.setAttribute(
+          "style",
+          `transition-delay: ${i * 0.05}s;`
+        );
+        span.classList.add('letter')
+        label.appendChild(span);
+      });
+    });
+
+
+    //Animar user 
+    if (inputUser) {
+      inputUser.addEventListener('focus', () => {
+      for (let i = 0; i < labelUser.children.length; i++) {
+        labelUser.children[i].classList.add('wave');
+      }
+    }); 
+
+    inputUser.addEventListener('blur', () => {
+      for (let i = 0; i < labelUser.children.length; i++) {
+        labelUser.children[i].classList.remove('wave');
+      }
+    }); 
+
+    labelUser.addEventListener('click', () => {
+      inputUser.focus();
+    });
+  }
+
+    //Animar password
+    if (inputPass) {
+      inputPass.addEventListener('focus', () => {
+      for (let i = 0; i < labelPass.children.length; i++) {
+        labelPass.children[i].classList.add('wave');
+      }
+    }); 
+
+    inputPass.addEventListener('blur', () => {
+      for (let i = 0; i < labelPass.children.length; i++) {
+        labelPass.children[i].classList.remove('wave');
+      }
+    }); 
+    }
+
+    labelPass.addEventListener('click', () => {
+      inputPass.focus();
+    })
+    
+  });
+</script>
