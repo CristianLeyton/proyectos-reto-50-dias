@@ -62,11 +62,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
+    document.addEventListener("astro:page-load", () => {
   const boxKey = document.querySelector("#key");
   const boxKeyCode = document.querySelector("#keyCode");
   const boxCode = document.querySelector("#code");
 
-  document.addEventListener("keydown", (e) => {
+
+  if (boxKey && boxKeyCode && boxCode) {
+    document.addEventListener("keydown", (e) => {
     e.preventDefault();
     /* console.log(e.key, e.keyCode, e.code); */
     e.key != " " ? (boxKey.innerHTML = e.key) : (boxKey.innerHTML = "Space");
@@ -74,4 +77,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     boxKeyCode.innerHTML = e.keyCode;
     boxCode.innerHTML = e.code;
   });
+  }
+
+});
 </script>
