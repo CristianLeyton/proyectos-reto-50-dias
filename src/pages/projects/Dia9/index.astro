@@ -7,7 +7,7 @@ let sounds = [];
 allSounds.map((sound, i) => {
   sounds[i] = {
     url: sound.default,
-    name: sound.default.split("/").pop().replace(".mp3", ""),
+    name: sound.default.split("/").pop().split(".").shift(),
   }; //me da un array con arrays con la url y el nombre del archivo
 });
 
