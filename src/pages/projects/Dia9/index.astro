@@ -108,10 +108,9 @@ allSounds.map((sound, i) => {
 </style>
 
 <script>
+    document.addEventListener("astro:page-load", () => {
   const buttons = document.querySelectorAll(".btn");
-  const audios = document.querySelectorAll(".sound");
-
-  /* console.log(audios[0].id, buttons) */
+/*   const audios = document.querySelectorAll(".sound"); */
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
@@ -119,7 +118,8 @@ allSounds.map((sound, i) => {
       let audio = document.getElementById(button.title);
       // @ts-ignore
       audio.play(); 
-      /* console.log(audio);  */
     })
   });
+});
+
 </script>
