@@ -1,120 +1,109 @@
 ---
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
-const allSounds = await Astro.glob('./src/*.mp3');
+const allSounds = await Astro.glob("./src/*.mp3");
 
-let sounds =  [];
+let sounds = [];
 
-allSounds.map( (sound, i) => {
-  sounds[i] = { 
-    url: sound.default, 
-    name: sound.default.split('/').pop().replace('.mp3', '')
-  } //me da un array con arrays con la url y el nombre del archivo
-})
+allSounds.map((sound, i) => {
+  sounds[i] = {
+    url: sound.default,
+    name: sound.default.split("/").pop().replace(".mp3", ""),
+  }; //me da un array con arrays con la url y el nombre del archivo
+});
 
 /* console.log(sounds) */
-
-
 ---
 
 <LayoutProyecto title="Día 9" subtitle="Sound Board">
-<div class="container">
-  {
-    sounds.map((sound, i) => (
-      <audio id={sound.name} src={sound.url} class="sound"></audio>
-    ))
-  }
-
-  <div id="buttons">
+  <div class="container">
     {
       sounds.map((sound, i) => (
-        <button class="btn">
-          {sound.name} 
-        </button>
+        <audio id={sound.name} src={sound.url} class="sound" />
       ))
     }
-  </div>
 
-</div>
+    <div id="buttons">
+      {sounds.map((sound, i) => <button class="btn">{sound.name}</button>)}
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
-    .container {
-      display: grid;
-      height: 70vh;
-      place-items: center;
+  .container {
+    display: grid;
+    height: 70vh;
+    place-items: center;
+  }
+
+  #buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: fit-content;
+    gap: 2rem;
+  }
+  .btn {
+    background-color: var(--naranja-claro);
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+    color: #fff;
+    font-size: x-large;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0px 3px 1px var(--naranja-oscuro);
+    transition: background 0.1s ease-in-out;
+    &:hover {
+      background-color: var(--naranja);
     }
 
-    #buttons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      height:fit-content;
-      gap: 2rem;
+    &:active {
+      background-color: var(--naranja-oscuro);
+      box-shadow: none;
+      transform: translateY(3px);
     }
-    .btn {
-      background-color: var(--naranja-claro);
-      padding: 1rem;
-      border-radius: 50%;
-      width: 180px;
-      height: 180px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-transform: capitalize;
-      color: #fff;
-      font-size: xx-large;
-      font-weight: 600;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0px 3px 1px var(--naranja-oscuro);
-      transition: background 0.1s ease-in-out;
-      
-      &:hover {
-        background-color: var(--naranja);
-      }
+  }
 
-      &:active {
-        background-color: var(--naranja-oscuro);
-        box-shadow: none;
-        transform: translateY(3px);
-      }
-      
-    }
-
-    .btn:before {
-        content: '\25BA';
-        font-size: xxx-large;
-        text-align: center;
-        text-overflow: ellipsis;
-    }
-
+  .btn:before {
+    content: "";
+    border-top: 20px solid transparent;
+    border-left: 30px solid #fff;
+    border-bottom: 20px solid transparent;
+    position: relative;
+    top: 0;
+    left: 3%;
+    text-align: center;
+    height: 35px;
+  }
 
   @media (max-width: 650px) {
     #buttons {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      height:fit-content;
+      height: fit-content;
       gap: 1rem;
+      
     }
 
     .btn {
-      font-size: x-large;
+      font-size: large;
       width: 140px;
       height: 140px;
+      padding: 0rem;
     }
 
     .btn:before {
-        font-size: xx-large;
+      font-size: xx-large;
     }
-
   }
-
 </style>
 
 <script>
-  const body = document.querySelector('.container');
-
-  
-
-
+  const body = document.querySelector(".container");
 </script>
