@@ -23,7 +23,13 @@ allSounds.map((sound, i) => {
     }
 
     <div id="buttons">
-      {sounds.map((sound, i) => <button class="btn" id={"btn-" + sound.name} title={sound.name}>{sound.name}</button>)}
+      {
+        sounds.map((sound, i) => (
+          <button class="btn" id={"btn-" + sound.name} title={sound.name}>
+            {sound.name}
+          </button>
+        ))
+      }
     </div>
   </div>
 </LayoutProyecto>
@@ -91,7 +97,6 @@ allSounds.map((sound, i) => {
       grid-template-columns: repeat(2, 1fr);
       height: fit-content;
       gap: 1rem;
-      
     }
 
     .btn {
@@ -108,18 +113,27 @@ allSounds.map((sound, i) => {
 </style>
 
 <script>
-    document.addEventListener("astro:page-load", () => {
-  const buttons = document.querySelectorAll(".btn");
-/*   const audios = document.querySelectorAll(".sound"); */
+  document.addEventListener("astro:page-load", () => {
+    const buttons = document.querySelectorAll(".btn");
+    const audios = document.querySelectorAll(".sound");
 
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      // @ts-ignore
-      let audio = document.getElementById(button.title);
-      // @ts-ignore
-      audio.play(); 
-    })
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        stopSongs()
+        // @ts-ignore
+        let audio = document.getElementById(button.title);
+        // @ts-ignore
+        audio.play();
+      });
+    });
+
+    function stopSongs() {
+      audios.forEach((audio) => {
+        // @ts-ignore
+        audio.pause();
+        // @ts-ignore
+        audio.currentTime = 0;
+      });
+    }
   });
-});
-
 </script>
