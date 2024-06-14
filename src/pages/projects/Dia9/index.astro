@@ -119,11 +119,13 @@ allSounds.map((sound, i) => {
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
-        stopSongs()
         // @ts-ignore
         let audio = document.getElementById(button.title);
-        // @ts-ignore
-        audio.play();
+        if (audio) {
+          stopSongs();
+          // @ts-ignore
+          audio.play();
+        }
       });
     });
 

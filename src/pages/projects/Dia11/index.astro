@@ -2,29 +2,76 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 11" subtitle="Dia 11">
-<div class="container">
-
-</div>
+<LayoutProyecto title="Día 11" subtitle="Event Keycodes">
+  <div class="container">
+    <div class="info">
+      <span>event.key</span>
+      <div id="key" class="box">key</div>
+    </div>
+    <div class="info">
+      <span>event.keyCode</span>
+      <div id="keyCode" class="box">keyCode</div>
+    </div>
+    <div class="info">
+      <span>event.Code</span>
+      <div id="code" class="box">code</div>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      display: flex;
-      height: 71vh;
-    }
-
-
-
-  @media (max-width: 500px) {
   .container {
-    flex-direction: column;
-  }  
+    display: flex;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--naranja-muy-claro);
   }
 
+  .box {
+    padding: 1rem 2rem;
+    background-color: white;
+    border: 1px solid #1d1d1d;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    font-size: x-large;
+  }
+
+  .info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .info span {
+    font-weight: bold;
+    color: var(--naranja-oscuro);
+  }
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .info span {
+      /*       font-size: small; */
+    }
+  }
 </style>
 
 <script>
+  const boxKey = document.querySelector("#key");
+  const boxKeyCode = document.querySelector("#keyCode");
+  const boxCode = document.querySelector("#code");
 
+  document.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    /* console.log(e.key, e.keyCode, e.code); */
+    e.key != " " ? (boxKey.innerHTML = e.key) : (boxKey.innerHTML = "Space");
+    // @ts-ignore
+    boxKeyCode.innerHTML = e.keyCode;
+    boxCode.innerHTML = e.code;
+  });
 </script>

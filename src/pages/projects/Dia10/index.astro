@@ -99,7 +99,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           throw new Error("Error: " + response.statusText);
         }
         const data = await response.json(); // Esperamos la respuesta parseada como JSON
-        jokeText.innerHTML = data.joke; // Aquí puedes trabajar con los datos recibidos
+         // Aquí puedes trabajar con los datos recibidos
+        if (jokeText) {
+          jokeText.innerHTML = data.joke;
+        }
+        
       } catch (error) {
         console.error("Hubo un problema con la solicitud Fetch:", error);
       }
@@ -107,6 +111,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     fetchJoke();
 
-    button.addEventListener('click',fetchJoke);
+    if ( button) {
+      button.addEventListener('click',fetchJoke);
+    }
+    
   });
 </script>
