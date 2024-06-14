@@ -23,7 +23,7 @@ allSounds.map((sound, i) => {
     }
 
     <div id="buttons">
-      {sounds.map((sound, i) => <button class="btn" id={"btn-" + sound.name} name={sound.name}>{sound.name}</button>)}
+      {sounds.map((sound, i) => <button class="btn" id={"btn-" + sound.name} title={sound.name}>{sound.name}</button>)}
     </div>
   </div>
 </LayoutProyecto>
@@ -115,7 +115,8 @@ allSounds.map((sound, i) => {
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      let audio = document.getElementById(button.textContent);
+      // @ts-ignore
+      let audio = document.getElementById(button.title);
       // @ts-ignore
       audio.play(); 
       /* console.log(audio);  */
