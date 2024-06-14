@@ -20,8 +20,7 @@ allSounds.map( (sound, i) => {
 <div class="container">
   {
     sounds.map((sound, i) => (
-      <audio id={sound.name} src={sound.url} class="sound">
-      </audio>
+      <audio id={sound.name} src={sound.url} class="sound"></audio>
     ))
   }
 
@@ -53,9 +52,12 @@ allSounds.map( (sound, i) => {
     }
     .btn {
       background-color: var(--naranja-claro);
-      padding: 1.5rem;
+      padding: 1rem;
       border-radius: 50%;
-      aspect-ratio: 1/1;
+      width: 180px;
+      height: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       text-transform: capitalize;
       color: #fff;
       font-size: xx-large;
@@ -83,6 +85,7 @@ allSounds.map( (sound, i) => {
         content: '\25BA';
         font-size: xxx-large;
         text-align: center;
+        text-overflow: ellipsis;
     }
 
 
@@ -96,6 +99,8 @@ allSounds.map( (sound, i) => {
 
     .btn {
       font-size: x-large;
+      width: 140px;
+      height: 140px;
     }
 
     .btn:before {
