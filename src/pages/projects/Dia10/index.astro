@@ -2,29 +2,111 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 10" subtitle="Dia 10">
-<div class="container">
-
-</div>
+<LayoutProyecto title="Día 10" subtitle="Dad Jokes">
+  <div class="container">
+    <section class="box">
+      <h2 class="title">Don't Laugh Challenge</h2>
+      <p id="joke" class="joke">
+        Thinking a joke... 
+      </p>
+      <button id="btn" class="btn"> Get another joke </button>
+    </section>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      display: flex;
-      height: 71vh;
-    }
-
-
-
-  @media (max-width: 500px) {
   .container {
-    flex-direction: column;
-  }  
+    display: grid;
+    height: 70vh;
+    background-color: var(--celeste);
+    place-items: center;
   }
 
+  .box {
+    width: 400px;
+    min-height: 250px;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.1),
+      0 6px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem;
+  }
+
+  .title {
+    font-weight: bolder;
+    color: var(--text-color-secondary);
+  }
+
+  .joke {
+    text-align: center;
+    color: var(--text-color);
+    text-wrap: pretty;
+    font-size: x-large;
+    font-weight: bold;
+    height: fit-content;
+    padding: 1rem;
+  }
+
+  .btn {
+    background-color: var(--naranja-claro);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  @media (max-width: 500px) {
+    .container {
+    }
+
+    .box {
+      width: 320px;
+      min-height: 320px;
+    }
+  }
 </style>
 
 <script>
+  document.addEventListener("astro:page-load", () => {
+    const button = document.querySelector("#btn");
+    const jokeText = document.querySelector("#joke");
 
+    const config = {
+      headers: {
+        Accept: "application/json",
+      },
+    };
+
+    async function fetchJoke() {
+      try {
+        const response = await fetch("https://icanhazdadjoke.com", config);
+        if (!response.ok) {
+          throw new Error("Error: " + response.statusText);
+        }
+        const data = await response.json(); // Esperamos la respuesta parseada como JSON
+        jokeText.innerHTML = data.joke; // Aquí puedes trabajar con los datos recibidos
+      } catch (error) {
+        console.error("Hubo un problema con la solicitud Fetch:", error);
+      }
+    }
+
+    fetchJoke();
+
+    button.addEventListener('click',fetchJoke);
+  });
 </script>
