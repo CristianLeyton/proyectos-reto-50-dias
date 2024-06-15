@@ -2,9 +2,35 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 12" subtitle="Dia 12">
+<LayoutProyecto title="Día 12" subtitle="Faq Collapse">
 <div class="container">
 
+    <h2>Frequently Asked Questions</h2>
+
+      <details open name="info">
+        <summary>Why shouldn't we trust atoms?</summary>
+        <p>They make up everything.</p>
+      </details>
+
+      <details name="info">
+        <summary>What do you call someone with no body and no nose?</summary>
+        <p>Nobody knows.</p>
+      </details>
+
+      <details name="info">
+        <summary>What's the object-oriented way to become wealthy?</summary>
+        <p>Inheritance</p>
+      </details>
+
+      <details name="info">
+        <summary>How many tickles does it take to tickle an octopus?</summary>
+        <p>ten-tickles!</p>
+      </details>
+
+      <details name="info">
+        <summary>What is: 1 + 1?</summary>
+        <p>Depends on who are you asking.</p>
+      </details>
 </div>
 </LayoutProyecto>
 
@@ -13,13 +39,101 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     .container {
       display: flex;
       height: 70vh;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      background-color: #f7f7f7;
     }
 
+    h2 {
+        text-align: center;
+        font-size: x-large;
+        font-weight: bold;
+        color: var(--celeste-oscuro);
+      }
 
+
+    details {
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: all 0.3s ease-in-out;
+      overflow: hidden;
+    }
+
+    summary {
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #5a5a5a;
+      transition: all 0.3s ease-in-out;
+    }
+
+    details[open] {
+      background-color: #ffffff;
+      border-color: var(--celeste-oscuro);
+    }
+
+    details[open] summary {
+      color: var(--celeste-oscuro);
+    }
+
+    summary::after {
+      content: "\25BC";
+      transition: background 0.6s ease-in-out,
+      color 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 25px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      padding: 10px;
+      color: var(--celeste-oscuro);
+    }
+
+    details[open] summary::after {
+      transform: rotate(180deg); 
+      background-color: var(--celeste-oscuro);;
+      color: white;
+      border: 1px solid var(--celeste-oscuro);;
+    }
+
+    details p {
+      padding: 2rem 0 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    p::after {
+    content: '?';
+    color: var(--naranja-claro);
+    font-size: 16rem;
+    position: absolute;
+    opacity: 0.2;
+    bottom: -150px;
+    right: 0px;
+    z-index: 0;
+    transform: rotate(-10deg);
+    }
+
+    p::before {
+    content: '¿';
+    color: var(--celeste-oscuro);
+    font-size: 16rem;
+    position: absolute;
+    opacity: 0.2;
+    bottom: -100px;
+    right: 90px;
+    z-index: 0;
+    transform: rotate(5deg);
+    }
 
   @media (max-width: 500px) {
   .container {
-    flex-direction: column;
+    
   }  
   }
 
