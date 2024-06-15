@@ -1,4 +1,4 @@
 ---
-dia: '10'
+dia: '12'
 name: 'Split landing page'
 ---
