@@ -2,29 +2,141 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 13" subtitle="Dia 13">
-<div class="container">
+<LayoutProyecto title="Día 13" subtitle="Random Choice Picker">
+  <div class="containerDia13 container">
+    <p id="winner">
+      Ingresa las opciones separadas por una coma. (',') <br /> Presiona "Enter"
+      o el boton "Choice" para elegria una opcion aleatoriamente.
+    </p>
 
-</div>
+    <textarea name="options" id="options" minlength="1"></textarea>
+
+    <div class="buttons">
+      <button class="reset">Reset</button>
+      <button class="choice">Choice</button>
+    </div>
+
+    <div id="choiceOptions" class="choiceOptions"></div>
+  </div>
 </LayoutProyecto>
 
-<style>
-
-    .container {
-      display: flex;
-      height: 70vh;
-    }
-
-
-
-  @media (max-width: 500px) {
-  .container {
+<style is:inline>
+  .containerDia13 {
+    display: flex;
+    height: 70vh;
     flex-direction: column;
-  }  
+    background-color: var(--celeste);
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 
+  .containerDia13 p {
+    text-wrap: pretty;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: x-large;
+  }
+
+  .containerDia13 textarea {
+    height: 120px;
+    width: 580px;
+    outline: none;
+    padding: 1rem;
+  }
+
+  .containerDia13 .choiceOptions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  .containerDia13 .option {
+    color: #fff;
+    background-color: var(--naranja-claro);
+    padding: 0.5rem;
+    width: fit-content;
+    border-radius: 0.7rem;
+    text-transform: capitalize;
+    font-size: large;
+  }
+
+  .containerDia13 .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 580px;
+  }
+
+  .containerDia13 .selected {
+    background-color: var(--naranja-oscuro);
+    font-weight: bolder;
+  }
+
+  .containerDia13 .choice {
+    color: #fff;
+    background-color: var(--naranja-oscuro);
+    padding: 0.5rem;
+    width: fit-content;
+    border-radius: 0.5rem;
+    font-weight: bold;
+  }
+  .containerDia13 .reset {
+    color: #fff;
+    background-color: var(--azul-oscuro);
+    padding: 0.5rem;
+    width: fit-content;
+    border-radius: 0.5rem;
+  }
+
+  .containerDia13 button:hover {
+    transform: scale(1.02);
+  }
+
+  .containerDia13 button:active {
+    transform: scale(0.98);
+  }
+  @media (max-width: 650px) {
+    .containerDia13 p {
+      width: 320px;
+      font-size: large;
+    }
+    .containerDia13 textarea {
+      height: 150px;
+      width: 320px;
+    }
+
+    .containerDia13 .buttons {
+      width: 320px;
+    }
+  }
 </style>
 
 <script>
+  document.addEventListener("astro:page-load", () => {
+    const options = document.querySelector("#choiceOptions");
+    const textArea = document.querySelector("#options");
+    const winner = document.querySelector("#winner");
+
+    const btnChoice = document.querySelector(".choie");
+    const btnReset = document.querySelector(".reset");
+
+
+   textArea.addEventListener('keyup', () => {
+    // @ts-ignore
+    let optionsTags = textArea.value.split(",");
+    
+    optionsTags.forEach(value => {
+      let optionTag = document.createElement('span');
+      optionTag.classList.add('option');
+      let option = document.createTextNode(value);
+      optionTag.appendChild(option);
+    });
+   })
+  });
+
 
 </script>

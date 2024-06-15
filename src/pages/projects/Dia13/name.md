@@ -1,4 +1,4 @@
 ---
 dia: '13'
-name: 'Split landing page'
+name: 'Random Choice Picker'
 ---
