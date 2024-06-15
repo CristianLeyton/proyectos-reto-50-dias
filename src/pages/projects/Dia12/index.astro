@@ -73,6 +73,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     details[open] {
       background-color: #ffffff;
       border-color: var(--celeste-oscuro);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
     }
 
     details[open] summary {
@@ -110,10 +111,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     p::after {
     content: '?';
     color: var(--naranja-claro);
-    font-size: 16rem;
+    font-size: 15rem;
     position: absolute;
     opacity: 0.2;
-    bottom: -150px;
+    bottom: -130px;
     right: 0px;
     z-index: 0;
     transform: rotate(-10deg);
@@ -122,10 +123,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     p::before {
     content: '¿';
     color: var(--celeste-oscuro);
-    font-size: 16rem;
+    font-size: 15rem;
     position: absolute;
     opacity: 0.2;
-    bottom: -100px;
+    bottom: -90px;
     right: 90px;
     z-index: 0;
     transform: rotate(5deg);
