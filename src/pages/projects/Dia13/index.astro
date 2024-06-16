@@ -9,7 +9,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       o el boton "Comenzar" para empezar a elegir una opción aleatoriamente.
     </p>
 
-    <textarea name="options" id="options" minlength="1"></textarea>
+    <textarea name="options" id="options" minlength="1" placeholder="Aqui van tus opciones..."></textarea>
 
     <div class="buttons">
       <button class="reset">Resetear</button>
@@ -136,7 +136,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
 
       // @ts-ignore
-      if (e.code == "Comma") {
+      if (array.length > i+1) {
         optionTag.classList.add("hidden");
         options.append(optionTag);
         i++;
