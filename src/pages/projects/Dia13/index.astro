@@ -6,13 +6,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="containerDia13 container">
     <p id="winner">
       Ingresa las opciones separadas por una coma. (',') <br /> Presiona "Enter"
-      o el boton "Comenzar" para empezar a elegir una opción aleatoriamente.
+      o el boton "Comenzar" para elegir una opción aleatoriamente.
     </p>
 
-    <textarea name="options" id="options" minlength="1" placeholder="Aqui van tus opciones..."></textarea>
+    <textarea
+      name="options"
+      id="options"
+      minlength="1"
+      placeholder="Aqui van tus opciones..."></textarea>
 
     <div class="buttons">
-      <button class="reset">Resetear</button>
+      <button class="reset">Borrar</button>
       <button class="choice">Comenzar</button>
     </div>
 
@@ -121,7 +125,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const textArea = document.querySelector("#options");
     const winner = document.querySelector("#winner");
 
-    const btnChoice = document.querySelector(".choie");
+    const btnChoice = document.querySelector(".choice");
     const btnReset = document.querySelector(".reset");
 
     let i = 0;
@@ -131,12 +135,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       optionTag.classList.add("option");
       // @ts-ignore
       const array = textArea.value.split(",");
+
       if (options.childElementCount == 0) {
         options.append(optionTag);
       }
 
+      console.log(array);
       // @ts-ignore
-      if (array.length > i+1) {
+      if (array.length > i + 1) {
         optionTag.classList.add("hidden");
         options.append(optionTag);
         i++;
@@ -151,25 +157,63 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         // @ts-ignore
         options.lastChild.classList.remove("hidden");
         // @ts-ignore
-        options.lastChild.innerText = array[i];
-        if (array[i] == ' ' || array[i] == '' ) {
-          // @ts-ignore
-          options.lastChild.classList.add("hidden");
-        }
+        options.lastChild.innerText = array[i].trim();
+      }
 
+      if (array[i].trim() == " " || array[i].trim() == "") {
+        // @ts-ignore
+        options.lastChild.classList.add("hidden");
       }
 
       if (!array[0]) {
         options.innerHTML = "";
       }
+      // @ts-ignore
+      if (e.key == "Enter") {
+        e.preventDefault();
+        choice();
+      }
     });
 
-    btnReset.addEventListener('click', () => {
+    btnReset.addEventListener("click", () => {
       options.innerHTML = "";
       // @ts-ignore
       textArea.value = "";
       // @ts-ignore
       textArea.focus();
-    })
+    });
+
+    btnChoice.addEventListener("click", () => {
+      choice();
+    });
+
+    function choice() {
+      console.log("eligiendo...");
+      let opciones = document.querySelectorAll(".option:not(.hidden)");
+      
+      /* console.log(randomInt);
+      console.log(opciones[0].textContent); */
+      let eligiendo = setInterval(() => {
+        opciones.forEach(opcion => {
+          opcion.classList.remove('selected');
+        });
+        let randomInt = getRandomInt(0, opciones.length-1);
+        opciones[randomInt].classList.add('selected');
+        winner.innerHTML = 'Opción elegida: <br> ' + opciones[randomInt].textContent;
+
+      },50)
+
+      setTimeout( () => {
+        clearInterval(eligiendo);
+        eligiendo = null;
+      } ,3000)
+
+    }
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
   });
 </script>
