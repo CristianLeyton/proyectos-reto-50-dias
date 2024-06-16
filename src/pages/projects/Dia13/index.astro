@@ -6,14 +6,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="containerDia13 container">
     <p id="winner">
       Ingresa las opciones separadas por una coma. (',') <br /> Presiona "Enter"
-      o el boton "Choice" para elegria una opcion aleatoriamente.
+      o el boton "Comenzar" para empezar a elegir una opción aleatoriamente.
     </p>
 
     <textarea name="options" id="options" minlength="1"></textarea>
 
     <div class="buttons">
-      <button class="reset">Reset</button>
-      <button class="choice">Choice</button>
+      <button class="reset">Resetear</button>
+      <button class="choice">Comenzar</button>
     </div>
 
     <div id="choiceOptions" class="choiceOptions"></div>
@@ -124,19 +124,52 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const btnChoice = document.querySelector(".choie");
     const btnReset = document.querySelector(".reset");
 
+    let i = 0;
+    textArea.addEventListener("keyup", (e) => {
+      // @ts-ignore
+      let optionTag = document.createElement("span");
+      optionTag.classList.add("option");
+      // @ts-ignore
+      const array = textArea.value.split(",");
+      if (options.childElementCount == 0) {
+        options.append(optionTag);
+      }
 
-   textArea.addEventListener('keyup', () => {
-    // @ts-ignore
-    let optionsTags = textArea.value.split(",");
-    
-    optionsTags.forEach(value => {
-      let optionTag = document.createElement('span');
-      optionTag.classList.add('option');
-      let option = document.createTextNode(value);
-      optionTag.appendChild(option);
+      // @ts-ignore
+      if (e.code == "Comma") {
+        optionTag.classList.add("hidden");
+        options.append(optionTag);
+        i++;
+      }
+
+      if (array[i] == undefined) {
+        options.lastChild.remove();
+        i--;
+      }
+
+      if (array[i].length > 0) {
+        // @ts-ignore
+        options.lastChild.classList.remove("hidden");
+        // @ts-ignore
+        options.lastChild.innerText = array[i];
+        if (array[i] == ' ' || array[i] == '' ) {
+          // @ts-ignore
+          options.lastChild.classList.add("hidden");
+        }
+
+      }
+
+      if (!array[0]) {
+        options.innerHTML = "";
+      }
     });
-   })
+
+    btnReset.addEventListener('click', () => {
+      options.innerHTML = "";
+      // @ts-ignore
+      textArea.value = "";
+      // @ts-ignore
+      textArea.focus();
+    })
   });
-
-
 </script>
