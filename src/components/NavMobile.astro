@@ -29,8 +29,8 @@ names.sort((a, b) => {
       >
         Proyectos <span class="text-sm">&#9660;</span>
       </div>
-      <div id="SubMenu" class="hidden mt-5">
-        <nav class="text-left">
+      <div id="SubMenu" class="hidden mt-5 ">
+        <nav class="text-left max-h-[50vh] overflow-y-scroll">
           {projects.map((project, index) => (
             <a
             href={project.url}

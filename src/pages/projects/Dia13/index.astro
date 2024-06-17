@@ -128,7 +128,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const btnChoice = document.querySelector(".choice");
     const btnReset = document.querySelector(".reset");
 
-    let i = 0;
+
+    if (textArea) {
+      let i = 0;
     textArea.addEventListener("keyup", (e) => {
       // @ts-ignore
       let optionTag = document.createElement("span");
@@ -201,12 +203,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         opciones[randomInt].classList.add('selected');
         winner.innerHTML = 'Opción elegida: <br> ' + opciones[randomInt].textContent;
 
-      },50)
+      },75)
 
       setTimeout( () => {
         clearInterval(eligiendo);
         eligiendo = null;
-      } ,3000)
+      } ,4000)
 
     }
 
@@ -215,5 +217,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    }
+
+    
   });
 </script>

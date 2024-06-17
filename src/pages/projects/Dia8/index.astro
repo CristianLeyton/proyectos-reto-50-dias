@@ -173,9 +173,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }); 
     }
 
-    labelPass.addEventListener('click', () => {
+
+    if (labelPass) {
+      labelPass.addEventListener('click', () => {
       inputPass.focus();
     })
+    }
+
+    
     
   });
 </script>
