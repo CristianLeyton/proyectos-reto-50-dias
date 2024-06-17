@@ -9,22 +9,23 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <h3>Goal: 2 Liters</h3>
 
       <div class="remained">
-        <span><h2>2L</h2>Remained</span>
+        <span class="info"><h2 id="liters">2L</h2>Remained</span>
+        <div class="percentage" id="percentage">100%</div>
       </div>
     </section>
 
     <section>
       <h3>Select how many glasses of water that you have drank</h3>
       <div class="glasses">
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-      <span class="glass">250 ml</span>
-    </div>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+        <span class="glass">250 ml</span>
+      </div>
     </section>
   </div>
 </LayoutProyecto>
@@ -35,7 +36,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     min-height: 70vh;
     background-color: var(--celeste-oscuro);
     flex-direction: column;
-    gap: 1rem;
     padding: 1rem;
     justify-content: center;
     align-items: center;
@@ -45,7 +45,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
+    padding: 0.5rem;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -59,7 +59,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
   .dia16 h2 {
     font-weight: bold;
-    font-size: x-large;
+    font-size: large;
   }
 
   .remained {
@@ -68,11 +68,40 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-color: #fff;
     border: 3px solid var(--azul-oscuro);
     color: var(--azul-oscuro);
-    border-radius: 0 0px 40px 40px ;
+    border-radius: 0 0px 40px 40px;
     display: flex;
     flex-direction: column;
-   justify-content: center;
+    justify-content: end;
+    align-items: center;
+    overflow: hidden;
   }
+
+  .percentage {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--celeste);
+    border-radius: 0 0px 37px 37px;
+    color: #fff;
+    font-weight: bold;
+    font-size: x-large;
+    display: grid;
+    align-content: center;
+    visibility: hidden;
+    transition: all 0.4s linear;
+    height: 0%;
+  }
+
+
+  .info {
+    display: grid;
+    place-content: center;
+    flex: 1;
+    height: 0%;
+    font-size: small;
+  }
+
 
   .dia16 .glasses {
     display: flex;
@@ -88,10 +117,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-color: #fff;
     border: 2px solid var(--azul-oscuro);
     color: var(--azul-oscuro);
-    border-radius: 0 0px 15px 15px ;
+    border-radius: 0 0px 15px 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .glass.full {
+    background-color: var(--celeste);
+    color: #fff;
   }
 
   @media (max-width: 500px) {
@@ -101,4 +137,60 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 </style>
 
-<script></script>
+<script>
+  const glasses = document.querySelectorAll(".glass");
+
+
+  glasses.forEach((glass, j) => {
+    glass.addEventListener("click", () => {
+      if (glasses[j].classList.contains("full")) {
+        glasses.forEach((glass) => {
+          glass.classList.remove("full");
+        });
+        for (let i = 0; i < j; i++) {
+          glasses[i].classList.add("full");
+        }
+      } else {
+        glasses.forEach((glass) => {
+          glass.classList.remove("full");
+        });
+        for (let i = 0; i <= j; i++) {
+          glasses[i].classList.add("full");
+        }
+      }
+
+      let percent = 0;
+      let liters;
+
+      glasses.forEach((glass, j) => {
+        if (glass.classList.contains("full")) {
+          percent += 12.5;
+          liters = 2 - (percent*2)/100;
+        } 
+      });
+
+
+      const percentage = document.querySelector(".percentage");
+      const info = document.querySelector("#liters");
+
+      if (percent > 0) {
+        percentage.classList.add('llenar');
+        const llenar = document.querySelector(".llenar");
+        llenar.setAttribute('style', `height: ${percent}%; visibility: visible;`);
+        llenar.textContent = percent +"%";
+        // @ts-ignore
+        info.textContent = liters + "L";
+      } else if (percent == 0) {
+        const llenar = document.querySelector(".llenar");
+        llenar.setAttribute('style', `height: ${percent}%; visibility: hidden;`);
+        llenar.textContent = percent +"%";
+        info.textContent = 2 + "L";
+      } else if (percent == 100) {
+        info.setAttribute('style', `height: 0%`);
+      }
+      
+      
+
+    });
+  });
+</script>
