@@ -3,28 +3,102 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 16" subtitle="Drink Water">
-<div class="container">
+  <div class="container dia16">
+    <section>
+      <h1>Drink Water</h1>
+      <h3>Goal: 2 Liters</h3>
 
-</div>
+      <div class="remained">
+        <span><h2>2L</h2>Remained</span>
+      </div>
+    </section>
+
+    <section>
+      <h3>Select how many glasses of water that you have drank</h3>
+      <div class="glasses">
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+      <span class="glass">250 ml</span>
+    </div>
+    </section>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      display: flex;
-      height: 70vh;
-    }
-
-
-
-  @media (max-width: 500px) {
-  .container {
+  .dia16 {
+    display: flex;
+    min-height: 70vh;
+    background-color: var(--celeste-oscuro);
     flex-direction: column;
-  }  
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
   }
 
+  .dia16 section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+  }
+
+  .dia16 h1 {
+    font-weight: bold;
+    font-size: xx-large;
+  }
+
+  .dia16 h2 {
+    font-weight: bold;
+    font-size: x-large;
+  }
+
+  .remained {
+    height: 320px;
+    width: 150px;
+    background-color: #fff;
+    border: 3px solid var(--azul-oscuro);
+    color: var(--azul-oscuro);
+    border-radius: 0 0px 40px 40px ;
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+  }
+
+  .dia16 .glasses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .glass {
+    height: 100px;
+    width: 50px;
+    background-color: #fff;
+    border: 2px solid var(--azul-oscuro);
+    color: var(--azul-oscuro);
+    border-radius: 0 0px 15px 15px ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media (max-width: 500px) {
+    .container {
+      flex-direction: column;
+    }
+  }
 </style>
 
-<script>
-
-</script>
+<script></script>
