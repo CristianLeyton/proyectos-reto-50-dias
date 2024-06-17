@@ -30,6 +30,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   .segundoContainer ul {
@@ -134,7 +135,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const linea1 = document.querySelector(".linea1");
     const linea2 = document.querySelector(".linea2");
 
-    cross.addEventListener("click", () => {
+
+    if (cross) {
+      cross.addEventListener("click", () => {
       items.forEach((item) => {
         item.classList.toggle("ocultar");
       });
@@ -142,5 +145,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       linea1.classList.toggle("ocultar");
       linea2.classList.toggle("ocultar");
     });
+    }
+
+   
   });
 </script>
