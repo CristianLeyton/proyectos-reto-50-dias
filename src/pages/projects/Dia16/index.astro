@@ -93,7 +93,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     height: 0%;
   }
 
-
   .info {
     display: grid;
     place-content: center;
@@ -101,7 +100,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     height: 0%;
     font-size: small;
   }
-
 
   .dia16 .glasses {
     display: flex;
@@ -140,9 +138,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   const glasses = document.querySelectorAll(".glass");
 
-
   glasses.forEach((glass, j) => {
     glass.addEventListener("click", () => {
+
+      //llena los vasos pequeños
       if (glasses[j].classList.contains("full")) {
         glasses.forEach((glass) => {
           glass.classList.remove("full");
@@ -159,38 +158,42 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         }
       }
 
+      //llena el vaso grande
+
       let percent = 0;
       let liters;
 
       glasses.forEach((glass, j) => {
         if (glass.classList.contains("full")) {
           percent += 12.5;
-          liters = 2 - (percent*2)/100;
-        } 
+          liters = 2 - (percent * 2) / 100;
+        }
       });
-
 
       const percentage = document.querySelector(".percentage");
       const info = document.querySelector("#liters");
 
       if (percent > 0) {
-        percentage.classList.add('llenar');
+        percentage.classList.add("llenar");
         const llenar = document.querySelector(".llenar");
-        llenar.setAttribute('style', `height: ${percent}%; visibility: visible;`);
-        llenar.textContent = percent +"%";
+        llenar.setAttribute(
+          "style",
+          `height: ${percent}%; visibility: visible;`
+        );
+        llenar.textContent = percent + "%";
         // @ts-ignore
         info.textContent = liters + "L";
       } else if (percent == 0) {
         const llenar = document.querySelector(".llenar");
-        llenar.setAttribute('style', `height: ${percent}%; visibility: hidden;`);
-        llenar.textContent = percent +"%";
+        llenar.setAttribute(
+          "style",
+          `height: ${percent}%; visibility: hidden;`
+        );
+        llenar.textContent = percent + "%";
         info.textContent = 2 + "L";
       } else if (percent == 100) {
-        info.setAttribute('style', `height: 0%`);
+        info.setAttribute("style", `height: 0%`);
       }
-      
-      
-
     });
   });
 </script>
