@@ -3,28 +3,227 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 17" subtitle="Movie App">
-<div class="container">
+<div class="container dia17">
+  <nav class="navbar">
+    <input type="search" name="search-movie" id="search-movie" class="search" placeholder="Search...">
+  </nav>
+  <main>
+    <section class="section" id="main">
+<!--       <article class="movie">
+        <img src="https://image.tmdb.org/t/p/w1280/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg" alt="Inside Out 2">
+        <div class="footer-movie">
+          <span class="name-movie" title="Inside Out 2">Inside Out 2</span>
+          <span class="average-movie naranja">7.763</span>
+        </div>
 
+        <div class="overview">
+          <h3>Overview</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos maxime quam sunt perferendis quo voluptatem saepe rerum autem maiores nemo vero dicta officiis placeat, vitae neque! Eos ipsa labore voluptates?</p>
+        </div>
+
+      </article> -->
+    </section>
+  </main>
 </div>
 </LayoutProyecto>
 
-<style>
-
-    .container {
+<style is:inline>
+    .dia17 {
       display: flex;
-      height: 70vh;
+      min-height: 70vh;
+      background-color: var(--azul-oscuro);
+      flex-direction: column;
     }
 
 
+    .navbar {
+      height: 70px;
+      background-color: var(--celeste);
+      border-bottom: 2px solid var(--celeste-claro);
+      display: grid;
+      place-content: center;
+    }
 
-  @media (max-width: 500px) {
-  .container {
+    .search {
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      border: 2px solid var(--celeste-claro);
+      background-color: #fff;
+      color: var(--azul-oscuro);
+      outline: none;
+    }
+
+    .search::placeholder {
+      color: var(--azul-oscuro);
+      opacity: 0.5;
+    }
+
+    .section {
+      width: 100%;
+      padding: 3rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .movie {
+      width: 250px;
+      background-color: var(--celeste-claro);
+      border-radius: 5px;
+      box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden; 
+      display: flex; 
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .movie img {
+      aspect-ratio: 430/645;
+    }
+
+    .footer-movie {
+      background-color: var(--celeste);
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .name-movie {
+      font-weight: bold;
+      font-size: normal;
+      max-width: 80%;
+      overflow: hidden;
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .average-movie {
+      background-color: var(--azul-oscuro);
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-size: small;
+      font-weight: bold;
+    }
+
+    .overview {
+      position: absolute;
+      background-color: #00000095;
+      color: #fff;
+      padding: 1rem 1rem;
+      bottom: -100%;
+      text-wrap: pretty;
+      transition: bottom 0.4s ease-out;
+    }
+
+    .overview h3 {
+      font-size: large;
+      font-weight: bold;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+
+    .overview p {
+      font-size: smaller;
+    }
+
+    .movie:hover .overview{
+      bottom: 0%;
+    }
+    .naranja {
+      color: orange;
+    }
+
+  @media (max-width: 600px) {
+  .dia17 {
     flex-direction: column;
   }  
+
+  .movie {
+    width: 300px;
+  }
+
+  .name-movie {
+      font-size: larger;
+    }
   }
 
 </style>
 
 <script>
 
+document.addEventListener("astro:page-load", () => {
+
+  const imageUrlBase = 'https://image.tmdb.org/t/p/w1280';
+  const urlMain = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1'
+
+  const contenedor = document.getElementById('main');
+
+  async function fetchMovies() {
+      try {
+        const response = await fetch(urlMain);
+        if (!response.ok) {
+          throw new Error("Error: " + response.statusText);
+        }
+        const data = await response.json(); // Esperamos la respuesta parseada como JSON
+         // Aquí puedes trabajar con los datos recibidos
+         //console.log(data.results);
+        
+        data.results.forEach(movie => {
+          const article = document.createElement('article');
+          article.classList.add('movie');
+
+          const img = document.createElement('img');
+          img.src =  imageUrlBase + movie.poster_path;
+          img.alt = movie.title;
+          article.appendChild(img);
+        
+          const footerMovie =  document.createElement('div');
+          footerMovie.classList.add('footer-movie');
+
+          const nameMovie =  document.createElement('span');
+          nameMovie.classList.add('name-movie');
+          nameMovie.title = movie.title;
+          nameMovie.textContent = movie.title;
+
+          const averageMovie =  document.createElement('span');
+          averageMovie.classList.add('average-movie');
+          averageMovie.textContent = movie.vote_average;
+          if (movie.vote_average < 8) {
+            averageMovie.classList.add('naranja');
+          }
+
+          footerMovie.appendChild(nameMovie);
+          footerMovie.appendChild(averageMovie);
+          article.appendChild(footerMovie);
+
+          const overviewMovie =  document.createElement('div');
+          overviewMovie.classList.add('overview');
+          const overviewH3 = document.createElement('h3');
+          overviewH3.textContent = movie.title;
+          const overviewP = document.createElement('p');
+          overviewP.textContent = movie.overview;
+
+
+          overviewMovie.appendChild(overviewH3);
+          overviewMovie.appendChild(overviewP);
+
+          article.appendChild(overviewMovie);
+
+          contenedor.appendChild(article);
+          
+        });
+
+      } catch (error) {
+        console.error("Hubo un problema con la solicitud Fetch:", error);
+      }
+    }
+
+    fetchMovies();
+
+});
 </script>

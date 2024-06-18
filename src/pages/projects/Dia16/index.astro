@@ -136,6 +136,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
+document.addEventListener("astro:page-load", () => {
+
   const glasses = document.querySelectorAll(".glass");
 
   glasses.forEach((glass, j) => {
@@ -196,4 +198,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
     });
   });
+
+});
 </script>
