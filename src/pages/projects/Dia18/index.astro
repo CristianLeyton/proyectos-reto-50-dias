@@ -28,7 +28,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: 0.8s;
+    transition: 0.4s;
   }
 
   .dia18::after {
@@ -59,7 +59,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     top: -10.1vh;
     left: -15.05vw;
     z-index: 1;
-    transition: 0.5s;
+    transition: 0.2s;
     opacity: 0;
   }
 
@@ -118,13 +118,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     let pos;
 
     btnL.addEventListener("click", () => {
+
       allImages.forEach((image, i) => {
         if (image.classList.contains("active")) {
           pos = i;
           background.classList.remove(`image${i}`);
         }
       });
-
       allImages[pos].classList.remove("active");
 
       if (allImages[pos - 1] == undefined) {
