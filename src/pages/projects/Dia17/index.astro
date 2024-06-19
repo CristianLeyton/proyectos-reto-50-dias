@@ -4,7 +4,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 17" subtitle="Movie App">
   <div class="container dia17">
-    <nav class="navbar">
+    <nav class="navbar sticky top-[73px] md:top-[90px] z-20">
       <input
         type="search"
         name="search-movie"
@@ -47,6 +47,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     border-bottom: 2px solid var(--celeste-claro);
     display: grid;
     place-content: center;
+    position: sticky;
   }
 
   .search {
