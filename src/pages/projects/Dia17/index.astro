@@ -4,7 +4,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 17" subtitle="Movie App">
   <div class="container dia17">
-    <nav class="navbar sticky top-[73px] md:top-[90px] z-20">
+    <nav class="navbar sticky top-[73px] md:top-[90px] z-10">
       <input
         type="search"
         name="search-movie"
@@ -179,24 +179,29 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     const contenedor = document.getElementById("main");
 
-    fetchMovies(urlMain);//Relleno el contenedor con la pagina 1
+    if (contenedor) {
+      fetchMovies(urlMain); //Relleno el contenedor con la pagina 1
+    }
 
     const inputSearch = document.getElementById("search-movie");
-    let debounceTimeout;
-    inputSearch.addEventListener("keyup", () => {
-      clearTimeout(debounceTimeout); //Solo busca cuando pasan 0.5s sin presionar alguna tecla
-      debounceTimeout = setTimeout(() => {
-        contenedor.innerHTML = "";
-        //@ts-ignore
-        fetchMovies(urlSearch + inputSearch.value);
-        //@ts-ignore
-        if (inputSearch.value.trim() == "") {
-          fetchMovies(urlMain);
-        }
-      }, 500);
-    });
+    if (inputSearch) {
+      let debounceTimeout;
+      inputSearch.addEventListener("keyup", () => {
+        clearTimeout(debounceTimeout); //Solo busca cuando pasan 0.5s sin presionar alguna tecla
+        debounceTimeout = setTimeout(() => {
+          contenedor.innerHTML = "";
+          //@ts-ignore
+          fetchMovies(urlSearch + inputSearch.value);
+          //@ts-ignore
+          if (inputSearch.value.trim() == "") {
+            fetchMovies(urlMain);
+          }
+        }, 500);
+      });
+    }
 
-    async function fetchMovies(url) { //Busca segun la url que le pase y rellena el contenedor
+    async function fetchMovies(url) {
+      //Busca segun la url que le pase y rellena el contenedor
       try {
         const response = await fetch(url);
         if (!response.ok) {
