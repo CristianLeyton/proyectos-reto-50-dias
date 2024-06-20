@@ -3,30 +3,281 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 19" subtitle="Theme Clock">
-<div class="container">
-
-</div>
+  <main class="container dia19">
+    <nav class="nav">
+      <button class="btn-mode">Dark mode</button>
+    </nav>
+    <section class="widget">
+      <div class="analog">
+        <span class="point"></span>
+        <span class="analog-hour"></span>
+        <span class="analog-min"></span>
+        <span class="analog-seg"></span>
+      </div>
+      <div class="digital">3:04 PM</div>
+      <div>
+        <span class="date">tHURStDAY, JUN</span><span class="day">20</span>
+      </div>
+    </section>
+  </main>
 </LayoutProyecto>
 
-<style>
-
-    .container {
-      display: flex;
-      min-height: 70vh;
-    }
-
-
-
-  @media (max-width: 500px) {
-  .container {
-    flex-direction: column;
-  }  
+<style is:inline>
+  * {
+    transition:
+      color 0.5s ease-in-out,
+      background-color 0.5s ease-in-out;
   }
 
+  :root {
+    --primary: #1d1d1d;
+    --secondary: #ffffff;
+    --terciary: #acacac;
+  }
+
+  .dia19.dark {
+    --primary: #ffffff;
+    --secondary: #1d1d1d;
+    --terciary: #acacac;
+  }
+
+  .dia19 {
+    margin: 1rem 0;
+    display: flex;
+    min-height: 70vh;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: var(--secondary);
+  }
+
+  .nav {
+    flex: 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .btn-mode {
+    background-color: var(--primary);
+    border-radius: 6px;
+    color: var(--secondary);
+    padding: 0.5rem 1rem;
+    flex: 0;
+  }
+
+  .widget {
+    flex: 5;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .analog {
+    width: 20rem;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    display: grid;
+    place-content: center;
+    position: relative;
+    border: 1px solid #cccccc50;
+  }
+
+  .analog span {
+    transform-origin: right;
+    display: grid;
+    place-content: center;
+    transition: transform 0.3s linear;
+  }
+
+  .point {
+    height: 10px;
+    width: 10px;
+    background-color: var(--primary);
+    border: 3px solid var(--naranja-oscuro);
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .analog-hour {
+    position: absolute;
+    background-color: var(--primary);
+    height: 3px;
+    width: 30%;
+    top: 49.5%;
+    left: 20%;
+    transform: rotate(90deg);
+  }
+
+  .analog-min {
+    position: absolute;
+    background-color: var(--primary);
+    height: 3px;
+    width: 40%;
+    top: 49.5%;
+    left: 10%;
+    transform: rotate(90deg);
+  }
+
+  .analog-seg {
+    position: absolute;
+    background-color: var(--naranja-oscuro);
+    height: 3px;
+    width: 40%;
+    top: 49.5%;
+    left: 10%;
+    transform: rotate(90deg);
+  }
+
+  .digital {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 4rem;
+    color: var(--primary);
+  }
+
+  .date {
+    text-transform: uppercase;
+    color: var(--terciary);
+  }
+
+  .day {
+    color: var(--secondary);
+    background-color: var(--primary);
+    border-radius: 50%;
+    padding: 5px;
+    margin-left: 5px;
+  }
+
+  @media (max-width: 500px) {
+    .dia19 {
+    }
+  }
 </style>
 
 <script>
-document.addEventListener("astro:page-load", () => {
+  document.addEventListener("astro:page-load", () => {
+    const btnMode = document.querySelector(".btn-mode");
+    const container = document.querySelector(".dia19");
 
-});
+    //Modo oscuro
+    if (btnMode && container) {
+      btnMode.addEventListener("click", () => {
+        container.classList.toggle("dark");
+        if (container.classList.contains("dark")) {
+          btnMode.textContent = "Light mode";
+        } else {
+          btnMode.textContent = "Dark mode";
+        }
+      });
+    }
+
+    //Hacer funcionar el reloj
+    setInterval(() => {
+      analogico();
+      digital();
+    }, 1000);
+
+    function analogico() {
+      const analogHour = document.querySelector(".analog-hour");
+      const analogMin = document.querySelector(".analog-min");
+      const analogSeg = document.querySelector(".analog-seg");
+
+      const now = new Date();
+
+      let hour = now.getHours();
+      hour = hour % 12;
+      hour = hour ? hour : 12; //Para obtener la hora de 1-12
+      let degHour = hour * 30 + 90;
+      //@ts-ignore
+      analogHour.style.transform = `rotate(${degHour}deg)`;
+
+      let min = now.getMinutes();
+      let degMin = min * 6 + 90;
+      //@ts-ignore
+      analogMin.style.transform = `rotate(${degMin}deg)`;
+
+      let seg = now.getSeconds();
+      let degSeg = seg * 6 + 90;
+      //@ts-ignore
+      analogSeg.style.transform = `rotate(${degSeg}deg)`;
+      // @ts-ignore
+      analogSeg.style.transition = seg == 0 ? "none" : "transform 0.3s linear";
+
+      /* 
+      console.log(seg);
+      console.log(analogSeg.style.transform);
+      console.log(analogSeg.style.transition); */
+    }
+
+    //Reloj digital con fecha
+    function digital() {
+      const now = new Date();
+      const formattedDate = formatDate(now);
+      const formattedTime = formatAMPM(now);
+      const day = String(now.getDate()).padStart(2, "0"); //Trae el número del dia del mes en un string
+
+      const digitalClock = document.querySelector(".digital");
+      const dayClock = document.querySelector(".day");
+      const digitalDate = document.querySelector(".date");
+
+      digitalDate.textContent = formattedDate;
+      digitalClock.textContent = formattedTime;
+      dayClock.textContent = day;
+
+      /*       console.log(`Fecha formateada: ${formattedDate}`);
+      console.log(`Hora formateada: ${formattedTime}`); */
+    }
+
+    //Obtengo la hora formateada, me robe esto codigo de stackoverflow xd
+    function formatAMPM(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var strTime = hours + ":" + minutes + " " + ampm;
+      return strTime;
+    }
+
+    //Obtengo la fecha formateada, este si lo hice yo :v
+    function formatDate(date) {
+      const months = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ];
+      const days = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+        "Domingo",
+      ];
+
+      const month = months[Number(date.getMonth())]; //Trae el mes en un string
+      const dayOfWeek = days[date.getDay()]; //Trae el dia de la semana en un string
+
+      let formatDate = month + ", " + dayOfWeek;
+
+      return formatDate;
+    }
+  });
 </script>
