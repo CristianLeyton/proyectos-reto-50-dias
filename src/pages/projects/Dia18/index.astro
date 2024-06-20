@@ -115,17 +115,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const btnR = document.querySelector(".right");
     const background = document.querySelector(".dia18");
 
-    let pos;
+    let pos = -1;
 
     btnL.addEventListener("click", () => {
-
-      allImages.forEach((image, i) => {
-        if (image.classList.contains("active")) {
-          pos = i;
-          background.classList.remove(`image${i}`);
-        }
-      });
-      allImages[pos].classList.remove("active");
+      getPosActive();
 
       if (allImages[pos - 1] == undefined) {
         pos = allImages.length - 1;
@@ -139,14 +132,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     });
 
     btnR.addEventListener("click", () => {
-      allImages.forEach((image, i) => {
-        if (image.classList.contains("active")) {
-          pos = i;
-          background.classList.remove(`image${i}`);
-        }
-      });
-      allImages[pos].classList.remove("active");
 
+      getPosActive();
+      
       if (allImages[pos + 1] == undefined) {
         pos = 0;
         allImages[pos].classList.add("active");
@@ -156,5 +144,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         background.classList.add(`image${pos + 1}`);
       }
     });
+
+    function getPosActive() {
+      allImages.forEach((image, i) => {
+        if (image.classList.contains("active")) {
+          pos = i;
+          background.classList.remove(`image${i}`);
+        }
+      });
+      if (pos !== -1) {
+        allImages[pos].classList.remove("active");
+      }
+    }
   });
 </script>
