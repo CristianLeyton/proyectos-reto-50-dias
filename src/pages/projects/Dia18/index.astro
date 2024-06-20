@@ -117,43 +117,44 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     let pos = -1;
 
-    btnL.addEventListener("click", () => {
-      getPosActive();
+    if (allImages && btnL && btnR && background) {
+      btnL.addEventListener("click", () => {
+        getPosActive();
 
-      if (allImages[pos - 1] == undefined) {
-        pos = allImages.length - 1;
-        allImages[pos].classList.add("active");
-        background.classList.add(`image${pos}`);
-      } else {
-        allImages[pos - 1].classList.add("active");
-        background.classList.add(`image${pos - 1}`);
-      }
-      //@ts-ignore
-    });
+        if (allImages[pos - 1] == undefined) {
+          pos = allImages.length - 1;
+          allImages[pos].classList.add("active");
+          background.classList.add(`image${pos}`);
+        } else {
+          allImages[pos - 1].classList.add("active");
+          background.classList.add(`image${pos - 1}`);
+        }
+        //@ts-ignore
+      });
 
-    btnR.addEventListener("click", () => {
+      btnR.addEventListener("click", () => {
+        getPosActive();
 
-      getPosActive();
-      
-      if (allImages[pos + 1] == undefined) {
-        pos = 0;
-        allImages[pos].classList.add("active");
-        background.classList.add(`image${pos}`);
-      } else {
-        allImages[pos + 1].classList.add("active");
-        background.classList.add(`image${pos + 1}`);
-      }
-    });
-
-    function getPosActive() {
-      allImages.forEach((image, i) => {
-        if (image.classList.contains("active")) {
-          pos = i;
-          background.classList.remove(`image${i}`);
+        if (allImages[pos + 1] == undefined) {
+          pos = 0;
+          allImages[pos].classList.add("active");
+          background.classList.add(`image${pos}`);
+        } else {
+          allImages[pos + 1].classList.add("active");
+          background.classList.add(`image${pos + 1}`);
         }
       });
-      if (pos !== -1) {
-        allImages[pos].classList.remove("active");
+
+      function getPosActive() {
+        allImages.forEach((image, i) => {
+          if (image.classList.contains("active")) {
+            pos = i;
+            background.classList.remove(`image${i}`);
+          }
+        });
+        if (pos !== -1) {
+          allImages[pos].classList.remove("active");
+        }
       }
     }
   });

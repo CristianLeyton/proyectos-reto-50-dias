@@ -14,9 +14,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         <span class="analog-min"></span>
         <span class="analog-seg"></span>
       </div>
-      <div class="digital">3:04 PM</div>
+      <div class="digital">00:00 AM</div>
       <div>
-        <span class="date">tHURStDAY, JUN</span><span class="day">20</span>
+        <span class="date">DOMINGO, ENERO</span><span class="day">01</span>
       </div>
     </section>
   </main>
@@ -48,10 +48,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border: 1px solid #cccccc;
+    border: 1px solid #cccccc50;
     border-radius: 10px;
     padding: 1rem;
     background-color: var(--secondary);
+    gap: 1rem;
   }
 
   .nav {
@@ -176,108 +177,114 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       });
     }
 
-    //Hacer funcionar el reloj
-    setInterval(() => {
+    if (container) {
+      //Hacer funcionar el reloj
+
+      //Cuando entro a la página
       analogico();
       digital();
-    }, 1000);
 
-    function analogico() {
-      const analogHour = document.querySelector(".analog-hour");
-      const analogMin = document.querySelector(".analog-min");
-      const analogSeg = document.querySelector(".analog-seg");
+      //Cada segundo
+      setInterval(() => {
+        analogico();
+        digital();
+      }, 1000);
 
-      const now = new Date();
+      function analogico() {
+        const analogHour = document.querySelector(".analog-hour");
+        const analogMin = document.querySelector(".analog-min");
+        const analogSeg = document.querySelector(".analog-seg");
 
-      let hour = now.getHours();
-      hour = hour % 12;
-      hour = hour ? hour : 12; //Para obtener la hora de 1-12
-      let degHour = hour * 30 + 90;
-      //@ts-ignore
-      analogHour.style.transform = `rotate(${degHour}deg)`;
+        const now = new Date();
 
-      let min = now.getMinutes();
-      let degMin = min * 6 + 90;
-      //@ts-ignore
-      analogMin.style.transform = `rotate(${degMin}deg)`;
+        let hour = now.getHours();
+        hour = hour % 12;
+        hour = hour ? hour : 12; //Para obtener la hora de 1-12
+        let degHour = hour * 30 + 90;
+        //@ts-ignore
+        analogHour.style.transform = `rotate(${degHour}deg)`;
 
-      let seg = now.getSeconds();
-      let degSeg = seg * 6 + 90;
-      //@ts-ignore
-      analogSeg.style.transform = `rotate(${degSeg}deg)`;
-      // @ts-ignore
-      analogSeg.style.transition = seg == 0 ? "none" : "transform 0.3s linear";
+        let min = now.getMinutes();
+        let degMin = min * 6 + 90;
+        //@ts-ignore
+        analogMin.style.transform = `rotate(${degMin}deg)`;
 
-      /* 
+        let seg = now.getSeconds();
+        let degSeg = seg * 6 + 90;
+        //@ts-ignore
+        analogSeg.style.transform = `rotate(${degSeg}deg)`;
+        // @ts-ignore
+        analogSeg.style.transition =
+          seg == 0 ? "none" : "transform 0.3s linear";
+
+        /* 
       console.log(seg);
       console.log(analogSeg.style.transform);
       console.log(analogSeg.style.transition); */
-    }
+      }
 
-    //Reloj digital con fecha
-    function digital() {
-      const now = new Date();
-      const formattedDate = formatDate(now);
-      const formattedTime = formatAMPM(now);
-      const day = String(now.getDate()).padStart(2, "0"); //Trae el número del dia del mes en un string
+      //Reloj digital con fecha
+      function digital() {
+        const now = new Date();
+        const formattedDate = formatDate(now);
+        const formattedTime = formatAMPM(now);
+        const day = String(now.getDate()).padStart(2, "0"); //Trae el número del dia del mes en un string
 
-      const digitalClock = document.querySelector(".digital");
-      const dayClock = document.querySelector(".day");
-      const digitalDate = document.querySelector(".date");
+        const digitalClock = document.querySelector(".digital");
+        const dayClock = document.querySelector(".day");
+        const digitalDate = document.querySelector(".date");
 
-      digitalDate.textContent = formattedDate;
-      digitalClock.textContent = formattedTime;
-      dayClock.textContent = day;
+        digitalDate.textContent = formattedDate;
+        digitalClock.textContent = formattedTime;
+        dayClock.textContent = day;
+      }
 
-      /*       console.log(`Fecha formateada: ${formattedDate}`);
-      console.log(`Hora formateada: ${formattedTime}`); */
-    }
+      //Obtengo la hora formateada, me robe esto codigo de stackoverflow xd
+      function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        var strTime = hours + ":" + minutes + " " + ampm;
+        return strTime;
+      }
 
-    //Obtengo la hora formateada, me robe esto codigo de stackoverflow xd
-    function formatAMPM(date) {
-      var hours = date.getHours();
-      var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      var strTime = hours + ":" + minutes + " " + ampm;
-      return strTime;
-    }
+      //Obtengo la fecha formateada, este si lo hice yo :v
+      function formatDate(date) {
+        const months = [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ];
+        const days = [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+          "Domingo",
+        ];
 
-    //Obtengo la fecha formateada, este si lo hice yo :v
-    function formatDate(date) {
-      const months = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-      ];
-      const days = [
-        "Domingo",
-        "Lunes",
-        "Martes",
-        "Miércoles",
-        "Jueves",
-        "Viernes",
-        "Sábado",
-        "Domingo",
-      ];
+        const month = months[Number(date.getMonth())]; //Trae el mes en un string
+        const dayOfWeek = days[date.getDay()]; //Trae el dia de la semana en un string
 
-      const month = months[Number(date.getMonth())]; //Trae el mes en un string
-      const dayOfWeek = days[date.getDay()]; //Trae el dia de la semana en un string
+        let formatDate = month + ", " + dayOfWeek;
 
-      let formatDate = month + ", " + dayOfWeek;
-
-      return formatDate;
+        return formatDate;
+      }
     }
   });
 </script>

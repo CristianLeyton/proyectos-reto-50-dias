@@ -3,30 +3,51 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 20" subtitle="Button Ripple Effect">
-<div class="container dia20">
-
-</div>
+  <div class="container dia20">
+    <div class="btn">CLICK ME</div>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .dia20 {
-      display: flex;
-      min-height: 70vh;
-    }
-
-
-
-  @media (max-width: 500px) {
-  .container {
-    flex-direction: column;
-  }  
+  .dia20 {
+    display: grid;
+    min-height: 70vh;
+    place-content: center;
+    background-color: var(--azul-oscuro);
   }
 
+  .btn {
+    width: fit-content;
+    padding: 1.5rem 3rem;
+    color: #fff;
+    background-color: var(--celeste-oscuro);
+    display: grid;
+    place-content: center;
+    user-select: none;
+    font-size: 3rem;
+  }
+
+  @media (max-width: 500px) {
+  }
 </style>
 
 <script>
-document.addEventListener("astro:page-load", () => {
+  document.addEventListener("astro:page-load", () => {
+    const btn = document.querySelector(".btn");
 
-});
+    if (btn) {
+      btn.addEventListener("click", (event) => {
+
+      //@ts-ignore
+      const x = event.offsetX;
+      //@ts-ignore
+      const y = event.offsetY;
+
+      
+      console.log(`Clicked at position: X: ${x}, Y: ${y}`);
+    });
+    }
+
+    
+  });
 </script>
