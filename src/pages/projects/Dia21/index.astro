@@ -2,31 +2,116 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 20" subtitle="Drag N Drop">
-<div class="container dia20">
-
+<LayoutProyecto title="Día 21" subtitle="Drag N Drop">
+<div class="container dia21">
+  <div class="empty-box">  </div>
+  <div class="empty-box"><div class="item" id="item" draggable="true">Drag me</div></div>
+  <div class="empty-box"></div>
+  <div class="empty-box"></div>
+  <div class="empty-box"></div>
 </div>
 </LayoutProyecto>
 
 <style>
 
-    .dia20 {
+    .dia21 {
       display: flex;
       min-height: 70vh;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
     }
 
+    .dia21 .empty-box {
+      width: 150px;
+      aspect-ratio: 1/1;
+    }
 
+    .empty-box {
+      background-color: var(--naranja-muy-claro);
+      border: 2px dashed var(--naranja-oscuro);
+      position: relative;
+      box-sizing: unset;
+    }
+
+    .item {
+      width: 100%;
+      height: 100%;
+      border: 3px solid var(--naranja-oscuro);
+      background-color: var(--naranja-claro);
+      cursor: grab;
+      position: absolute;
+      box-sizing: unset;
+      top: -3px;
+      left: -3px;
+      display: grid;
+      place-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: normal;
+    }
+
+    .grabbing {
+      cursor: grabbing;
+    }
 
   @media (max-width: 500px) {
   .container {
     flex-direction: column;
   }  
+
+  .item {
+    font-size: small;
+  }
   }
 
 </style>
 
-<script>
+<script is:inline>
 document.addEventListener("astro:page-load", () => {
+  const draggable = document.querySelector('#item');
+  const dropzone = document.querySelectorAll('.empty-box');
+
+  //EVENTOS DEL ITEM
+  draggable.addEventListener('dragstart', (e) => { //Puedo agarrar el item, y darle estilo a como se ve cuando lo arrastro
+    //@ts-ignore
+            e.dataTransfer.setData('text/plain', e.target.id); //Datos que se van a transferir
+            //@ts-ignore
+            e.target.style.opacity = '0.5'; //Estilos
+        });
+
+        draggable.addEventListener('dragend', (e) => { //Cuando suelto el item, le devuelvo su estilo, no importa si lo movi correctamente o no
+            e.target.style.opacity = '1';
+        });
+
+      //EVENTOS DE LAS CAJAS VACIAS
+      dropzone.forEach(box => { //Hago que cada unad e las cajas sea un contenedor donde pueda dejar el item
+        box.addEventListener('dragover', (e) => {
+            e.preventDefault(); //CHAT GPT dice que debo de hacerlo asi para que funciones
+            e.dataTransfer.dropEffect = 'move'; //Efecto del drop
+            box.style.transform = 'scale(1.05)'; //Estilo al intersectar el item con la caja
+            });
+      });
+
+
+      dropzone.forEach(box => { //Lo que pasa cuando el item "sale" del contenedor 
+        box.addEventListener('dragleave', (e) => {
+          box.style.transform = 'scale(1)';
+        });
+      });
+
+      dropzone.forEach(box => { //Lo que pasa cuando el item "se suelte" en el contenedor 
+      box.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');//Traigo la id del "item" lo ocnfiguraste en el primer evento 
+            const draggableElement = document.getElementById(id);
+            box.appendChild(draggableElement);//Pongo el item dentro del nuevo contenedor
+            box.style.transform = 'scale(1)';
+        }); 
+      });
+
+      
 
 });
 </script>
