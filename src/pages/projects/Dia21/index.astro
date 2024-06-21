@@ -109,6 +109,49 @@ document.addEventListener("astro:page-load", () => {
             box.appendChild(draggableElement);//Pongo el item dentro del nuevo contenedor
             box.style.transform = 'scale(1)';
         }); 
+
+        //DRAG AND DROP PARA PANTALLA TACTIL
+
+        // EVENTOS PARA EL ITEM 
+  draggable.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    activeElement = draggable;
+    offsetX = touch.clientX - activeElement.getBoundingClientRect().left;
+    offsetY = touch.clientY - activeElement.getBoundingClientRect().top;
+    activeElement.style.opacity = '0.5';
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (activeElement) {
+      const touch = e.touches[0];
+      activeElement.style.left = `${touch.clientX - offsetX}px`;
+      activeElement.style.top = `${touch.clientY - offsetY}px`;
+    }
+  });
+
+  document.addEventListener('touchend', (e) => {
+    if (activeElement) {
+      activeElement.style.opacity = '1';
+
+      dropzone.forEach(dropzone => {
+        const dropzoneRect = dropzone.getBoundingClientRect();
+        const elementRect = activeElement.getBoundingClientRect();
+
+        if (
+          elementRect.left >= dropzoneRect.left &&
+          elementRect.top >= dropzoneRect.top &&
+          elementRect.right <= dropzoneRect.right &&
+          elementRect.bottom <= dropzoneRect.bottom
+        ) {
+          dropzone.appendChild(activeElement);
+        }
+      });
+
+      activeElement = null;
+    }
+  });
+
+
       });
 
       
