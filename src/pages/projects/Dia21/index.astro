@@ -3,6 +3,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 21" subtitle="Drag N Drop">
+  <div class="flex flex-col">
+  <div class="hidden text-center pt-6 alert text-orange-700 text-lg">Lo siento, solo funciona en pc, por ahora...</div>
   <div class="container dia21">
     <div class="empty-box"></div>
     <div class="empty-box">
@@ -12,6 +14,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     <div class="empty-box"></div>
     <div class="empty-box"></div>
   </div>
+</div>
 </LayoutProyecto>
 
 <style>
@@ -22,7 +25,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    overflow-x: hidden;
   }
 
   .dia21 .empty-box {
@@ -69,6 +71,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       font-size: small;
     }
   }
+
+  @media (pointer: coarse) {
+  .alert {
+    display: block;
+  }
+}
 </style>
 
 <script is:inline>
@@ -116,55 +124,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         box.appendChild(draggableElement); //Pongo el item dentro del nuevo contenedor
         box.style.transform = "scale(1)";
       });
-    });
-    //DRAG AND DROP PARA PANTALLA TACTIL
-
-    // EVENTOS PARA EL ITEM
-
-    //EVENTOS DE LAS CAJAS VACIAS
-
-    // Mobile Touch Events
-    let activeElement = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    draggable.addEventListener("touchstart", (e) => {
-      const touch = e.touches[0];
-      activeElement = draggable;
-      offsetX = touch.clientX;
-      offsetY = touch.clientY;
-      activeElement.style.opacity = "0.5";
-    });
-
-    document.addEventListener("touchmove", (e) => {
-      if (activeElement) {
-        const touch = e.touches[0];
-        activeElement.style.left = `${touch.clientX - offsetX}px`;
-        activeElement.style.top = `${touch.clientY - offsetY}px`;
-        activeElement.style.position = "absolute";
-      }
-    });
-
-    document.addEventListener("touchend", () => {
-      if (activeElement) {
-        activeElement.style.opacity = "1";
-
-        dropzones.forEach((box) => {
-          const boxRect = box.getBoundingClientRect();
-          const activeRect = activeElement.getBoundingClientRect();
-
-          if (
-            activeRect.left >= boxRect.left &&
-            activeRect.top >= boxRect.top &&
-            activeRect.right <= boxRect.right &&
-            activeRect.bottom <= boxRect.bottom
-          ) {
-            box.appendChild(activeElement);
-          }
-        });
-
-        activeElement = null;
-      }
     });
     
   });
