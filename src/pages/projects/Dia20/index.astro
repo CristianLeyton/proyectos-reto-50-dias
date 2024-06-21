@@ -8,7 +8,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia20 {
     display: grid;
     min-height: 70vh;
@@ -17,7 +17,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .btn {
-    width: fit-content;
+    width: 300px;
     padding: 1.5rem 3rem;
     color: #fff;
     background-color: var(--celeste-oscuro);
@@ -25,6 +25,33 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     place-content: center;
     user-select: none;
     font-size: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wave {
+    position: absolute;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: wave 0.5s ease-out both;
+  }
+
+  @keyframes wave {
+    0% {
+      scale: 5%;
+    }
+
+    1% {
+      scale: 2%;
+    }
+
+    100% {
+      scale: 150%;
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 
   @media (max-width: 500px) {
@@ -37,17 +64,28 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     if (btn) {
       btn.addEventListener("click", (event) => {
+        btn.childNodes.forEach((element, i) => {
+          if (i != 0) {
+            btn.removeChild(element);
+          }
+        });
 
-      //@ts-ignore
-      const x = event.offsetX;
-      //@ts-ignore
-      const y = event.offsetY;
+        //@ts-ignore
+        const x = event.offsetX;
+        //@ts-ignore
+        const y = event.offsetY;
 
+        const span = document.createElement("span");
+        span.classList.add("wave");
       
-      console.log(`Clicked at position: X: ${x}, Y: ${y}`);
-    });
-    }
+        span.style.top = `calc(${y}px - 150px)`;
+        span.style.left = `calc(${x}px - 150px)`;
 
-    
+        btn.appendChild(span);
+
+        //console.log(`Clicked at position:  Y: ${y}, X: ${x}`);
+      
+      });
+    }
   });
 </script>
