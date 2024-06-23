@@ -3,30 +3,232 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 22" subtitle="Drawing App">
-<div class="container dia22">
-
-</div>
+  <div class="container dia22">
+    <canvas id="pizarra" height="600" width="600"></canvas>
+    <nav id="bar">
+      <div class="bar">
+        <button class="btn" id="decreaseBtn">-</button>
+        <span class="btn" id="lineH">5</span>
+        <button class="btn" id="increaseBtn">+</button>
+        <span>
+          <input type="color" name="color" id="color" />
+        </span>
+      </div>
+      <button class="btn" id="clear">X</button>
+    </nav>
+  </div>
 </LayoutProyecto>
 
 <style>
-
-    .dia20 {
-      display: flex;
-      min-height: 70vh;
-    }
-
-
-
-  @media (max-width: 500px) {
-  .container {
+  .dia22 {
+    display: flex;
+    min-height: 70vh;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-  }  
   }
 
+  #pizarra {
+    border: 1px solid var(--celeste-oscuro);
+    /*     height: 600px;
+    width: 600px; */
+  }
+
+  #miniPizarra {
+    border: 1px solid var(--celeste-oscuro);
+  }
+
+  #bar {
+    height: 60px;
+    width: 600px;
+    background-color: var(--celeste-oscuro);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn {
+    display: grid;
+    text-align: center;
+    background-color: #fff;
+    height: 30px;
+    width: 30px;
+    padding-top: 3px;
+    font-weight: bold;
+    place-content: center;
+  }
+
+  .btn:active {
+    transform: scale(0.95);
+  }
+
+  #color {
+    margin-top: 2px;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    padding: 1px;
+  }
+
+  @media (max-width: 600px) {
+    #pizarra {
+      border: 1px solid var(--celeste-oscuro);
+      /*       height: 400px;
+      width: 320px; */
+    }
+
+    #bar {
+      height: 60px;
+      width: 322px;
+      background-color: var(--celeste-oscuro);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+  }
 </style>
 
 <script>
-document.addEventListener("astro:page-load", () => {
+  document.addEventListener("astro:page-load", () => {
+    const canvas = document.getElementById("pizarra");
+    //@ts-ignore
+    const context = canvas.getContext("2d");
+    const colorEl = document.getElementById("color");
 
-});
+    const increaseBtn = document.getElementById("increaseBtn");
+    const decreaseBtn = document.getElementById("decreaseBtn");
+    const sizeEL = document.getElementById("lineH");
+    const clearEl = document.getElementById("clear");
+
+    let size = 5;
+    let isPressed = false;
+    //@ts-ignore
+    colorEl.value = "#000000";
+    //@ts-ignore
+    let color = colorEl.value;
+    let x;
+    let y;
+
+    canvas.addEventListener("mousedown", (e) => {
+      isPressed = true;
+
+      x = e.offsetX;
+      y = e.offsetY;
+    });
+
+    document.addEventListener("mouseup", (e) => {
+      isPressed = false;
+
+      x = undefined;
+      y = undefined;
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (isPressed) {
+        const x2 = e.offsetX;
+        const y2 = e.offsetY;
+
+        drawCircle(x2, y2);
+        drawLine(x, y, x2, y2);
+
+        x = x2;
+        y = y2;
+      }
+    });
+
+    function drawCircle(x, y) {
+      context.beginPath();
+      context.arc(x, y, size, 0, Math.PI * 2);
+      context.fillStyle = color;
+      context.fill();
+    }
+
+    function drawLine(x1, y1, x2, y2) {
+      context.beginPath();
+      context.moveTo(x1, y1);
+      context.lineTo(x2, y2);
+      context.strokeStyle = color;
+      context.lineWidth = size * 2;
+      context.stroke();
+    }
+
+    function updateSizeOnScreen() {
+      sizeEL.innerText = size.toString();
+    }
+
+    increaseBtn.addEventListener("click", () => {
+      size += 5;
+
+      if (size > 50) {
+        size = 50;
+      }
+
+      updateSizeOnScreen();
+    });
+
+    decreaseBtn.addEventListener("click", () => {
+      size -= 5;
+
+      if (size < 5) {
+        size = 5;
+      }
+
+      updateSizeOnScreen();
+    });
+
+    //@ts-ignore
+    colorEl.addEventListener("change", (e) => (color = e.target.value));
+
+    clearEl.addEventListener("click", () =>
+      //@ts-ignore
+      context.clearRect(0, 0, canvas.width, canvas.height)
+    );
+
+    if (window.innerWidth <= 600) {
+      //@ts-ignore
+      canvas.width = 320;
+      //@ts-ignore
+      canvas.height = 540;
+    }
+
+    // Eventos táctiles
+    canvas.addEventListener("touchstart", (e) => {
+      isPressed = true;
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      x = touch.clientX - rect.left;
+      y = touch.clientY - rect.top;
+    });
+
+    document.addEventListener("touchend", () => {
+      isPressed = false;
+      x = undefined;
+      y = undefined;
+    });
+
+    canvas.addEventListener("touchmove", (e) => {
+      if (isPressed) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x2 = touch.clientX - rect.left;
+        const y2 = touch.clientY - rect.top;
+
+        drawCircle(x2, y2);
+        drawLine(x, y, x2, y2);
+
+        x = x2;
+        y = y2;
+      }
+    });
+  });
 </script>
