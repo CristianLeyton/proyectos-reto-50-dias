@@ -3,7 +3,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 22" subtitle="Drawing App">
+  
   <div class="container dia22">
+    <div class="md:hidden text-center pt-0 pb-6 alert text-orange-700 text-lg">Lo siento, solo funciona en pc, por ahora...</div>
     <canvas id="pizarra" height="600" width="600"></canvas>
     <nav id="bar">
       <div class="bar">
@@ -198,7 +200,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       //@ts-ignore
       canvas.width = 320;
       //@ts-ignore
-      canvas.height = 540;
+      canvas.height = 440;
     }
 
     // Eventos táctiles

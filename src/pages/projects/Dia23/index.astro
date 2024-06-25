@@ -3,30 +3,97 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 23" subtitle="Kinetic Loader">
-<div class="container dia23">
-
-</div>
+  <div class="container dia23">
+    <div class="loader">
+      <span class="triangle1"></span>
+      <span class="triangle2"></span>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
+  .dia23 {
+    display: grid;
+    place-content: center;
+    min-height: 70vh;
+    background-color: var(--azul-oscuro);
+  }
 
-    .dia20 {
-      display: flex;
-      min-height: 70vh;
-    }
+  .triangle1,
+  .triangle2 {
+    display: block;
+    background-color: transparent;
+    height: 50%;
+    width: 50%;
+    position: absolute;
+    border-top: 40px solid transparent;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 40px solid #fff;
+  }
 
+  .loader {
+    height: 80px;
+    width: 80px;
+    display: grid;
+    place-content: center;
+    position: relative;
+  }
+
+  .triangle1 {
+    animation: load1 2s linear infinite both;
+  } 
+
+   .triangle2 {
+    animation: load2 2s linear 0.5s infinite both;
+  } 
+
+  @keyframes load1 {
+  0% {
+    transform: rotate(90deg);
+  }
+
+  25% {
+    transform: rotate(270deg);
+  }
+  50% {
+    transform: rotate(270deg); 
+  }
+  75% {
+    transform: rotate(450deg);
+  }
+  100% {
+    transform: rotate(450deg);
+  }
+}
+
+@keyframes load2 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(180deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(360deg); 
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 
   @media (max-width: 500px) {
-  .container {
-    flex-direction: column;
-  }  
+    .dia23 {
+    }
   }
-
 </style>
 
 <script>
-document.addEventListener("astro:page-load", () => {
-
-});
+  document.addEventListener("astro:page-load", () => {});
 </script>

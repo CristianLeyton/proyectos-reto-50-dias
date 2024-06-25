@@ -1,0 +1,32 @@
+---
+import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+---
+
+<LayoutProyecto title="Día 24" subtitle="Content Placeholder">
+<div class="container dia24">
+
+</div>
+</LayoutProyecto>
+
+<style>
+
+    .dia24 {
+      display: flex;
+      min-height: 70vh;
+    }
+
+
+
+  @media (max-width: 500px) {
+    .dia24 {
+    flex-direction: column;
+  }  
+  }
+
+</style>
+
+<script>
+document.addEventListener("astro:page-load", () => {
+
+});
+</script>
