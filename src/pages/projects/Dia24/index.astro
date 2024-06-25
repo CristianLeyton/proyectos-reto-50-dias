@@ -5,7 +5,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <LayoutProyecto title="Día 24" subtitle="Content Placeholder">
   <div class="container dia24">
     <div class="card">
-      <header class="bg-animated"></header>
+      <header id="cardHeader" class="bg-animated"></header>
       <main>
         <h1 class="titulo bg-animated"></h1>
         <div class="parrafo">
@@ -50,16 +50,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     height: 35%;
     display: flex;
     flex-direction: column;
-    padding: 2rem 2rem 1rem 2rem;
-    justify-content: space-between;
+    padding: 1rem 2rem 1rem 2rem;
+    justify-content: space-around;
   }
 
   .card main h1 {
     padding: 5px;
-    background-color: #ccc;
     width: 100%;
     display: block;
     border-radius: 10px;
+    font-weight: bold;
+    font-size: large;
   }
 
   .parrafo {
@@ -67,6 +68,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     flex-direction: column;
     justify-content: end;
     gap: 0.5rem;
+    text-wrap: pretty;
   }
 
   .card main p:not(.parrafo) {
@@ -98,6 +100,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    font-size: 14px;
+    color: #5c5c5c;
   }
 
   .card footer .info {
@@ -120,6 +124,20 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     animation: bgAnimated 1s linear infinite;
   }
 
+  .bg-laptop {
+    background-image: url('./laptop.avif');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .bg-avatar {
+    background-image: url('./avatar.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
   @keyframes bgAnimated {
     0% {
       background-position: 50% 0;
@@ -131,5 +149,42 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+
+    const user = {
+      'urlImage': './laptop.avif',
+      'title': 'Lorem ipsum title',
+      'content': 'Deserunt non laborum sunt mollit excepteur reprehenderit sunt adipisicing.',
+      'urlAvatar': 'avatar.jpg',
+      'nameUser': 'John Doe',
+      'date': 'Oct 08, 2020'
+    }
+
+    const cardHeader = document.querySelector('#cardHeader');
+    const cardTitle = document.querySelector('.titulo');
+    const cardParagraph = document.querySelector('.parrafo');
+    const cardAvatar = document.querySelector('.imageF');
+    const info = document.querySelector('.footerP');
+    
+    let timer = setTimeout(() => {
+      cardHeader.classList.remove('bg-animated');
+      cardHeader.classList.add('bg-laptop');
+      cardTitle.classList.remove('bg-animated');
+      cardTitle.textContent = user.title;
+      //@ts-ignore
+      cardTitle.style.padding = '0px';
+
+      cardParagraph.classList.remove('bg-animated');
+      cardParagraph.textContent = user.content;
+
+      cardAvatar.classList.remove('bg-animated');
+      cardAvatar.classList.add('bg-avatar');
+
+      info.classList.remove('bg-animated');
+      info.innerHTML = '<strong>' + user.nameUser + '</strong>'  + user.date;
+      //@ts-ignore
+      info.style.gap = '0px';
+    }, 2000);
+
+  });
 </script>
