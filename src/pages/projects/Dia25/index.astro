@@ -209,7 +209,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     const container = document.querySelector('.dia25');
 
-    container.addEventListener('scroll', function() {
+
+    if (container) {
+      container.addEventListener('scroll', function() {
       const header = document.querySelector('.dia25 header nav');
       
       if (container.scrollTop > 100) { // Cambia '50' por la cantidad de píxeles que quieras
@@ -218,6 +220,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         header.classList.remove('active');
       }
     });
+
+    }
+
 
   });
 </script>

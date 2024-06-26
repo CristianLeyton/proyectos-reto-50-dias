@@ -3,7 +3,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 26" subtitle="Double Vertical Slider">
-  <div class="container dia26">
+  <div class="dia26">
     <div class="slide-left">
       <div class="text text1">
         <h1>Nature flower</h1>
@@ -29,30 +29,35 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="image image1"></div>
     </div>
     <div class="buttons">
-    <button class="btn-left">🡻</button>
-    <button class="btn-right">🡹</button>
+      <button class="btn-left">🡻</button>
+      <button class="btn-right">🡹</button>
     </div>
   </div>
 </LayoutProyecto>
 
 <style>
   .dia26 {
+    width: 100%;
     height: 525px;
     position: relative;
-    display: flex;
     overflow: hidden;
     margin: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
   }
 
   .slide-left {
     flex: 1;
     height: 100%;
+    transform: translateY(0%);
+    transition: transform 0.5s linear;
   }
 
   .slide-right {
     flex: 2;
     height: 100%;
-    transform: translateY(-50%);
+    transform: translateY(-300%);
+    transition: transform 0.5s linear;
   }
 
   .dia26 button {
@@ -64,13 +69,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     &:hover {
       color: #616161;
+      opacity: 1;
     }
   }
 
   .buttons {
     position: absolute;
+    inset: 0;
     display: grid;
-    width: 100%;
+    min-width: 100%;
     height: 100%;
     grid-template-columns: 1fr 2fr;
     align-items: center;
@@ -141,10 +148,67 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background: url("./src/imagen4.avif") center center/cover;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 550px) {
+    .dia26 {
+      grid-template-columns: 1fr 1fr;
+  }
+
+    .buttons {
+      grid-template-columns: 1fr 1fr;
+  }
+
+  .dia26 button {
+    opacity: 0.8;
+  }
+
   }
 </style>
 
-<script>
-  document.addEventListener("astro:page-load", () => {});
+<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    const slideL = document.querySelector('.slide-left');
+    const slideR = document.querySelector('.slide-right');
+    const btnL = document.querySelector('.btn-left');
+    const btnR = document.querySelector('.btn-right');
+
+    let slides = slideR.childElementCount;
+
+    let maxPercent = (slides * 100) - 100;
+    let minPercent = 0;
+
+    let topPercent = maxPercent;
+    let bottomPercent = minPercent;
+    //alert(maxPercent);
+
+    btnL.addEventListener('click', ()=> {
+
+      if (bottomPercent == maxPercent) {
+         topPercent = maxPercent;
+         bottomPercent = minPercent;
+      } else {
+        topPercent -= 100;
+        bottomPercent += 100;
+      }
+      
+      slideL.style.transform = `translateY(-${bottomPercent}%)`;
+      slideR.style.transform = `translateY(-${topPercent}%)`;
+    })
+
+    btnR.addEventListener('click', ()=> {
+
+      if (topPercent == maxPercent) {
+         topPercent = minPercent;
+         bottomPercent = maxPercent;
+      } else {
+        topPercent += 100;
+        bottomPercent -= 100;
+      }
+
+      slideL.style.transform = `translateY(-${bottomPercent}%)`;
+      slideR.style.transform = `translateY(-${topPercent}%)`;
+    })
+
+
+    
+  });
 </script>
