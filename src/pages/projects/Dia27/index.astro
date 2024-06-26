@@ -6,18 +6,19 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="container dia27">
     <button class="show-notification">Show notification</button>
     <div class="notifications">
-      <span class="notification blue">Message 1</span>
+      <!-- <span class="notification blue">Message 1</span> -->
     </div>
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia27 {
     min-height: 70vh;
     display: grid;
     place-content: center;
     background-color: var(--naranja-claro);
     position: relative;
+    overflow-y: hidden;
   }
 
   .dia27 .show-notification {
@@ -53,6 +54,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     user-select: none;
     opacity: 1;
     transition: all 0.4s ease-in-out;
+    font-weight: bolder;
   }
 
 
@@ -83,7 +85,38 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
 
-  
+  const btnNotification = document.querySelector('.show-notification');
+  const containerNotifications = document.querySelector('.notifications');
 
+  const messages = ['Message 1', 'Message 2', 'Message 3', 'Message 4', 'Message 5'];
+  const colors = ['orange', 'red', 'green', 'blue'];
+
+  btnNotification.addEventListener('click', showNotification);
+
+   function showNotification() {
+
+    let message = messages[getRandomInt(0, messages.length)];
+    let color = colors[getRandomInt(0, colors.length)];
+
+    //console.log(message,color)
+
+    let notification = document.createElement('span');
+    notification.classList.add('notification');
+    notification.classList.add(color);
+    notification.textContent = message;
+    
+    containerNotifications.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 4000);
+
+  }
+
+  function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
   });
 </script>
