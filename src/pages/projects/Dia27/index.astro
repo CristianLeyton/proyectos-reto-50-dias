@@ -44,7 +44,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     gap: 1rem;
   }
 
-
   .notification {
     background-color: #fff;
     border-radius: 10px;
@@ -56,7 +55,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     transition: all 0.4s ease-in-out;
     font-weight: bolder;
   }
-
 
   .orange {
     color: orange;
@@ -74,49 +72,50 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     color: var(--celeste-oscuro);
   }
 
-  
-
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const btnNotification = document.querySelector(".show-notification");
+    const containerNotifications = document.querySelector(".notifications");
 
-  const btnNotification = document.querySelector('.show-notification');
-  const containerNotifications = document.querySelector('.notifications');
+    const messages = [
+      "Message 1",
+      "Message 2",
+      "Message 3",
+      "Message 4",
+      "Message 5",
+    ];
+    const colors = ["orange", "red", "green", "blue"];
 
-  const messages = ['Message 1', 'Message 2', 'Message 3', 'Message 4', 'Message 5'];
-  const colors = ['orange', 'red', 'green', 'blue'];
+    if (btnNotification) {
+      btnNotification.addEventListener("click", showNotification);
 
-  btnNotification.addEventListener('click', showNotification);
+      function showNotification() {
+        let message = messages[getRandomInt(0, messages.length)];
+        let color = colors[getRandomInt(0, colors.length)];
 
-   function showNotification() {
+        //console.log(message,color)
 
-    let message = messages[getRandomInt(0, messages.length)];
-    let color = colors[getRandomInt(0, colors.length)];
+        let notification = document.createElement("span");
+        notification.classList.add("notification");
+        notification.classList.add(color);
+        notification.textContent = message;
 
-    //console.log(message,color)
+        containerNotifications.appendChild(notification);
 
-    let notification = document.createElement('span');
-    notification.classList.add('notification');
-    notification.classList.add(color);
-    notification.textContent = message;
-    
-    containerNotifications.appendChild(notification);
+        setTimeout(() => {
+          notification.remove();
+        }, 3500);
+      }
 
-    setTimeout(() => {
-      notification.remove();
-    }, 4000);
-
-  }
-
-  function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+    }
   });
 </script>

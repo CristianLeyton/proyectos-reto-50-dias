@@ -1,4 +1,4 @@
 ---
 dia: '35'
-name: 'Animated Countdown'
+name: 'Image Carousel'
 ---

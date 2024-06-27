@@ -4,27 +4,211 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 28" subtitle="Github Profiles">
   <div class="container dia28">
-   
+    <input
+      type="search"
+      name="github-search"
+      id="github-search"
+      placeholder="Search a Github User"
+    />
+
+    <div class="user-card hide">
+      <div class="user-avatar-div">
+        <a href="#" class="user-avatar" target="_blank"></a>
+      </div>
+      <div class="user-info">
+        <a href="#" class="user-name" target="_blank">User Name</a>
+        <p class="user-bio">Biography</p>
+        <div class="user-followers">
+          <span class="followers"> 1 Followers</span><span class="following">
+            1 Following</span
+          ><span class="repos"> 1 Repos </span>
+        </div>
+        <div class="user-proyects">
+          <span class="proyect-tag">proyect-tag</span>
+        </div>
+      </div>
+    </div>
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia28 {
     min-height: 70vh;
+    background-color: var(--azul-oscuro);
+    display: grid;
+    place-content: center;
+    gap: 0.5rem;
   }
 
-  
+  #github-search {
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }
+
+  .user-card {
+    display: flex;
+    background-color: var(--celeste-oscuro);
+    min-height: 200px;
+    width: 450px;
+    border-radius: 10px;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #fff;
+  }
+
+  .user-avatar-div {
+    display: flex;
+  }
+
+  .user-avatar {
+    background-position: center center;
+    background-size: contain;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    border: 5px solid var(--azul-oscuro);
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #fff;
+  }
+
+  .user-name {
+    font-weight: bold;
+    font-size: larger;
+  }
+
+  .user-bio {
+    font-size: small;
+  }
+
+  .user-followers {
+    font-size: 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    font-weight: bold;
+  }
+
+  .user-proyects {
+    font-size: 10px;
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .proyect-tag {
+    background-color: var(--azul-oscuro);
+    padding: 3px 7px;
+    border-radius: 10px;
+    width: fit-content;
+    display: inline-block;
+    text-wrap: nowrap;
+  }
+
+  .hide {
+    display: none;
+  }
 
   @media (max-width: 600px) {
-    
-    
+    .user-card {
+      width: 320px;
+    }
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const urlGitHubAPI = "https://api.github.com/users/";
 
-  
+    const searchBar = document.querySelector("#github-search");
 
+    const userCard = document.querySelector(".user-card");
+    const userAvatar = document.querySelector(".user-avatar");
+    const userName = document.querySelector(".user-name");
+    const userBio = document.querySelector(".user-bio");
+    const userFollowers = document.querySelector(".followers");
+    const userFollowing = document.querySelector(".following");
+    const userRepos = document.querySelector(".repos");
+    const userProyects = document.querySelector(".user-proyects");
+    let user, urlRepos;
+
+    if (searchBar) {
+      searchBar.addEventListener("keyup", (e) => {
+        //@ts-ignore
+        if (e.keyCode == 13 && searchBar.value != "") {
+          //@ts-ignore
+          user = searchBar.value;
+          urlRepos = `https://api.github.com/users/${user}/repos?sort=created`;
+          searchUser(user);
+          searchRepos(urlRepos);
+        }
+      });
+    }
+
+    async function searchUser(user) {
+      try {
+        const response = await fetch(urlGitHubAPI + user);
+        if (!response.ok) {
+          userCard.classList.remove("hide");
+          userCard.innerHTML = "No profile with this username";
+          //throw new Error("Error: " + response.statusText);
+        }
+        const data = await response.json(); // Esperamos la respuesta parseada como JSON
+        // Aquí puedes trabajar con los datos recibidos
+        completeCard(data);
+        userCard.classList.remove("hide");
+      } catch (error) {
+        console.error("Hubo un problema con la solicitud Fetch:", error);
+      }
+    }
+
+    async function searchRepos(urlRepos) {
+      try {
+        const response = await fetch(urlRepos);
+        if (!response.ok) {
+          //throw new Error("Error: " + response.statusText);
+        }
+        const data = await response.json(); // Esperamos la respuesta parseada como JSON
+        // Aquí puedes trabajar con los datos recibidos
+        completeRepos(data);
+      } catch (error) {
+        console.error("Hubo un problema con la solicitud Fetch:", error);
+      }
+    }
+
+    function completeCard(user) {
+      //console.log(user);
+      //@ts-ignore
+      userAvatar.style.backgroundImage = `url(${user.avatar_url})`;
+      //@ts-ignore
+      userAvatar.href = user.html_url;
+      userName.textContent = user.name;
+      //@ts-ignore
+      userName.href = user.html_url;
+      userBio.textContent = user.bio;
+      userFollowers.textContent = user.followers + " Followers";
+      userFollowing.textContent = user.following + " Following";
+      userRepos.textContent = user.public_repos + " Repos";
+    }
+
+    function completeRepos(userRepos) {
+      userProyects.innerHTML = "";
+      //console.log(userRepos)
+      userRepos.slice(0, 5).forEach((repos) => {
+        const link = document.createElement("a");
+        link.classList.add("proyect-tag");
+        link.target = "_blank";
+        link.href = repos.html_url;
+        link.textContent = repos.name;
+        userProyects.appendChild(link);
+      });
+    }
   });
 </script>
