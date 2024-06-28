@@ -4,12 +4,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 28" subtitle="Github Profiles">
   <div class="container dia28">
-    <input
+    <form id="form-github" action="" method="get">
+      <input
       type="search"
       name="github-search"
       id="github-search"
       placeholder="Search a Github User"
     />
+    </form>
+
 
     <div class="user-card hide">
       <div class="user-avatar-div">
@@ -38,12 +41,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     display: grid;
     place-content: center;
     gap: 0.5rem;
+    align-items: center;
   }
 
   #github-search {
     outline: none;
     padding: 0.5rem 1rem;
     border-radius: 10px;
+    width: 100%;
   }
 
   .user-card {
@@ -127,6 +132,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   document.addEventListener("astro:page-load", () => {
     const urlGitHubAPI = "https://api.github.com/users/";
 
+    const formGitHub = document.querySelector('#form-github');
     const searchBar = document.querySelector("#github-search");
 
     const userCard = document.querySelector(".user-card");
@@ -139,12 +145,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const userProyects = document.querySelector(".user-proyects");
     let user, urlRepos;
 
-    if (searchBar) {
-      searchBar.addEventListener("keyup", (e) => {
+    if (formGitHub) {
+      formGitHub.addEventListener("submit", (e) => {
+        e.preventDefault();
         //@ts-ignore
-        if (e.keyCode == 13 && searchBar.value != "") {
+        if (searchBar.value.trim() != "") {
           //@ts-ignore
-          user = searchBar.value;
+          user = searchBar.value.trim();
           urlRepos = `https://api.github.com/users/${user}/repos?sort=created`;
           searchUser(user);
           searchRepos(urlRepos);
