@@ -6,13 +6,16 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="container dia28">
     <form id="form-github" action="" method="get">
       <input
-      type="search"
-      name="github-search"
-      id="github-search"
-      placeholder="Search a Github User"
-    />
+        type="search"
+        name="github-search"
+        id="github-search"
+        placeholder="Search a Github User"
+      />
     </form>
 
+    <div class="error hide">
+      <p class="text-white text-center">No profile with this username</p>
+    </div>
 
     <div class="user-card hide">
       <div class="user-avatar-div">
@@ -132,8 +135,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   document.addEventListener("astro:page-load", () => {
     const urlGitHubAPI = "https://api.github.com/users/";
 
-    const formGitHub = document.querySelector('#form-github');
+    const formGitHub = document.querySelector("#form-github");
     const searchBar = document.querySelector("#github-search");
+    const error = document.querySelector(".error");
 
     const userCard = document.querySelector(".user-card");
     const userAvatar = document.querySelector(".user-avatar");
@@ -163,14 +167,16 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       try {
         const response = await fetch(urlGitHubAPI + user);
         if (!response.ok) {
-          userCard.classList.remove("hide");
-          userCard.innerHTML = "No profile with this username";
-          //throw new Error("Error: " + response.statusText);
+          userCard.classList.add("hide");
+          error.classList.remove("hide");
+          throw new Error("Error: " + response.statusText);
         }
         const data = await response.json(); // Esperamos la respuesta parseada como JSON
         // Aquí puedes trabajar con los datos recibidos
         completeCard(data);
         userCard.classList.remove("hide");
+        //@ts-ignore
+        error.classList.add("hide");
       } catch (error) {
         console.error("Hubo un problema con la solicitud Fetch:", error);
       }
@@ -180,7 +186,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       try {
         const response = await fetch(urlRepos);
         if (!response.ok) {
-          //throw new Error("Error: " + response.statusText);
+          throw new Error("Error: " + response.statusText);
         }
         const data = await response.json(); // Esperamos la respuesta parseada como JSON
         // Aquí puedes trabajar con los datos recibidos

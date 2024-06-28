@@ -4,27 +4,125 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 29" subtitle="Double Click Heart">
   <div class="container dia29">
-   
+    <h2 class="text-3xl font-bold text-pretty text-center select-none">
+      Double click on the image to <span class="text-red-500">&#x2764;</span> it
+    </h2>
+    <p class="text-xl text-pretty text-center select-none">
+      You liked it <span class="counter">0</span> times
+    </p>
+    <div class="image"></div>
   </div>
 </LayoutProyecto>
 
 <style>
+  .image {
+    overflow: hidden;
+    width: 320px;
+    aspect-ratio: 640/1110;
+    border: 8px solid #fff;
+    box-shadow: 0px 0px 5px #ccc;
+    position: relative;
+    background: url("./burguer.jpg") center center/contain no-repeat;
+  }
+</style>
+
+<style is:inline>
   .dia29 {
+    padding: 1rem 0;
     min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
   }
 
-  
+  .heart {
+    --size: 80px;
+    --color: red;
+    position: absolute;
+    width: var(--size);
+    aspect-ratio: 1/1;
+    animation: wave 0.75s ease-out both;
+    z-index: 2;
+    transform: rotate(45deg);
+    background-color: var(--color);
+  }
+
+  .heart,
+  .heart::before,
+  .heart::after {
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+  }
+  .heart::before,
+  .heart::after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+  }
+  .heart::before {
+    margin-top: calc(var(--size) * -0.5);
+  }
+  .heart::after {
+    margin-top: calc(var(--size) * -0.5);
+    margin-left: calc(var(--size) * -0.5);
+  }
+
+  @keyframes wave {
+    0% {
+      scale: 5%;
+    }
+
+    1% {
+      scale: 2%;
+    }
+
+    100% {
+      scale: 150%;
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
 
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const image = document.querySelector(".image");
+    let likes = document.querySelector(".counter");
 
-  
+    //@ts-ignore
 
+    let counter = 0;
+
+    image.addEventListener("dblclick", (event) => {
+      //console.log("doble click");
+      counter++;
+      likes.textContent = counter.toString();
+
+      image.childNodes.forEach((element, i) => {
+        if (i != 0) {
+          image.removeChild(element);
+        }
+      });
+      //@ts-ignore
+      const x = event.offsetX;
+      //@ts-ignore
+      const y = event.offsetY;
+
+      //console.log(x, y);
+
+      const span = document.createElement("span");
+      span.classList.add("heart");
+
+      span.style.top = `calc(${y}px - 35px )`;
+      span.style.left = `calc(${x}px - 40px  )`;
+
+      image.appendChild(span);
+    });
   });
 </script>
