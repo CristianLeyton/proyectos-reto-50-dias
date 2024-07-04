@@ -55,8 +55,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const textOriginal = document.querySelector(".text");
-    let text = textOriginal.textContent.toString();
     const speedInput = document.querySelector("#speed");
+
+    if (textOriginal && speedInput) {
+      let text = textOriginal.textContent.toString();
+
 
     console.log(text);
 
@@ -78,5 +81,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       setTimeout(writing, speed);
     }
     writing();
+    }
+
+    
   });
 </script>

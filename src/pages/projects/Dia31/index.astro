@@ -4,27 +4,196 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 31" subtitle="Password Generator">
   <div class="container dia31">
-   
+    <main>
+      <h1 class="title">Password Generator</h1>
+      <label for="password">
+        <input type="text" name="password" readonly class="password" value="" />
+        <button class="btn-copy" title="Copy"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor"
+            ><path
+              d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z"
+            ></path><path d="M6 12h6v2H6zm0 4h6v2H6z"></path></svg
+          ></button
+        >
+      </label>
+
+      <label for="pass-length">
+        Password Length:
+        <input
+          type="number"
+          name="pass-length"
+          id="pass-length"
+          min="4"
+          max="20"
+          value="10"
+        />
+      </label>
+
+      <label for="uppercase">
+        Include uppercase letters
+        <input type="checkbox" name="uppercase" id="uppercase" checked/>
+      </label>
+
+      <label for="lowercase">
+        Include lowercase letters
+        <input type="checkbox" name="lowercase" id="lowercase" checked/>
+      </label>
+
+      <label for="numbers">
+        Include numbers
+        <input type="checkbox" name="numbers" id="numbers" checked/>
+      </label>
+
+      <label for="symbols">
+        Include symbols
+        <input type="checkbox" name="symbols" id="symbols" checked/>
+      </label>
+
+      <button class="btn-generate">Generate Password</button>
+    </main>
   </div>
 </LayoutProyecto>
 
 <style>
   .dia31 {
     min-height: 70vh;
+    background-color: var(--celeste-claro);
+    display: grid;
+    place-content: center;
   }
 
-  
+  .dia31 main {
+    height: fit-content;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--celeste-oscuro);
+    gap: 1rem;
+    padding: 2rem;
+  }
 
+  .title {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .dia31 label {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+  }
+
+  .btn-generate {
+    background-color: var(--azul-oscuro);
+    color: #fff;
+    padding: 0.5rem;
+  }
+
+  .btn-copy {
+    background-color: var(--azul-oscuro);
+    color: #fff;
+    width: fit-content;
+    padding: 0.25rem;
+  }
+
+  .btn-copy,
+  .btn-generate {
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .password {
+    outline: none;
+    color: black;
+    text-align: center;
+    padding: 5px;
+  }
+
+  #pass-length {
+    color: black;
+    text-align: center;
+  }
+
+  .dia31 input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const password = document.querySelector(".password");
+    const passLength = document.querySelector("#pass-length");
+    const btnCopy = document.querySelector(".btn-copy");
+    const btnGenerate = document.querySelector(".btn-generate");
 
-  
+    btnGenerate.addEventListener("click", () => {
+      //@ts-ignore
+      let length = passLength.value;
+      generatePassword(length);
+    });
 
+    function generatePassword(length) {
+      const chkUppercase = document.querySelector("#uppercase");
+      const chkLowercase = document.querySelector("#lowercase");
+      const chkNumbers = document.querySelector("#numbers");
+      const chkSymbols = document.querySelector("#symbols");
+
+      const arrUppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      const arrLowercase = "abcdefghijklmnopqrstuvwxyz".split("");
+      const arrNumbers = "0123456789".split("");
+      const arrSymbols = "!@#$%^&*()_+[]{}|;:,.<>?".split("");
+
+      let passwordGenerate = [];
+
+      while (passwordGenerate.length < length) {
+        //@ts-ignore
+        if (chkUppercase.checked) {
+          passwordGenerate.push(getRandomChar(arrUppercase));
+        }
+        //@ts-ignore
+        if (chkLowercase.checked) {
+          passwordGenerate.push(getRandomChar(arrLowercase));
+        }
+        //@ts-ignore
+        if (chkNumbers.checked) {
+          passwordGenerate.push(getRandomChar(arrNumbers));
+        }
+        //@ts-ignore
+        if (chkSymbols.checked) {
+          passwordGenerate.push(getRandomChar(arrSymbols));
+        }
+        //@ts-ignore
+        if (!chkUppercase.checked && !chkLowercase.checked && !chkNumbers.checked && !chkSymbols.checked) {
+          passwordGenerate.length = length;
+        }
+
+      }
+      
+      //console.log(passwordGenerate.join('').slice(0,length));
+      //@ts-ignore
+      password.value = passwordGenerate.join('').slice(0,length);
+    }
+
+    function getRandomChar(array) {
+      let index = getRandomInt(0, array.length);
+      return array[index];
+    }
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min); // Redondea hacia arriba el valor mínimo
+      max = Math.floor(max-1); // Redondea hacia abajo el valor máximo - 1
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
   });
 </script>
