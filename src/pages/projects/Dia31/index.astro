@@ -195,5 +195,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       max = Math.floor(max-1); // Redondea hacia abajo el valor máximo - 1
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    btnCopy.addEventListener('click', () => {
+      copiarPassword();
+    })
+
+    const copiarPassword = async () => {
+    try {
+      //@ts-ignore
+      await navigator.clipboard.writeText(password.value);
+      alert('Contraseña copiada al portapapeles');
+      console.log('Contenido copiado al portapapeles');
+    } catch (err) {
+      console.error('Error al copiar: ', err);
+    }
+  }
+
   });
 </script>
