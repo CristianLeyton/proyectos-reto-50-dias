@@ -59,7 +59,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia31 {
     min-height: 70vh;
     background-color: var(--celeste-claro);
@@ -126,6 +126,19 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     width: 20px;
     height: 20px;
   }
+
+  .notification {
+    position: fixed;
+    right: 1rem;
+    bottom: 2rem;
+    padding: 1rem;
+    opacity: 0.9;
+    background-color: var(--azul-oscuro);
+    color:#fff;
+    user-select: none;
+    width: fit-content;
+
+  }
   @media (max-width: 600px) {
   }
 </style>
@@ -183,6 +196,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           !chkSymbols.checked
         ) {
           passwordGenerate.length = length;
+          showNotification('¡Marque aun que sea un checkbox!');
         }
       }
 
@@ -211,14 +225,36 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 
     const copiarPassword = async () => {
-      try {
+    try {
+      //@ts-ignore
+      if (password.value != '') {
         //@ts-ignore
         await navigator.clipboard.writeText(password.value);
-        alert("Contraseña copiada al portapapeles");
-        console.log("Contenido copiado al portapapeles");
-      } catch (err) {
-        console.error("Error al copiar: ", err);
+        showNotification('Contraseña copiada al portapapeles.');
+      } else {
+        showNotification('No hay nada que copiar.');
       }
-    };
+     
+      //console.log('Contenido copiado al portapapeles');
+    } catch (err) {
+      //console.error('Error al copiar: ', err);
+    }
+  }
+
+  function showNotification(message) {
+        //let message = 'Contraseña copiada al portapapeles';
+        const container = document.querySelector(".dia31");
+        //console.log(message,color)
+
+        let notification = document.createElement("span");
+        notification.classList.add("notification");
+        notification.textContent = message;
+
+        container.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3500);
+      }
   });
 </script>
