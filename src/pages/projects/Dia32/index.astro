@@ -4,27 +4,108 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 32" subtitle="Good Cheap Fast">
   <div class="container dia32">
-   
+    <h2>How do you want your project to be?</h2>
+    <div class="checkboxes">
+      <label for="good"
+        ><input type="checkbox" name="good" id="good" class="good" /> Good</label
+      >
+      <label for="cheap"
+        ><input type="checkbox" name="cheap" id="cheap" class="cheap" /> Cheap</label
+      >
+      <label for="fast"
+        ><input type="checkbox" name="fast" id="fast" class="fast" /> Fast</label
+      >
+    </div>
   </div>
 </LayoutProyecto>
 
 <style>
   .dia32 {
+    padding: 2rem;
     min-height: 70vh;
   }
 
-  
+  .dia32 h2 {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .checkboxes {
+    display: grid;
+    gap: 1rem;
+    place-content: center;
+  }
+  label {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    font-size: larger;
+  }
+
+  .good,
+  .cheap,
+  .fast {
+    appearance: none;
+    width: 100px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &::after {
+      content: "";
+      background-color: #fff;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      border-radius: 50%;
+      left: 5px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:checked {
+      background-color: var(--celeste-oscuro);
+    }
+    &:checked::after {
+      left: 55px;
+    }
+  }
 
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
 
-  
+    const $ = (select) => document.querySelector(select);
+    const checkboxes = document.querySelectorAll('input[type=checkbox]');
 
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', ()=> {
+        check(checkbox); 
+      });
+    });
+
+    function check(checkboxChanged) {
+      if ($('.good').checked && $('.cheap').checked && $('.fast').checked) {
+        if($('.good') === checkboxChanged) {
+          $('.fast').checked = false
+        }
+
+        if($('.cheap') === checkboxChanged) {
+          $('.good').checked = false
+        }
+
+        if($('.fast') === checkboxChanged) {
+          $('.cheap').checked = false
+        }
+      }
+    }
   });
 </script>
