@@ -4,27 +4,269 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 33" subtitle="Notes App">
   <div class="container dia33">
-   
+    <button class="addNote"><span>+</span>Add note</button>
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia33 {
     min-height: 70vh;
+    position: relative;
+    background-color: var(--celeste-oscuro);
+    padding: 5rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
   }
 
-  
+  button:active {
+    transform: scale(0.95);
+  }
+  .dia33 .addNote {
+    background-color: var(--naranja-claro);
+    width: fit-content;
+    padding: 0px 12px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    & span {
+      font-weight: bold;
+      font-size: xx-large;
+    }
 
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+  .noteContainer {
+    height: 340px;
+    width: 320px;
+    background-color: #fff;
+    box-shadow: 0 0 3px #505050;
+
+    & nav {
+      background-color: var(--naranja-claro);
+      color: #fff;
+      display: flex;
+      justify-content: end;
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    & main {
+      padding: 1.5rem;
+      text-wrap: pretty;
+    }
+
+    & textarea {
+      outline: none;
+      width: 100%;
+      height: 255px;
+      border: 1px solid #eeeeee;
+      padding: 0;
+      text-align: left;
+    }
+  }
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const btnAddNote = document.querySelector(".addNote");
+    const container = document.querySelector(".dia33");
+    let btnsEdit = document.querySelectorAll(".btnEdit");
+    let btnsDelete = document.querySelectorAll(".btnDelete");
 
-  
+    loadNotes();
+    btnsEditFunction();
+    btnsDeleteFunction();
 
+    btnAddNote.addEventListener("click", () => {
+      let newNote = `<article class="noteContainer">
+      <nav>
+        <button class="btnEdit">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor"
+          ><path
+            d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"
+          ></path><path
+            d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"
+          ></path></svg
+        ></button>
+        <button class="btnDelete">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor"
+          ><path
+            d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"
+          ></path></svg
+        >
+      </button>
+      </nav>
+      <main>
+        <p class='mainContent'></p>
+        <textarea name="" id="" style='display: none;'>
+        </textarea>
+      </main>
+    </article>`;
+
+      container.insertAdjacentHTML("beforeend", newNote);
+      addEventListenersToNewNote();
+    });
+
+    function btnsEditFunction() {
+      btnsEdit = document.querySelectorAll(".btnEdit");
+      if (btnsEdit) {
+        btnsEdit.forEach((btnEdit) => {
+          btnEdit.addEventListener("click", () => {
+            let main = btnEdit.parentElement.parentElement.querySelector("p");
+            let textarea =
+              btnEdit.parentElement.parentElement.querySelector("textarea");
+
+            if (textarea.style.display == "none") {
+              main.style.display = "none";
+              textarea.style.display = "block";
+              textarea.focus();
+              btnEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M5 21h14a2 2 0 0 0 2-2V8l-5-5H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2zM7 5h4v2h2V5h2v4H7V5zm0 8h10v6H7v-6z"></path></svg>`;
+            } else {
+              main.textContent = textarea.value;
+              textarea.style.display = "none";
+              main.style.display = "block";
+              btnEdit.innerHTML = `<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor"
+          ><path
+            d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"
+          ></path><path
+            d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"
+          ></path></svg
+        >`;
+              saveNotes();
+            }
+          });
+        });
+      }
+    }
+
+    function btnsDeleteFunction() {
+      btnsDelete = document.querySelectorAll(".btnDelete");
+
+      if (btnsDelete) {
+        btnsDelete.forEach((btnDelete) => {
+          btnDelete.addEventListener("click", () => {
+            btnDelete.parentElement.parentElement.remove();
+            saveNotes();
+          });
+        });
+      }
+    }
+
+    function addEventListenersToNewNote() {
+      const lastNote = container.lastElementChild;
+      const btnEdit = lastNote.querySelector(".btnEdit");
+      const btnDelete = lastNote.querySelector(".btnDelete");
+      const main = lastNote.querySelector("p");
+      const textarea = lastNote.querySelector("textarea");
+
+      btnEdit.addEventListener("click", () => {
+        if (textarea.style.display == "none") {
+          main.style.display = "none";
+          textarea.style.display = "block";
+          textarea.focus();
+        } else {
+          main.textContent = textarea.value;
+          textarea.style.display = "none";
+          main.style.display = "block";
+          saveNotes();
+        }
+      });
+
+      btnDelete.addEventListener("click", () => {
+        lastNote.remove();
+        saveNotes();
+      });
+    }
+
+    function saveNotes() {
+      let allNotes = container.querySelectorAll(".noteContainer");
+      const notes = [];
+      if (allNotes.length == 0) {
+        localStorage.clear();
+      } else {
+        allNotes.forEach((note) => {
+          if (note.querySelector("p").textContent.trim() != "") {
+            notes.push(note.querySelector("p").textContent.trim());
+            //console.log(note);
+          }
+          //console.log(notes);
+          localStorage.setItem("notes", JSON.stringify(notes));
+        });
+      }
+    }
+
+    function loadNotes() {
+      //console.log(localStorage.getItem('notes'));
+
+      let localNotes = JSON.parse(localStorage.getItem("notes"));
+
+      if (localNotes) {
+        localNotes.forEach((localNote) => {
+          //console.log(localNote);
+          let newNote = `<article class="noteContainer">
+      <nav>
+        <button class="btnEdit">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor"
+          ><path
+            d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"
+          ></path><path
+            d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"
+          ></path></svg
+        ></button>
+        <button class="btnDelete">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor"
+          ><path
+            d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"
+          ></path></svg
+        >
+      </button>
+      </nav>
+      <main>
+        <p class='mainContent'>${localNote}</p>
+        <textarea name="" id="" style='display: none;'>${localNote}
+        </textarea>
+      </main>
+    </article>`;
+          container.insertAdjacentHTML("beforeend", newNote);
+        });
+      }
+    }
   });
 </script>
