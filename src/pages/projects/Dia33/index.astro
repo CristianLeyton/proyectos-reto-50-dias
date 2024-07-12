@@ -210,12 +210,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         >`;
           saveNotes();
         }
+
       });
 
       btnDelete.addEventListener("click", () => {
         lastNote.remove();
         saveNotes();
       });
+      //@ts-ignore
+      btnEdit.click();
     }
 
     function saveNotes() {
