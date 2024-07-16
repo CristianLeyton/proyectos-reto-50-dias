@@ -4,15 +4,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 34" subtitle="Animated Countdown">
   <div class="container dia34">
-    <div class="espejo">
-      <div class="counter animate"></div>
-      <div class="go hidden">GO!</div>
+    <div class="contador">
+      <div class="espejo">
+        <div class="counter animate"></div>
+      </div>
+      <p>GET READY</p>
     </div>
-    <p>GET READY</p>
+
+    <div class="end hidden">
+      <div class="go">GO!</div>
+      <a href="#" class="reset">Replay</a>
+    </div>
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia34 {
     min-height: 70vh;
     display: grid;
@@ -45,14 +51,35 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     transform-origin: bottom;
   }
 
-  .go {
+  .end {
     text-align: center;
-    font-size: 80px;
-    transform: rotate(180deg);
+    font-size: 20px;
   }
 
+  .end .reset {
+    background-color: var(--celeste-oscuro);
+    padding: 10px;
+    color: #fff;
+    border-radius: 10px;
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+  .go {
+    font-size: 80px;
+  }
+
+  @keyframes show {
+    from {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
   .show {
-    display: block;
+    animation: show 0.4s ease-in-out both;
   }
 
   .hidden {
@@ -62,6 +89,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .animate {
     animation: count-animation 1s 0.3s infinite both;
   }
+
 
   @keyframes count-animation {
     0% {
@@ -100,8 +128,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     let start = 3;
+    const contador = document.querySelector('.contador');
     const counter = document.querySelector(".counter");
-    const go = document.querySelector(".go");
+    const end = document.querySelector(".end");
     //@ts-ignore
     counter.textContent = start;
 
@@ -115,8 +144,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         }, 1000);
       } else {
         counter.classList.remove('animate');
-        counter.classList.add('hidden');
-        go.classList.remove('hidden');
+        contador.classList.add('hidden');
+        end.classList.remove('hidden');
+        end.classList.add('show');
       }
     }
     countdown();
