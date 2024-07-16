@@ -11,7 +11,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <p>GET READY</p>
     </div>
 
-    <div class="end hidden">
+    <div class="end hide">
       <div class="go">GO!</div>
       <a href="#" class="reset">Replay</a>
     </div>
@@ -85,7 +85,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     animation: show 0.4s ease-in-out both;
   }
 
-  .hidden {
+  .hide {
     display: none;
   }
 
@@ -148,7 +148,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       } else {
         counter.classList.remove('animate');
         contador.classList.add('hidden');
-        end.classList.remove('hidden');
+        end.classList.remove('hide');
         end.classList.add('show');
       }
     }
