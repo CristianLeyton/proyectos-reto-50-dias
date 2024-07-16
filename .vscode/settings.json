@@ -18,5 +18,7 @@
     "titleBar.inactiveBackground": "#11111199",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
+
+  "editor.minimap.enabled": true,
   "peacock.color": "#111111"
 }
