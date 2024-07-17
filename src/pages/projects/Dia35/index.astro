@@ -36,7 +36,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     width: 400%;
     height: 500px;
     display: flex;
-    transition: transform 1s ease-in-out;
+    transition: transform 0.75s ease-in-out;
     /*     animation: slider 12s infinite ease-in-out; */
     & div {
       width: 500px;
@@ -113,6 +113,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-image: url("./src/4.avif");
   }
   @media (max-width: 600px) {
+    .subcontainer {
+    width: 300px;
+  }
+
+  .carousel {
+    height: 300px;
+    /*     animation: slider 12s infinite ease-in-out; */
+    & div {
+      width: 300px;
+    }
+  }
   }
 </style>
 
@@ -126,7 +137,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     //@ts-ignore
 
     if (carousel) {
-      let intervalo = setInterval(slider, 2000);
+      let intervalo = setInterval(slider, 2500);
 
       btnNext.addEventListener("click", () => {
         if (percent < 75) {
@@ -151,7 +162,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         //@ts-ignore
         carousel.style.transform = `translateX(-${percent}%)`;
         setTimeout(() => {
-          intervalo = setInterval(slider, 2000);
+          intervalo = setInterval(slider, 2500);
         }, 1000);
       }
 
