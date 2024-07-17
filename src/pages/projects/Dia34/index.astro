@@ -93,7 +93,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     animation: count-animation 1s 0.3s infinite both;
   }
 
-
   @keyframes count-animation {
     0% {
       transform: rotate(0deg);
@@ -131,27 +130,29 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     let start = 3;
-    const contador = document.querySelector('.contador');
+    const contador = document.querySelector(".contador");
     const counter = document.querySelector(".counter");
     const end = document.querySelector(".end");
-    //@ts-ignore
-    counter.textContent = start;
 
-    function countdown() {
-      if (start >= 0) {
-        setTimeout(() => {
-          start--;
-          //@ts-ignore
-          counter.textContent = start;
-          countdown();
-        }, 1000);
-      } else {
-        counter.classList.remove('animate');
-        contador.classList.add('hidden');
-        end.classList.remove('hide');
-        end.classList.add('show');
+    if (counter) {
+      //@ts-ignore
+      counter.textContent = start;
+      function countdown() {
+        if (start >= 0) {
+          setTimeout(() => {
+            start--;
+            //@ts-ignore
+            counter.textContent = start;
+            countdown();
+          }, 1000);
+        } else {
+          counter.classList.remove("animate");
+          contador.classList.add("hidden");
+          end.classList.remove("hide");
+          end.classList.add("show");
+        }
       }
+      countdown();
     }
-    countdown();
   });
 </script>
