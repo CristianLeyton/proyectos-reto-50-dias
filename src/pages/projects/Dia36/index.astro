@@ -3,7 +3,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 36" subtitle="Hoverboard">
-  <div class="container dia36"></div>
+  <div class="container dia36">
+    <div class="md:hidden text-center pt-0 pb-6 alert text-orange-700 text-lg">
+      Lo siento, solo funciona bien en pc, por ahora...
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style is:inline>
@@ -21,8 +25,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
   .dia36 span {
     background-color: #464646;
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
   }
 
   @media (max-width: 600px) {
@@ -32,8 +36,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
 
     .dia36 span {
-      height: 15px;
-      width: 15px;
+      height: 13px;
+      width: 13px;
     }
   }
 </style>
@@ -41,6 +45,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const container = document.querySelector(".dia36");
+    const colors = ['#e74c3c', '#8e44ad', '#3498db', '#e67e22', '#2ecc71'];
 
     createGrid();
 
@@ -59,11 +64,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     });
 
     function hover(element) {
-      element.style.backgroundColor = "red";
+      let color = getRandomColor();
+      element.style.backgroundColor = color;
+      element.style.boxShadow = `0px 0px 10px ${color}`;
+      element.style.transition = "all 0s linear";
     }
 
     function reset(element) {
-      element.style.backgroundColor = "#464646";
+      element.style.backgroundColor = "";
+      element.style.transition = "2s ease";
+      element.style.boxShadow = "";
     }
+
+    function getRandomColor() {
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
   });
 </script>
