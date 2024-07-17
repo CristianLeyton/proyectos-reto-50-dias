@@ -4,27 +4,124 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 35" subtitle="Image Carousel">
   <div class="container dia35">
-   
+    <div class="subcontainer">
+      <div class="carousel">
+        <div class="img1"></div>
+        <div class="img2"></div>
+        <div class="img3"></div>
+        <div class="img4"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <button class="prev">Prev</button>
+      <button class="next">Next</button>
+    </div>
   </div>
 </LayoutProyecto>
 
 <style>
   .dia35 {
     min-height: 70vh;
+    display: grid;
+    place-content: center;
   }
 
-  
+  .subcontainer {
+    overflow: hidden; 
+    width: 500px;
+    border: 1px solid #ddd;
+  }
 
+  .carousel {
+    width: 400%;
+    height: 500px;
+    display: flex;
+    animation: slider 12s infinite ease-in-out;
+    & div {
+      width: 500px;
+      height: 100%;
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+
+
+  @keyframes slider {
+    0% {
+      transform: translateX(0%);
+    }
+
+    5% {
+      transform: translateX(0%);
+    }
+
+    25% {
+      transform: translateX(-25%);
+    }
+
+    30% {
+      transform: translateX(-25%);
+    }
+
+    50% {
+      transform: translateX(-50%);
+    }
+
+    55% {
+      transform: translateX(-50%);
+    }
+
+    75% {
+      transform: translateX(-75%);
+    }
+
+    80% {
+      transform: translateX(-75%);
+    }
+
+    90% {
+      transform: translateX(0);
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .dia35 button {
+    background-color: var(--celeste-oscuro);
+    color: #fff;
+    padding: 5px;
+    width: 49%;
+  }
+
+  .img1 {
+    background-image: url("./src/1.avif");
+  }
+
+  .img2 {
+    background-image: url("./src/2.avif");
+  }
+
+  .img3 {
+    background-image: url("./src/3.avif");
+  }
+
+  .img4 {
+    background-image: url("./src/4.avif");
+  }
   @media (max-width: 600px) {
-    
-    
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    const btnPrev = document.querySelector('.prev');
+    const btnNext = document.querySelector('.next');
 
-  
+    
 
   });
 </script>
