@@ -13,7 +13,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     <div class="end hide">
       <div class="go">GO!</div>
-      <a href="#" class="reset">Replay</a>
+      <button class="replay">Replay</button>
     </div>
   </div>
 </LayoutProyecto>
@@ -59,7 +59,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     font-size: 20px;
   }
 
-  .end .reset {
+  .end .replay {
     background-color: var(--celeste-oscuro);
     padding: 10px;
     color: #fff;
@@ -90,7 +90,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .animate {
-    animation: count-animation 1s 0.3s infinite both;
+    animation: count-animation 1s 0.1s infinite both;
   }
 
   @keyframes count-animation {
@@ -133,13 +133,18 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const contador = document.querySelector(".contador");
     const counter = document.querySelector(".counter");
     const end = document.querySelector(".end");
+    const replay = document.querySelector('.replay');
+
+    let timeout;
 
     if (counter) {
       //@ts-ignore
       counter.textContent = start;
+
+      countdown();
       function countdown() {
         if (start >= 0) {
-          setTimeout(() => {
+          timeout = setTimeout(() => {
             start--;
             //@ts-ignore
             counter.textContent = start;
@@ -147,12 +152,24 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           }, 1000);
         } else {
           counter.classList.remove("animate");
-          contador.classList.add("hidden");
+          contador.classList.add("hide");
           end.classList.remove("hide");
           end.classList.add("show");
         }
       }
-      countdown();
+      
+
+      replay.addEventListener('click',()=> {
+        start = 3;
+        //@ts-ignore
+        counter.textContent = start;
+        counter.classList.add("animate");
+        contador.classList.remove("hide");
+        end.classList.add("hide");
+        end.classList.remove("show");
+        clearTimeout(timeout);
+        countdown();
+      })
     }
   });
 </script>
