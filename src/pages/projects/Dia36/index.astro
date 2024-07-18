@@ -4,12 +4,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 36" subtitle="Hoverboard">
   <div class="flex flex-col">
-  <div class="md:hidden text-center pt-6 pb-2 alert text-orange-700 text-lg">
-    Lo siento, solo funciona bien en pc, por ahora...
+    <div class="md:hidden text-center pt-6 pb-2 alert text-orange-700 text-lg">
+      Lo siento, solo funciona bien en pc, por ahora...
+    </div>
+    <div class="container dia36"></div>
   </div>
-  <div class="container dia36">
-  </div>
-</div>
 </LayoutProyecto>
 
 <style is:inline>
@@ -47,7 +46,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const container = document.querySelector(".dia36");
-    const colors = ['#e74c3c', '#8e44ad', '#3498db', '#e67e22', '#2ecc71'];
+    const colors = ["#e74c3c", "#8e44ad", "#3498db", "#e67e22", "#2ecc71", '#FEE532'];
 
     createGrid();
 
@@ -79,8 +78,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
 
     function getRandomColor() {
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
-}
+      const randomIndex = Math.floor(Math.random() * colors.length);
+      return colors[randomIndex];
+    }
   });
 </script>
