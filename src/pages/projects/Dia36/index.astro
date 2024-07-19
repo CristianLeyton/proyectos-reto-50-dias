@@ -46,40 +46,49 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const container = document.querySelector(".dia36");
-    const colors = ["#e74c3c", "#8e44ad", "#3498db", "#e67e22", "#2ecc71", '#FEE532'];
+    const colors = [
+      "#e74c3c",
+      "#8e44ad",
+      "#3498db",
+      "#e67e22",
+      "#2ecc71",
+      "#FEE532",
+    ];
 
-    createGrid();
+    if (container) {
+      createGrid();
 
-    function createGrid() {
-      for (let i = 0; i < 500; i++) {
-        const span = document.createElement("span");
-        container.appendChild(span);
+      function createGrid() {
+        for (let i = 0; i < 500; i++) {
+          const span = document.createElement("span");
+          container.appendChild(span);
+        }
       }
-    }
 
-    const spans = document.querySelectorAll(".dia36 span");
+      const spans = document.querySelectorAll(".dia36 span");
 
-    spans.forEach((span) => {
-      span.addEventListener("mouseenter", () => hover(span));
-      span.addEventListener("mouseleave", () => reset(span));
-    });
+      spans.forEach((span) => {
+        span.addEventListener("mouseenter", () => hover(span));
+        span.addEventListener("mouseleave", () => reset(span));
+      });
 
-    function hover(element) {
-      let color = getRandomColor();
-      element.style.backgroundColor = color;
-      element.style.boxShadow = `0px 0px 10px ${color}`;
-      element.style.transition = "all 0s linear";
-    }
+      function hover(element) {
+        let color = getRandomColor();
+        element.style.backgroundColor = color;
+        element.style.boxShadow = `0px 0px 10px ${color}`;
+        element.style.transition = "all 0s linear";
+      }
 
-    function reset(element) {
-      element.style.backgroundColor = "";
-      element.style.transition = "2s ease";
-      element.style.boxShadow = "";
-    }
+      function reset(element) {
+        element.style.backgroundColor = "";
+        element.style.transition = "2s ease";
+        element.style.boxShadow = "";
+      }
 
-    function getRandomColor() {
-      const randomIndex = Math.floor(Math.random() * colors.length);
-      return colors[randomIndex];
+      function getRandomColor() {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+      }
     }
   });
 </script>

@@ -3,14 +3,69 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 37" subtitle="Pokedex">
-  <div class="container dia37"></div>
+  <div class="container dia37">
+    <div class="card">
+      <div class="info">
+        <span class="name">Pokemon name</span>
+        <span class="number">#001</span>
+      </div>
+      <div class="types">
+        <span class="type">Poison</span>
+      </div>
+    </div>
+  </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   .dia37 {
     min-height: 70vh;
-    display: grid;
-    place-content: center;
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    padding: 10px;
+    border-radius: 12px;
+    width: 190px;
+    height: 120px;
+    background-color: #757575;
+    background-image: url("/src/pages/projects/Dia37/ball.webp");
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: 105px 70px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .types {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .type {
+    font-size: 10px;
+    background-color: #ffffff40;
+    width: fit-content;
+    padding: 4px 8px;
+    border-radius: 15px;
+  }
+
+  .info {
+    font-size: small;
+    font-weight: bold;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .name {
+    text-transform: capitalize;
   }
 
   @media (max-width: 600px) {
@@ -18,5 +73,44 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const urlApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
+    const container = document.querySelector(".dia37");
+
+    fetchPokemons(urlApi);
+
+    async function fetchPokemons(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Error: " + response.statusText);
+        }
+        const data = await response.json(); // Esperamos la respuesta parseada como JSON
+        // Aquí puedes trabajar con los datos recibidos
+
+        data.results.forEach((pokemon) => {
+          //console.log(pokemon);
+          const card = document.createElement("div");
+          card.classList.add("card");
+          const infoCard = `<div class="info">
+                                <span class="name">${pokemon.name}</span>
+                                <span class="number">#001</span>
+                            </div>`;
+          card.insertAdjacentHTML("beforeend", infoCard);
+
+          const types = document.createElement("div");
+          types.classList.add("types");
+          const type = `<span class="type">Poison</span>`;
+          types.insertAdjacentHTML("beforeend", type);
+          card.appendChild(types);
+          
+          container.appendChild(card);
+        });
+
+        //console.log(data.results);
+      } catch (error) {
+        console.error("Hubo un problema con la solicitud Fetch:", error);
+      }
+    }
+  });
 </script>
