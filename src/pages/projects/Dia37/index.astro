@@ -1,23 +1,73 @@
 ---
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+
+const loadingCards = Array.from({ length: 35 });
 ---
 
 <LayoutProyecto title="Día 37" subtitle="Pokedex">
   <div class="container dia37">
-    <!--      <div class="card">
-      <div class="info">
-        <span class="name">Pokemon name</span>
-        <span class="number">#001</span>
+
+    {loadingCards.map(() => (
+      <div class="card-loading">
+        <div class="info">
+          <span class="name loading"></span>
+          <span class="number loading"></span>
+        </div>
+        <div class="types">
+          <span class="type loading"></span>
+        </div>
       </div>
-      <div class="types">
-        <span class="type">Poison</span>
-      </div>
-      
-    </div>  -->
+    ))}
+
   </div>
 </LayoutProyecto>
 
 <style is:inline>
+  .card-loading {
+    padding: 10px;
+    border-radius: 12px;
+    width: 185px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background-color: #ececec;
+  }
+
+  .card-loading .name {
+    min-width: 80px;
+    min-height: 20px;
+    border-radius: 10px;
+  }
+
+  .card-loading .number, .card-loading .type {
+    min-width: 50px;
+    min-height: 20px;
+    border-radius: 10px;
+  }
+
+
+  .loading {
+    background-image: linear-gradient(
+      to right,
+      #f6f7f8 0%,
+      #edeef1 10%,
+      #f6f7f8 20%,
+      #f6f7f8 100%
+    );
+    background-size: 200% 100%;
+    animation: bgAnimated 1s linear infinite;
+  }
+
+  @keyframes bgAnimated {
+    0% {
+      background-position: 50% 0;
+    }
+    100% {
+      background-position: -150% 0;
+    }
+  }
   .dia37 {
     min-height: 70vh;
     padding-top: 10px;
@@ -86,7 +136,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 </style>
 
-<script>
+ <script>
   //importar imagen desde ruta local y no de la carpeta public
   import imgPobeball from "./ball.webp";
 
@@ -124,6 +174,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const pokemonPromises = data.results.map((pokemon) => fetch(pokemon.url).then((res) => res.json()));
     const pokemons = await Promise.all(pokemonPromises);
 
+    container.innerHTML = '';
+
     pokemons.forEach((data) => {
       let itemType = data.types[0].type.name;
       itemType = itemType.toString();
@@ -160,4 +212,4 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 }
   });
-</script>
+</script> 
