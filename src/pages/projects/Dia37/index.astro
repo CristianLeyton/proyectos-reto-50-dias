@@ -4,7 +4,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 37" subtitle="Pokedex">
   <div class="container dia37">
-    <!-- <div class="card">
+    <!--      <div class="card">
       <div class="info">
         <span class="name">Pokemon name</span>
         <span class="number">#001</span>
@@ -12,7 +12,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="types">
         <span class="type">Poison</span>
       </div>
-    </div> -->
+      
+    </div>  -->
   </div>
 </LayoutProyecto>
 
@@ -26,20 +27,31 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     flex-wrap: wrap;
   }
 
+  .dia37 .image {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    right: 10px;
+    bottom: 5px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom right;
+  }
+
   .card {
     padding: 10px;
     border-radius: 12px;
     width: 185px;
     height: 120px;
     background-color: #757575;
-    /*    background-image: url(${imgPobeball.src}); */
     background-repeat: no-repeat;
-    background-size: 40%;
-    background-position: 105px 70px;
+    background-size: 50%;
+    background-position: 87px 60px;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
   }
 
   .types {
@@ -50,10 +62,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
   .type {
     font-size: 10px;
-    background-color: #ffffff40;
+    background-color: #ffffff45;
     width: fit-content;
     padding: 4px 8px;
     border-radius: 15px;
+    text-transform: capitalize;
   }
 
   .info {
@@ -73,13 +86,29 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
+  //importar imagen desde ruta local y no de la carpeta public
   import imgPobeball from "./ball.webp";
+
   document.addEventListener("astro:page-load", () => {
     const urlApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
     const container = document.querySelector(".dia37");
 
     const colorTypes = {
-      poison: "green",
+      grass: "#48d0b0",
+      fire: "#fb6c6c",
+      water: "#77bdfe",
+      bug: "#a8b91f",
+      normal: "#a7a877",
+      poison: "#a7a877",
+      electric: "#ffce4b",
+      ground: "#e1c068",
+      fairy: "#a890f0",
+      fighting: "#c03128",
+      psychic: "#f95887",
+      rock: "#b8a038",
+      ghost: "#705998",
+      ice: "#99d7d8",
+      dragon: "#7138f8",
     };
 
     fetchPokemons(urlApi);
@@ -94,27 +123,46 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         // Aquí puedes trabajar con los datos recibidos
 
         data.results.forEach((pokemon) => {
+          fetch(pokemon.url)
+            .then((response) => response.json())
+            /* .then((data) => console.log(data)) ;  */
+            .then((data) => {
+              let itemType = data.types[0].type.name;
+              itemType = itemType.toString();
+
+              const card = document.createElement("div");
+              card.classList.add("card");
+              card.style.backgroundImage = `url(${imgPobeball.src})`;
+              card.style.backgroundColor = colorTypes[itemType];
+
+              const infoCard = `<div class="info">
+                                <span class="name">${data.name}</span>
+                                <span class="number">#00${data.id}</span>
+                                </div>`;
+              card.insertAdjacentHTML("beforeend", infoCard);
+
+              const types = document.createElement("div");
+              types.classList.add("types");
+              data.types.forEach((item) => {
+                const type = `<span class="type">${item.type.name}</span>`;
+                types.insertAdjacentHTML("beforeend", type);
+                //console.log(item.type.name);
+              });
+              card.appendChild(types);
+
+              const image = document.createElement("div");
+              image.classList.add("image");
+              image.style.backgroundImage = `url(${data.sprites.other["official-artwork"].front_default})`;
+              card.appendChild(image);
+
+              container.appendChild(card);
+              //console.log(data.sprites);
+            });
+
           //console.log(pokemon);
-          const card = document.createElement("div");
-          card.classList.add("card");
-          card.style.backgroundImage = `url(${imgPobeball.src})`;
-
-          const infoCard = `<div class="info">
-                                <span class="name">${pokemon.name}</span>
-                                <span class="number">#001</span>
-                            </div>`;
-          card.insertAdjacentHTML("beforeend", infoCard);
-
-          const types = document.createElement("div");
-          types.classList.add("types");
-          const type = `<span class="type">Poison</span>`;
-          types.insertAdjacentHTML("beforeend", type);
-          card.appendChild(types);
-
-          container.appendChild(card);
         });
 
-        //console.log(data.results);
+        // console.log(data.results);
       } catch (error) {
         console.error("Hubo un problema con la solicitud Fetch:", error);
       }
