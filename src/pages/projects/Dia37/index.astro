@@ -114,58 +114,49 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     fetchPokemons(urlApi);
 
     async function fetchPokemons(url) {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Error: " + response.statusText);
-        }
-        const data = await response.json(); // Esperamos la respuesta parseada como JSON
-        // Aquí puedes trabajar con los datos recibidos
-
-        data.results.forEach((pokemon) => {
-          fetch(pokemon.url)
-            .then((response) => response.json())
-            /* .then((data) => console.log(data)) ;  */
-            .then((data) => {
-              let itemType = data.types[0].type.name;
-              itemType = itemType.toString();
-
-              const card = document.createElement("div");
-              card.classList.add("card");
-              card.style.backgroundImage = `url(${imgPobeball.src})`;
-              card.style.backgroundColor = colorTypes[itemType];
-
-              const infoCard = `<div class="info">
-                                <span class="name">${data.name}</span>
-                                <span class="number">#00${data.id}</span>
-                                </div>`;
-              card.insertAdjacentHTML("beforeend", infoCard);
-
-              const types = document.createElement("div");
-              types.classList.add("types");
-              data.types.forEach((item) => {
-                const type = `<span class="type">${item.type.name}</span>`;
-                types.insertAdjacentHTML("beforeend", type);
-                //console.log(item.type.name);
-              });
-              card.appendChild(types);
-
-              const image = document.createElement("div");
-              image.classList.add("image");
-              image.style.backgroundImage = `url(${data.sprites.other["official-artwork"].front_default})`;
-              card.appendChild(image);
-
-              container.appendChild(card);
-              //console.log(data.sprites);
-            });
-
-          //console.log(pokemon);
-        });
-
-        // console.log(data.results);
-      } catch (error) {
-        console.error("Hubo un problema con la solicitud Fetch:", error);
-      }
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Error: " + response.statusText);
     }
+    const data = await response.json();
+    const pokemonPromises = data.results.map((pokemon) => fetch(pokemon.url).then((res) => res.json()));
+    const pokemons = await Promise.all(pokemonPromises);
+
+    pokemons.forEach((data) => {
+      let itemType = data.types[0].type.name;
+      itemType = itemType.toString();
+
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.style.backgroundImage = `url(${imgPobeball.src})`;
+      card.style.backgroundColor = colorTypes[itemType];
+
+      const infoCard = `<div class="info">
+                        <span class="name">${data.name}</span>
+                        <span class="number">#00${data.id}</span>
+                        </div>`;
+      card.insertAdjacentHTML("beforeend", infoCard);
+
+      const types = document.createElement("div");
+      types.classList.add("types");
+      data.types.forEach((item) => {
+        const type = `<span class="type">${item.type.name}</span>`;
+        types.insertAdjacentHTML("beforeend", type);
+      });
+      card.appendChild(types);
+
+      const image = document.createElement("div");
+      image.classList.add("image");
+      image.style.backgroundImage = `url(${data.sprites.other["official-artwork"].front_default})`;
+      card.appendChild(image);
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Hubo un problema con la solicitud Fetch:", error);
+  }
+}
   });
 </script>
