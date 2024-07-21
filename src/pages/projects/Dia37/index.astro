@@ -32,7 +32,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     width: 185px;
     height: 120px;
     background-color: #757575;
-/*     background-image: url("/src/pages/projects/Dia37/ball.webp"); */
+    /*    background-image: url(${imgPobeball.src}); */
     background-repeat: no-repeat;
     background-size: 40%;
     background-position: 105px 70px;
@@ -73,9 +73,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
+  import imgPobeball from "./ball.webp";
   document.addEventListener("astro:page-load", () => {
     const urlApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
     const container = document.querySelector(".dia37");
+
+    const colorTypes = {
+      poison: "green",
+    };
 
     fetchPokemons(urlApi);
 
@@ -92,7 +97,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           //console.log(pokemon);
           const card = document.createElement("div");
           card.classList.add("card");
-          card.style.backgroundImage = 'url("/src/pages/projects/Dia37/ball.webp")';
+          card.style.backgroundImage = `url(${imgPobeball.src})`;
+
           const infoCard = `<div class="info">
                                 <span class="name">${pokemon.name}</span>
                                 <span class="number">#001</span>
@@ -104,7 +110,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           const type = `<span class="type">Poison</span>`;
           types.insertAdjacentHTML("beforeend", type);
           card.appendChild(types);
-          
+
           container.appendChild(card);
         });
 
