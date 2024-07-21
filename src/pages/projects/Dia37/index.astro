@@ -4,7 +4,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 37" subtitle="Pokedex">
   <div class="container dia37">
-    <div class="card">
+    <!-- <div class="card">
       <div class="info">
         <span class="name">Pokemon name</span>
         <span class="number">#001</span>
@@ -12,7 +12,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="types">
         <span class="type">Poison</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </LayoutProyecto>
 
@@ -29,10 +29,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .card {
     padding: 10px;
     border-radius: 12px;
-    width: 190px;
+    width: 185px;
     height: 120px;
     background-color: #757575;
-    background-image: url("/src/pages/projects/Dia37/ball.webp");
+/*     background-image: url("/src/pages/projects/Dia37/ball.webp"); */
     background-repeat: no-repeat;
     background-size: 40%;
     background-position: 105px 70px;
@@ -92,6 +92,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           //console.log(pokemon);
           const card = document.createElement("div");
           card.classList.add("card");
+          card.style.backgroundImage = 'url("/src/pages/projects/Dia37/ball.webp")';
           const infoCard = `<div class="info">
                                 <span class="name">${pokemon.name}</span>
                                 <span class="number">#001</span>
