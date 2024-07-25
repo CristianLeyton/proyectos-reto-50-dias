@@ -1,5 +1,5 @@
 ---
 dia: '12'
 name: 'Faq Collapse'
-image: '/public/assets/images/dia12.png'
+image: './assets/images/dia12.png'
 ---

@@ -1,5 +1,5 @@
 ---
 dia: '19'
 name: 'Theme Clock'
-image: '/public/assets/images/dia19.png'
+image: './assets/images/dia19.png'
 ---
