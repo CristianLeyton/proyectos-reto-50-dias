@@ -1,5 +1,5 @@
 ---
 dia: '4'
 name: 'Hidden Search'
-image: '/public/assets/images/dia4.png'
+image: './assets/images/dia4.png'
 ---

@@ -1,5 +1,7 @@
 ---
+import Image from "astro/components/Image.astro";
 const { key, project, title, image } = Astro.props;
+
 ---
 
 <a href={project.url}>
@@ -9,6 +11,6 @@ const { key, project, title, image } = Astro.props;
     <p class="naranja font-black text-2xl md:text-3xl">Día {key + 1}</p>
     <p class="text-color text-xl md:text-2xl">{title}</p>
     <div class="aspect-video grid place-items-center" title={title}>
-      <img src={image} alt={title}></div>
+      <Image src={image} alt={title} width={320} height={180} />
   </article>
 </a>

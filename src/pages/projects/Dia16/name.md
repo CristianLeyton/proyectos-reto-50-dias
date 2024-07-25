@@ -1,5 +1,5 @@
 ---
 dia: '16'
 name: 'Drink Water'
-image: '/public/assets/images/dia16.png'
+image: './assets/images/dia16.png'
 ---
