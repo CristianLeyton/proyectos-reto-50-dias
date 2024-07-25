@@ -30,9 +30,9 @@ names.sort((a, b) => {
 
 <Layout title="50 proyectos en 50 días">
     <Hero />
-    <section class="flex mx-auto w-[90%] flex-wrap gap-2 justify-center py-8">
+    <section class="flex mx-auto w-[90%] flex-wrap gap-2 justify-center items-stretch py-8">
       {projects.map((project, index) => (
-        <Card key={index} project={project} title={names[index].frontmatter.name} />
+        <Card key={index} project={project} title={names[index].frontmatter.name} image={names[index].frontmatter.image} />
       ))
       }
     </section>

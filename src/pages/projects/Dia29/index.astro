@@ -8,7 +8,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       Double click on the image to <span class="text-red-500">&#x2764;</span> it
     </h2>
     <p class="text-xl text-pretty text-center select-none">
-      You liked it <span class="counter">0</span> times
+      You liked it <span class="countLikes">0</span> times
     </p>
     <div class="image"></div>
   </div>
@@ -93,17 +93,17 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const image = document.querySelector(".image");
-    let likes = document.querySelector(".counter");
+    let likes = document.querySelector(".countLikes");
 
     //@ts-ignore
 
-    let counter = 0;
+    let countLikes = 0;
 
     if (image) {
       image.addEventListener("dblclick", (event) => {
       //console.log("doble click");
-      counter++;
-      likes.textContent = counter.toString();
+      countLikes++;
+      likes.textContent = countLikes.toString();
 
       image.childNodes.forEach((element, i) => {
         if (i != 0) {

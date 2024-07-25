@@ -6,19 +6,19 @@ const loadingCards = Array.from({ length: 35 });
 
 <LayoutProyecto title="Día 37" subtitle="Pokedex">
   <div class="container dia37">
-
-    {loadingCards.map(() => (
-      <div class="card-loading">
-        <div class="info">
-          <span class="name loading"></span>
-          <span class="number loading"></span>
+    {
+      loadingCards.map(() => (
+        <div class="card-loading">
+          <div class="info">
+            <span class="name loading" />
+            <span class="number loading" />
+          </div>
+          <div class="types">
+            <span class="type loading" />
+          </div>
         </div>
-        <div class="types">
-          <span class="type loading"></span>
-        </div>
-      </div>
-    ))}
-
+      ))
+    }
   </div>
 </LayoutProyecto>
 
@@ -41,12 +41,12 @@ const loadingCards = Array.from({ length: 35 });
     border-radius: 10px;
   }
 
-  .card-loading .number, .card-loading .type {
+  .card-loading .number,
+  .card-loading .type {
     min-width: 50px;
     min-height: 20px;
     border-radius: 10px;
   }
-
 
   .loading {
     background-image: linear-gradient(
@@ -136,7 +136,7 @@ const loadingCards = Array.from({ length: 35 });
   }
 </style>
 
- <script>
+<script>
   //importar imagen desde ruta local y no de la carpeta public
   import imgPobeball from "./ball.webp";
 
@@ -162,54 +162,66 @@ const loadingCards = Array.from({ length: 35 });
       dragon: "#7138f8",
     };
 
-    fetchPokemons(urlApi);
+    if (urlApi) {
+      fetchPokemons(urlApi);
 
-    async function fetchPokemons(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Error: " + response.statusText);
-    }
-    const data = await response.json();
-    const pokemonPromises = data.results.map((pokemon) => fetch(pokemon.url).then((res) => res.json()));
-    const pokemons = await Promise.all(pokemonPromises);
+      async function fetchPokemons(url) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error("Error: " + response.statusText);
+          }
+          const data = await response.json();
+          const pokemonPromises = data.results.map((pokemon) =>
+            fetch(pokemon.url).then((res) => res.json())
+          );
+          const pokemons = await Promise.all(pokemonPromises);
 
-    container.innerHTML = '';
+          if (container) {
+            container.innerHTML = "";
 
-    pokemons.forEach((data) => {
-      let itemType = data.types[0].type.name;
-      itemType = itemType.toString();
 
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.style.backgroundImage = `url(${imgPobeball.src})`;
-      card.style.backgroundColor = colorTypes[itemType];
 
-      const infoCard = `<div class="info">
+            
+          }
+
+          pokemons.forEach((data) => {
+            let itemType = data.types[0].type.name;
+            itemType = itemType.toString();
+
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.style.backgroundImage = `url(${imgPobeball.src})`;
+            card.style.backgroundColor = colorTypes[itemType];
+
+            const infoCard = `<div class="info">
                         <span class="name">${data.name}</span>
                         <span class="number">#00${data.id}</span>
                         </div>`;
-      card.insertAdjacentHTML("beforeend", infoCard);
+            card.insertAdjacentHTML("beforeend", infoCard);
 
-      const types = document.createElement("div");
-      types.classList.add("types");
-      data.types.forEach((item) => {
-        const type = `<span class="type">${item.type.name}</span>`;
-        types.insertAdjacentHTML("beforeend", type);
-      });
-      card.appendChild(types);
+            const types = document.createElement("div");
+            types.classList.add("types");
+            data.types.forEach((item) => {
+              const type = `<span class="type">${item.type.name}</span>`;
+              types.insertAdjacentHTML("beforeend", type);
+            });
+            card.appendChild(types);
 
-      const image = document.createElement("div");
-      image.classList.add("image");
-      image.style.backgroundImage = `url(${data.sprites.other["official-artwork"].front_default})`;
-      card.appendChild(image);
+            const image = document.createElement("div");
+            image.classList.add("image");
+            image.style.backgroundImage = `url(${data.sprites.other["official-artwork"].front_default})`;
+            card.appendChild(image);
 
-      container.appendChild(card);
-    });
+            if (container) {
+              container.appendChild(card);
+            }
 
-  } catch (error) {
-    console.error("Hubo un problema con la solicitud Fetch:", error);
-  }
-}
+          });
+        } catch (error) {
+          console.error("Hubo un problema con la solicitud Fetch:", error);
+        }
+      }
+    }
   });
-</script> 
+</script>
