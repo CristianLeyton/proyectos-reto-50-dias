@@ -1,5 +1,5 @@
 ---
 dia: '33'
 name: 'Notes App'
-image: './assets/images/dia33.png'
+image: '/public/assets/images/dia33.png'
 ---

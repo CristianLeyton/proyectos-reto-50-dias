@@ -1,5 +1,5 @@
 ---
 dia: '8'
 name: 'Form Wave'
-image: './assets/images/dia8.png'
+image: '/public/assets/images/dia8.png'
 ---

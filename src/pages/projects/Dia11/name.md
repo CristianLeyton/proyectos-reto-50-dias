@@ -1,5 +1,5 @@
 ---
 dia: '11'
 name: 'Event Keycodes'
-image: './assets/images/dia11.png'
+image: '/public/assets/images/dia11.png'
 ---

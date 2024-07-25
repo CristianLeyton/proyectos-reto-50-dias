@@ -1,5 +1,5 @@
 ---
 dia: '35'
 name: 'Image Carousel'
-image: './assets/images/dia35.png'
+image: '/public/assets/images/dia35.png'
 ---

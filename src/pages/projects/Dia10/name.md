@@ -1,5 +1,5 @@
 ---
 dia: '10'
 name: 'Dad Jokes'
-image: './assets/images/dia10.png'
+image: '/public/assets/images/dia10.png'
 ---

@@ -1,5 +1,5 @@
 ---
 dia: '15'
 name: 'Incrementing Counter'
-image: './assets/images/dia15.png'
+image: '/public/assets/images/dia15.png'
 ---

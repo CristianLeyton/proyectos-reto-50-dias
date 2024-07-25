@@ -1,5 +1,5 @@
 ---
 dia: '17'
 name: 'Movie App'
-image: './assets/images/dia17.png'
+image: '/public/assets/images/dia17.png'
 ---
