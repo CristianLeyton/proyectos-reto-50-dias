@@ -3,7 +3,61 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 38" subtitle="Mobile Tab Navigation">
-  <div class="container dia38"></div>
+  <div class="container dia38">
+    <div class="screen homeBg">
+      <ul class="nav">
+        <li class="active">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor"
+            ><path
+              d="m21.743 12.331-9-10c-.379-.422-1.107-.422-1.486 0l-9 10a.998.998 0 0 0-.17 1.076c.16.361.518.593.913.593h2v7a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4h4v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-7h2a.998.998 0 0 0 .743-1.669z"
+            ></path></svg>
+            Home
+        </li>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor"
+            ><path
+              d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v3h20V8c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm5 10h-4v-2H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-8v2z"
+            ></path></svg>
+            Work
+        </li>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor"
+            ><path
+              d="M19 4h-3V2h-2v2h-4V2H8v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm-7 10H7v-2h5v2zm5-4H7V8h10v2z"
+            ></path></svg>
+          Blog
+          </li>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor"
+            ><path
+              d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6 2.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM19 15H9v-.25C9 12.901 11.254 11 14 11s5 1.901 5 3.75V15z"
+            ></path><path d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8z"
+            ></path></svg>
+          About Us
+          </li>
+      </ul>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
@@ -11,6 +65,60 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     min-height: 70vh;
     display: grid;
     place-content: center;
+    background-color: var(--celeste);
+  }
+
+  .dia38 .screen {
+    background-color: #fff;
+    height: 500px;
+    width: 320px;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: end;
+    border-radius: 1rem;
+    border: 3px solid #fff;
+    overflow: hidden; 
+    transition: background 0.2s ease-in;
+  }
+
+  .screen .nav {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    color: #555555;
+    width: 100%;
+    font-size: small;
+    padding: 0.7rem 1rem ;
+  }
+
+  .nav li {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+
+  .aboutUsBg {
+    background: url('./aboutus.avif') center center/cover no-repeat;
+  }
+
+  .homeBg {
+    background: url('./home.avif') center center/cover no-repeat;
+  }
+  
+  .workBg {
+    background: url('./work.avif') center center/cover no-repeat;
+  }
+
+  .blogBg {
+    background: url('./blog.avif') center center/cover no-repeat;
+  }
+
+  .active {
+    color: var(--celeste);
+    font-weight: bold;
   }
 
   @media (max-width: 600px) {
@@ -18,5 +126,50 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const links = document.querySelectorAll(".nav li");
+    const screen = document.querySelector(".dia38 .screen");
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        links.forEach((l) => {
+          l.classList.remove("active");
+        });
+        link.classList.add("active");
+        
+        //@ts-ignore
+        switch (link.innerText) {
+          case "Home":
+          screen.classList.add("homeBg");
+          screen.classList.remove("aboutUsBg");
+          screen.classList.remove("workBg");
+          screen.classList.remove("blogBg");
+            break;
+            case "Work":
+          screen.classList.add("workBg");
+          screen.classList.remove("homeBg");
+          screen.classList.remove("aboutUsBg");
+          screen.classList.remove("blogBg");
+            break;
+            case "Blog":
+          screen.classList.add("blogBg");
+          screen.classList.remove("homeBg");
+          screen.classList.remove("aboutUsBg");
+          screen.classList.remove("workBg");
+            break;  
+            case "About Us":
+          screen.classList.add("aboutUsBg");
+          screen.classList.remove("homeBg");
+          screen.classList.remove("workBg");
+          screen.classList.remove("blogBg");  
+            break;
+          default: 
+          screen.classList.add("homeBg");
+          break;
+        }
+
+      });
+    });
+
+  });
 </script>

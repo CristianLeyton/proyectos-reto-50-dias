@@ -138,9 +138,9 @@ const loadingCards = Array.from({ length: 35 });
 
 <script>
   //importar imagen desde ruta local y no de la carpeta public
-  import imgPobeball from "./ball.webp";
+  //import imgPobeball from "./ball.webp";
 
-  document.addEventListener("astro:page-load", () => {
+/*   document.addEventListener("astro:page-load", () => { */
     const urlApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
     const container = document.querySelector(".dia37");
 
@@ -179,10 +179,6 @@ const loadingCards = Array.from({ length: 35 });
 
           if (container) {
             container.innerHTML = "";
-
-
-
-            
           }
 
           pokemons.forEach((data) => {
@@ -191,7 +187,7 @@ const loadingCards = Array.from({ length: 35 });
 
             const card = document.createElement("div");
             card.classList.add("card");
-            card.style.backgroundImage = `url(${imgPobeball.src})`;
+            //card.style.backgroundImage = `url(${imgPobeball.src})`;
             card.style.backgroundColor = colorTypes[itemType];
 
             const infoCard = `<div class="info">
@@ -223,5 +219,5 @@ const loadingCards = Array.from({ length: 35 });
         }
       }
     }
-  });
+/*   }); */
 </script>
