@@ -140,7 +140,7 @@ const loadingCards = Array.from({ length: 35 });
   //importar imagen desde ruta local y no de la carpeta public
   import imgPobeball from "./ball.webp";
 
- document.addEventListener("astro:page-load", () => { 
+  document.addEventListener("astro:page-load", () => {
     const urlApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
     const container = document.querySelector(".dia37");
 
@@ -212,12 +212,11 @@ const loadingCards = Array.from({ length: 35 });
             if (container) {
               container.appendChild(card);
             }
-
           });
         } catch (error) {
           console.error("Hubo un problema con la solicitud Fetch:", error);
         }
       }
     }
-  }); 
+  });
 </script>
