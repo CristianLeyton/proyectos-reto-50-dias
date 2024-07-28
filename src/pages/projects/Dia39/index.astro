@@ -4,9 +4,94 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 39" subtitle="Password Strength Background">
   <div class="container dia39">
+    <div class="loginContainer">
+      <!-- Partes del perro -->
+      <div class="orejaIzq posAbsolute"></div>
+      <div class="orejaDer posAbsolute"></div>
+      <div class="cara">
+        <div class="ojos">
+          <div class="ojo ojoIzq"></div>
+          <div class="ojo ojoDer"></div>
+        </div>
+        <div class="nariz"></div>
+        <div class="boca">
+          <div class="lengua"></div>
+        </div>
+      </div>
+      <div class="patas">
+        <div class="pata pataIzq"></div>
+        <div class="pata pataDer"></div>
+      </div>
+      <!-- Partes del login -->
+      <div class="loginForm">
+        <label class="labelPassword" for="">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor;transform: ;msFilter:;"
+            ><path
+              d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"
+            ></path></svg
+          >
+          <input
+            type="text"
+            class="input"
+            placeholder="Usuario"
+            maxlength="20"
+          />
+        </label>
+        <label class="labelPassword" for="">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor;transform: ;msFilter:;"
+            ><path
+              d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm4 10.723V20h-2v-2.277a1.993 1.993 0 0 1 .567-3.677A2.001 2.001 0 0 1 14 16a1.99 1.99 0 0 1-1 1.723z"
+            ></path></svg
+          >
+          <input
+            type="password"
+            class="password"
+            placeholder="Contraseña"
+            name=""
+            id=""
+          />
+          <button class="showPassword">
+            <!-- <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="fill: currentColor;transform: ;msFilter:;"
+              ><path
+                d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 11c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"
+              ></path><path
+                d="M12 10c-1.084 0-2 .916-2 2s.916 2 2 2 2-.916 2-2-.916-2-2-2z"
+              ></path></svg
+            > -->
 
-
-
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="fill: currentColor;transform: ;msFilter:;"
+            >
+              <path
+                d="M8.073 12.194 4.212 8.333c-1.52 1.657-2.096 3.317-2.106 3.351L2 12l.105.316C2.127 12.383 4.421 19 12.054 19c.929 0 1.775-.102 2.552-.273l-2.746-2.746a3.987 3.987 0 0 1-3.787-3.787zM12.054 5c-1.855 0-3.375.404-4.642.998L3.707 2.293 2.293 3.707l18 18 1.414-1.414-3.298-3.298c2.638-1.953 3.579-4.637 3.593-4.679l.105-.316-.105-.316C21.98 11.617 19.687 5 12.054 5zm1.906 7.546c.187-.677.028-1.439-.492-1.96s-1.283-.679-1.96-.492L10 8.586A3.955 3.955 0 0 1 12.054 8c2.206 0 4 1.794 4 4a3.94 3.94 0 0 1-.587 2.053l-1.507-1.507z"
+              ></path></svg
+            >
+          </button>
+        </label>
+        <button class="submit">Acceder</button>
+      </div>
+    </div>
   </div>
 </LayoutProyecto>
 
@@ -17,10 +102,383 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     place-content: center;
   }
 
+  .loginContainer {
+    background: rgb(249, 183, 75);
+    background: linear-gradient(
+      120deg,
+      rgba(249, 183, 75, 1) 0%,
+      rgba(249, 209, 90, 1) 100%
+    );
+    height: 560px;
+    width: 320px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 4rem 2rem 1rem 2rem;
+  }
+
+  /* PERRO  */
+  .posAbsolute {
+    position: absolute;
+  }
+
+  .orejaIzq,
+  .orejaDer {
+    background-color: #243946;
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+  }
+
+  .orejaIzq {
+    top: -160px;
+    left: -220px;
+  }
+
+  .orejaDer {
+    top: -160px;
+    right: -220px;
+  }
+
+  .cara {
+    width: 200px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s linear;
+  }
+
+  .ojos {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.2rem;
+  }
+
+  .ojo {
+    height: 30px;
+    width: 30px;
+    background-color: #243946;
+    border-radius: 50%;
+    position: relative;
+
+    &::after {
+      content: "";
+      height: 9px;
+      width: 15px;
+      background-color: #fff;
+      border-radius: 100%;
+      position: absolute;
+      right: 1px;
+      top: 4px;
+      transform: rotate(45deg);
+      border-bottom: 0px solid;
+      border-top: 1px solid;
+    }
+  }
+
+  .nariz {
+    background-color: #243946;
+    height: 40px;
+    width: 40px;
+    transform: rotate(45deg);
+    border-radius: 0px 12px 20px 12px;
+    margin-top: 1rem;
+    position: relative;
+
+    &::before {
+      content: "";
+      height: 10px;
+      width: 20px;
+      background-color: #ffffff40;
+      position: absolute;
+      z-index: 2;
+      transform: rotate(-45deg);
+      top: 17px;
+      left: 12px;
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      height: 30px;
+      width: 80px;
+      background: rgb(249, 192, 81);
+      background: linear-gradient(
+        120deg,
+        rgba(249, 192, 81, 1) 0%,
+        rgba(249, 195, 82, 1) 100%
+      );
+      transform: rotate(-45deg);
+      top: -10px;
+      left: -35px;
+    }
+  }
+
+  .boca {
+    background-color: #243946;
+    height: 15px;
+    width: 100px;
+    border-radius: 0px 0px 50px 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 130px;
+      height: 20px;
+      background-color: transparent;
+      z-index: 2;
+      top: -16px;
+      left: -15px;
+      border-radius: 0px 0px 100px 100px;
+      border-bottom: 4px solid #243946;
+      border-left: 4px solid #243946;
+      border-right: 4px solid #243946;
+    }
+  }
+
+  .lengua {
+    background-color: #fcb7bf;
+    height: 50px;
+    width: 35px;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    overflow: hidden;
+    animation: animacion-lengua 0.35s infinite ease-in-out;
+
+    &::after {
+      content: "";
+      inset: 0;
+      position: absolute;
+      border: 15px solid #ffd7dd;
+      border-top: 0;
+      z-index: 3;
+      margin-top: 10px;
+    }
+  }
+
+  .patas {
+    width: 48%;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 215px;
+    transition: transform 0.5s ease-out;
+  }
+
+  .pata {
+    height: 35px;
+    width: 21px;
+    background-color: #fac555;
+    border: 3px solid #243946;
+    border-top: none;
+    border-radius: 0px 0px 10px 10px;
+    position: relative;
+    transition: transform 0.5s ease-out;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 21px;
+      background-color: #fac555;
+      border: 3px solid #243946;
+      border-top: none;
+      border-radius: 0px 0px 10px 10px;
+      left: -21px;
+      top: 5px;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 21px;
+      background-color: #fac555;
+      border: 3px solid #243946;
+      border-top: none;
+      border-radius: 0px 0px 10px 10px;
+      right: -21px;
+      top: 5px;
+    }
+  }
+
+  @keyframes animacion-lengua {
+    to {
+      height: 35px;
+    }
+  }
+
+  /* FORM */
+
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
+  }
+
+  .loginForm input {
+    width: 100%;
+    outline: none;
+    padding: 0rem 0.5rem;
+  }
+
+  .dia39 .icon {
+    color: #bbbbbb;
+  }
+
+  .labelPassword {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 1.4rem 0.7rem;
+    border-radius: 25px;
+    height: 1.5rem;
+  }
+
+  .showPassword {
+    background-color: #243946;
+    z-index: 1;
+    color: #fff;
+    border-radius: 25px;
+    padding: 5px;
+  }
+
+  .dia39 button:active {
+    transform: scale(0.95);
+  }
+
+  .submit {
+    background-color: #243946;
+    width: 100%;
+    border-radius: 25px;
+    color: #fff;
+    padding: 0.5rem;
+  }
+
   @media (max-width: 600px) {
   }
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const inputUsuario = document.querySelector(".input");
+    let inputPassword = document.querySelector(".password");
+    const cara = document.querySelector(".cara");
+    const patas = document.querySelector(".patas");
+    const pataIzq = document.querySelector(".pataIzq");
+    const pataDer = document.querySelector(".pataDer");
+    const showPasswordBtn = document.querySelector(".showPassword");
+
+    inputUsuario.addEventListener("focus", girarCara);
+    inputUsuario.addEventListener("blur", reiniciarCara);
+
+    inputPassword.addEventListener("focus", taparOjos);
+    inputPassword.addEventListener("blur", reiniciarPatas);
+
+    showPasswordBtn.addEventListener("click", showPassword);
+
+    function reiniciarCara() {
+      //@ts-ignore
+      cara.style.transform = "";
+    }
+
+    function reiniciarPatas() {
+      //@ts-ignore
+      patas.style.transform = "";
+      //@ts-ignore
+      pataIzq.style.transform = "";
+      //@ts-ignore
+      pataDer.style.transform = "";
+    }
+
+    function girarCara() {
+      //@ts-ignore
+      let caracteres = inputUsuario.value.length;
+      if (caracteres == 0) {
+        //@ts-ignore
+        cara.style.transform = "rotate(20deg)";
+      } else {
+        //@ts-ignore
+        cara.style.transform = `rotate(${20 - caracteres * 2}deg)`;
+      }
+
+      inputUsuario.addEventListener("input", () => {
+        if (caracteres <= 20) {
+          //@ts-ignore
+          caracteres = inputUsuario.value.length;
+        }
+        //@ts-ignore
+        cara.style.transform = `rotate(${20 - caracteres * 2}deg)`;
+      });
+    }
+
+    function taparOjos() {
+      //@ts-ignore
+      if (inputPassword.type == "password") {
+        //@ts-ignore
+        patas.style.transform = "translateY(-191px)";
+      } else {
+        //@ts-ignore
+        patas.style.transform = "translateY(-151px)";
+      }
+      //@ts-ignore
+      pataIzq.style.transform = "rotate(-150deg)";
+      //@ts-ignore
+      pataDer.style.transform = "rotate(150deg)";
+    }
+
+    function showPassword() {
+      //@ts-ignore
+      pataIzq.style.transform = "rotate(-150deg)";
+      //@ts-ignore
+      pataDer.style.transform = "rotate(150deg)";
+
+      //@ts-ignore
+      if (inputPassword.type == "password") {
+        //@ts-ignore
+        inputPassword.type = "text";
+        //@ts-ignore
+        patas.style.transform = "translateY(-151px)";
+        showPasswordBtn.innerHTML = `<svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="fill: currentColor;transform: ;msFilter:;"
+              ><path
+                d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 11c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"
+              ></path><path
+                d="M12 10c-1.084 0-2 .916-2 2s.916 2 2 2 2-.916 2-2-.916-2-2-2z"
+              ></path></svg
+            >`;
+      } else {
+        //@ts-ignore
+        patas.style.transform = "translateY(-191px)";
+        //@ts-ignore
+        inputPassword.type = "password";
+        showPasswordBtn.innerHTML = `<svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="fill: currentColor;transform: ;msFilter:;"
+            >
+              <path
+                d="M8.073 12.194 4.212 8.333c-1.52 1.657-2.096 3.317-2.106 3.351L2 12l.105.316C2.127 12.383 4.421 19 12.054 19c.929 0 1.775-.102 2.552-.273l-2.746-2.746a3.987 3.987 0 0 1-3.787-3.787zM12.054 5c-1.855 0-3.375.404-4.642.998L3.707 2.293 2.293 3.707l18 18 1.414-1.414-3.298-3.298c2.638-1.953 3.579-4.637 3.593-4.679l.105-.316-.105-.316C21.98 11.617 19.687 5 12.054 5zm1.906 7.546c.187-.677.028-1.439-.492-1.96s-1.283-.679-1.96-.492L10 8.586A3.955 3.955 0 0 1 12.054 8c2.206 0 4 1.794 4 4a3.94 3.94 0 0 1-.587 2.053l-1.507-1.507z"
+              ></path></svg
+            >`;
+      }
+    }
+  });
 </script>
