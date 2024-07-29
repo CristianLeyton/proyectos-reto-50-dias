@@ -18,9 +18,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       >
     </button>
 
-    <div class="bigBox">
-
-    </div>
+    <div class="bigBox"></div>
   </div>
 </LayoutProyecto>
 
@@ -120,14 +118,39 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   @media (max-width: 600px) {
-  }
+    .bigBox {
+      width: 300px;
+      height: 300px;
+    }
 
+    .openBox {
+      width: 380px;
+      height: 380px;
+    }
+
+    .box {
+      width: 75px;
+      height: 75px;
+      background-size: 300px 300px;
+      background-color: #ddd;
+
+      &::before {
+        width: 75px;
+        height: 10px;
+        transform: translateY(75px) translateX(5px) skewX(45deg);
+      }
+
+      &::after {
+        width: 10px;
+        height: 75px;
+        transform: translateX(75px) translateY(5px) skewY(45deg);
+      }
+    }
+  }
 </style>
 
-
 <script>
-
-import imageMinion from './minions.webp';
+  import imageMinion from "./minions.webp";
 
   document.addEventListener("astro:page-load", () => {
     const magicBtn = document.querySelector(".buttonMagic");
@@ -139,8 +162,13 @@ import imageMinion from './minions.webp';
           const box = document.createElement("div");
           box.classList.add("box");
           box.classList.add("rotateClose");
-          box.style.backgroundImage = `url(${imageMinion.src})`
+          box.style.backgroundImage = `url(${imageMinion.src})`;
           box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`;
+
+          if (window.innerWidth <= 600) {
+            box.style.backgroundPosition = `${-j * 75}px ${-i * 75}px`;
+          }
+
           bigBox.appendChild(box);
         }
       }
