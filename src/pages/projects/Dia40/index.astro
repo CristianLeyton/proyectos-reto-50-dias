@@ -150,40 +150,42 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  import imageMinion from "./minions.webp";
+  //import imageMinion from "./minions.webp";
 
   document.addEventListener("astro:page-load", () => {
     const magicBtn = document.querySelector(".buttonMagic");
     const bigBox = document.querySelector(".bigBox");
 
-    function createBoxes() {
-      for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 4; j++) {
-          const box = document.createElement("div");
-          box.classList.add("box");
-          box.classList.add("rotateClose");
-          box.style.backgroundImage = `url(${imageMinion.src})`;
-          box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`;
+    if (bigBox) {
+      function createBoxes() {
+        for (let i = 0; i < 4; i++) {
+          for (let j = 0; j < 4; j++) {
+            const box = document.createElement("div");
+            box.classList.add("box");
+            box.classList.add("rotateClose");
+            //box.style.backgroundImage = `url(${imageMinion.src})`;
+            box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`;
 
-          if (window.innerWidth <= 600) {
-            box.style.backgroundPosition = `${-j * 75}px ${-i * 75}px`;
+            if (window.innerWidth <= 600) {
+              box.style.backgroundPosition = `${-j * 75}px ${-i * 75}px`;
+            }
+
+            bigBox.appendChild(box);
           }
-
-          bigBox.appendChild(box);
         }
       }
-    }
 
-    createBoxes();
+      createBoxes();
 
-    magicBtn.addEventListener("click", () => {
-      const boxes = document.querySelectorAll(".box");
-      bigBox.classList.toggle("openBox");
+      magicBtn.addEventListener("click", () => {
+        const boxes = document.querySelectorAll(".box");
+        bigBox.classList.toggle("openBox");
 
-      boxes.forEach((box) => {
-        box.classList.toggle("rotateOpen");
-        box.classList.toggle("rotateClose");
+        boxes.forEach((box) => {
+          box.classList.toggle("rotateOpen");
+          box.classList.toggle("rotateClose");
+        });
       });
-    });
+    }
   });
 </script>
