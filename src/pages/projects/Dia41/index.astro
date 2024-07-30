@@ -157,6 +157,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     inputNumbers.forEach((number, i, numbers) => {
       number.addEventListener("input", (e) => {
+
         if (i < numbers.length - 1 && number.value !== "") {
           numbers[i + 1].focus();
         }
@@ -170,11 +171,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         }
       });
 
-      number.addEventListener("keyup", (e) => {
-        if (e.code == "Backspace") {
-          if (i > 0) {
-            numbers[i - 1].focus();
-          }
+      number.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && number.value === "" && i > 0) {
+          numbers[i - 1].focus();
         }
       });
     });
