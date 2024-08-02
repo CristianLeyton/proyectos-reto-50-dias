@@ -3,20 +3,179 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 45" subtitle="Netflix Mobile Navigation">
-  <div class="container dia45"></div>
+  <div class="container dia45">
+    <button class="menu">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        style="fill: currentColor;transform: ;msFilter:;"
+        ><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg
+      >
+    </button>
+
+    <div class="sidebar">
+      <div class="blackBox boxNetflix"></div>
+      <div class="redBox boxNetflix"></div>
+      <div class="whiteBox boxNetflix">
+        <div class="headerSidebar">
+          <div class="logoNetflix"></div>
+          <button class="closeMenu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path></svg>
+        </button>
+        </div>
+        <ul>
+          <li>Teams</li>
+          <li>Locations</li>
+          <li>Life at Netflix
+            <ul>
+              <li>Netflix culture memo</li>
+              <li>Work life balance</li>
+              <li>Inclusion & diversity</li>
+              <li>Blog</li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="logoNetflix"></div>
+    <p>Mobile Navigation</p>
+  </div>
 </LayoutProyecto>
 
 <style>
-  .dia45  {
+  .dia45 {
     min-height: 70vh;
     display: grid;
     place-content: center;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .menu {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .logoNetflix {
+    height: 120px;
+    width: 200px;
+    background: url("./logo.png") center center/contain no-repeat;
+  }
+
+  .sidebar{ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    min-width: 300px;
+    height: 100%;
+    transition: transform 0s 0s ease-in-out;
+  }
+
+   .sidebar.hideBox {
+    transition-delay: 0.75s;
+    transform: translateX(-101%);
+  } 
+
+  .headerSidebar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .closeMenu {
+    width: 36px;
+    height: 36px;
+    color: #B2B2B2;
+  }
+
+  .blackBox {
+    background-color: #221F1F;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s 0s ease-in-out;
+  }
+
+  .blackBox.hideBox {
+    transition-delay: 0.5s;
+    transform: translateX(-101%);
+  }
+
+  .redBox {
+    position: absolute;
+    top: 0;
+    background-color: #E50914;
+    height: 100%;
+    width: 90%;
+    transition: transform 0.3s 0.25s ease-in-out;
+  }
+
+  .redBox.hideBox {
+    transition-delay: 0.25s;
+    transform: translateX(-101%);
+  }
+
+  .whiteBox {
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    height: 100%;
+    width: 80%;
+    text-align: left;
+    padding: 1rem;
+    transition: transform 0.3s 0.5s ease-in-out;
+  }
+
+  .whiteBox.hideBox {
+    transition-delay: 0s;
+    transform: translateX(-101%);
+  }
+
+  .whiteBox ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 1rem;
+    text-transform: uppercase;
+  
+    & li:hover {
+      cursor: pointer;
+    }
+
   }
 
   @media (max-width: 600px) {
+
   }
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const menuButton = document.querySelector('.menu');
+    const closeButton = document.querySelector('.closeMenu');
+    const boxesSidebar  = document.querySelectorAll('.boxNetflix'); 
+    const sidebar = document.querySelector('.sidebar');
+
+    closeButton.addEventListener('click', ()=> {
+      boxesSidebar.forEach(box => {
+        box.classList.add('hideBox');
+      });
+      sidebar.classList.add('hideBox');
+    })
+
+    menuButton.addEventListener('click', ()=> {
+      boxesSidebar.forEach(box => {
+        box.classList.remove('hideBox');
+      });
+      sidebar.classList.remove('hideBox');
+    })
+
+  });
 </script>

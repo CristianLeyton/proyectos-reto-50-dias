@@ -24,7 +24,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           <label>
             <span class="emoji">&#128512;</span>
             <p>Satisfied</p>
-            <input type="radio" name="vote" id="Satisfied" checked/>
+            <input type="radio" name="vote" id="Satisfied" checked />
           </label>
         </div>
 
@@ -34,11 +34,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="boxThanks hide">
         <span class="emoji">&#128150;</span>
         <p><strong>Thank You!</strong></p>
-        <p> <strong>Feedback: <span id="answer"></span></strong></p>
-      
+        <p><strong>Feedback: <span id="answer"></span></strong></p>
+
         <p>We'll use your feedback to improve our customer support</p>
       </div>
-
     </div>
   </div>
 </LayoutProyecto>
@@ -62,17 +61,16 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
 
     strong {
-      font-size: larger ;
+      font-size: larger;
     }
   }
 
   .emoji {
-      width: fit-content;
-      aspect-ratio: 1/1;
-      background-color: #fff;
-      border-radius: 50%;
-      padding: 0px;
-    }
+    width: fit-content;
+    aspect-ratio: 1/1;
+    background-color: #fff;
+    border-radius: 50%;
+  }
 
   .satisfiedBox {
     border: 2px solid var(--naranja);
@@ -81,7 +79,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-color: var(--naranja-claro);
     color: #fff;
     text-wrap: pretty;
-    text-align: center; 
+    text-align: center;
   }
 
   .boxQuestion {
@@ -111,7 +109,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       align-items: center;
 
       & span {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
 
       &:hover {
@@ -156,28 +154,33 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   document.addEventListener("astro:page-load", () => {
     const inputRadios = document.querySelectorAll('input[name="vote"]');
     let optionSelected;
-    const answer = document.querySelector('#answer');
-    const boxQuestion = document.querySelector('.boxQuestion');
-    const boxThanks = document.querySelector('.boxThanks');
-    const buttonSend = document.querySelector('.sendReview');
+    const answer = document.querySelector("#answer");
+    const boxQuestion = document.querySelector(".boxQuestion");
+    const boxThanks = document.querySelector(".boxThanks");
+    const buttonSend = document.querySelector(".sendReview");
 
-    inputRadios.forEach((radio) => {
+    if (inputRadios) {
+      inputRadios.forEach((radio) => {
+        //@ts-ignore
+        if (radio.checked) {
+          optionSelected = radio.id;
+          answer.textContent = optionSelected;
+        }
 
-      //@ts-ignore
-      if (radio.checked) {
-        optionSelected = radio.id;
-        answer.textContent = optionSelected;
+        radio.addEventListener("change", () => {
+          optionSelected = radio.id;
+          answer.textContent = optionSelected;
+        });
+      });
+
+      if (buttonSend) {
+        buttonSend.addEventListener("click", () => {
+        boxQuestion.classList.toggle("hide");
+        boxThanks.classList.toggle("hide");
+      });
       }
 
-      radio.addEventListener("change", () => {
-        optionSelected = radio.id;
-        answer.textContent = optionSelected;
-      });
-    });
-
-    buttonSend.addEventListener('click', () => {
-      boxQuestion.classList.toggle('hide');
-      boxThanks.classList.toggle('hide');
-    })
+      
+    }
   });
 </script>
