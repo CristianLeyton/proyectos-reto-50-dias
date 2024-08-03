@@ -3,20 +3,180 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 46" subtitle="Quiz App">
-  <div class="container dia46"></div>
+  <div class="container dia46">
+    <div class="quizBox">
+      <div class="boxQuestion">
+        <h1 id="question"></h1>
+        <div class="boxAnswers">
+          <label>
+            <input type="radio" name="answer" />
+            <span id="option1"></span>
+          </label>
+          <label>
+            <input type="radio" name="answer" />
+            <span id="option2"></span>
+          </label>
+          <label>
+            <input type="radio" name="answer" />
+            <span id="option3"></span>
+          </label>
+          <label>
+            <input type="radio" name="answer" />
+            <span id="option4"></span>
+          </label>
+        </div>
+      </div>
+      <button class="submit">Submit</button>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
-  .dia46  {
+  .dia46 {
     min-height: 70vh;
     display: grid;
     place-content: center;
+    background-color: var(--celeste-oscuro);
+  }
+
+  .quizBox {
+    width: 600px;
+    height: 360px;
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .boxQuestion {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  #question {
+    font-weight: bold;
+    font-size: 1.4rem;
+    text-wrap: pretty;
+  }
+
+  .boxAnswers {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    font-size: larger;
+    gap: 5px;
+  }
+
+  .submit {
+    height: 60px;
+    display: grid;
+    place-content: center;
+    background-color: var(--naranja-claro);
+    color: #fff;
+    font-weight: bold;
+
+    &:hover {
+      background-color: var(--naranja);
+    }
+
+    &:active {
+      background-color: var(--naranja-claro);
+    }
   }
 
   @media (max-width: 600px) {
+    .quizBox {
+      width: 380px;
+    }
   }
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const quizData = [
+      {
+        question: "Which language runs in a web browser?",
+        a: "Java",
+        b: "C",
+        c: "Python",
+        d: "JavaScript",
+        correct: "d",
+      },
+      {
+        question: "What does CSS stand for?",
+        a: "Central Style Sheets",
+        b: "Cascading Style Sheets",
+        c: "Cascading Simple Sheets",
+        d: "Cars SUVs Sailboats",
+        correct: "b",
+      },
+      {
+        question: "What does HTML stand for?",
+        a: "Hypertext Markup Language",
+        b: "Hypertext Markdown Language",
+        c: "Hyperloop Machine Language",
+        d: "Helicopters Terminals Motorboats Lamborginis",
+        correct: "a",
+      },
+      {
+        question: "What year was JavaScript launched?",
+        a: "1996",
+        b: "1995",
+        c: "1994",
+        d: "none of the above",
+        correct: "b",
+      },
+    ];
+
+    const question = document.querySelector("#question");
+    const option1 = document.querySelector("#option1");
+    const option2 = document.querySelector("#option2");
+    const option3 = document.querySelector("#option3");
+    const option4 = document.querySelector("#option4");
+    const options = document.querySelectorAll('[name="answer"]');
+    const submit = document.querySelector(".submit");
+    let correctAnswer;
+    let correctsCount = 0;
+    let questionNumber = 0;
+
+    if (question && submit) {
+      correctAnswer = loadQuestion(questionNumber);
+      submit.addEventListener("click", () => {
+        let oneChecked = 0;
+        options.forEach((option) => {
+          //@ts-ignore
+          if (option.checked) {
+            oneChecked = 1;
+            if (option.nextElementSibling.textContent == correctAnswer) {
+              correctsCount++;
+            }
+          }
+        });
+
+        if (oneChecked) {
+          questionNumber++;
+          correctAnswer = loadQuestion(questionNumber);
+        }
+        console.log(correctsCount);
+      });
+
+      function loadQuestion(number) {
+        question.textContent = quizData[number].question;
+        option1.textContent = quizData[number].a;
+        option2.textContent = quizData[number].b;
+        option3.textContent = quizData[number].c;
+        option4.textContent = quizData[number].d;
+
+        return quizData[number][quizData[number].correct];
+      }
+    }
+  });
 </script>
