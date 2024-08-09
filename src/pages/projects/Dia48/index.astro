@@ -4,21 +4,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 48" subtitle="Random Image Feed">
   <div class="container dia48">
-    <div class="column">
       <div class="loading" style="height: 200px;"></div>
       <div class="loading" style="height: 350px;"></div>
       <div class="loading"></div>
-    </div>
-    <div class="column">
       <div class="loading"></div>
       <div class="loading" style="height: 200px;"></div>
       <div class="loading" style="height: 350px;"></div>
-    </div>
-    <div class="column">
       <div class="loading" style="height: 150px;"></div>
       <div class="loading" style="height: 400px;"></div>
       <div class="loading" style="height: 250px;"></div>
-    </div>
   </div>
 </LayoutProyecto>
 
@@ -54,28 +48,25 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
   .dia48 {
     min-height: 70vh;
-    display: grid;
     margin-top: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-    gap: 1rem;
-    max-width: 1100px;
+    max-width: 1200px;
+    columns: 4 185px;
+    column-gap: 0.5rem;
   }
 
-  .column {
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
 
   .dia48 img {
+    position: relative;
     border: 8px solid #fff;
     border-radius: 10px;
     box-shadow: 0 0 3px #ddd;
+    outline: 2px solid #fff;
+    outline-offset: -15px;
     overflow: hidden;
     filter: grayscale(0.7);
     transition: transform .5s, filter .4s; 
     background-color: #fff;
+    margin-bottom: 1rem;
 
     &:hover {
       cursor: zoom-in;
@@ -93,7 +84,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 <script>
   document.addEventListener("astro:page-load", () => {
     const urlApiImgs = 'https://api.unsplash.com/photos/random/?client_id=pF3OsYybLZJ_88IPtchjuCnH-Mq4pGRyEqpA3hXhFvE&count=30';
-    const columns = document.querySelectorAll(".column");
+    const columns = document.querySelector(".dia48");
     // Realizar la solicitud
     
     if (columns && urlApiImgs) {
@@ -108,17 +99,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       })
       .then((data) => {
         // Aquí puedes usar los datos de la API
-        columns.forEach(element => {
-          element.innerHTML = '';
-        });
+        columns.innerHTML = '';
         //console.log(data);
         let j = 0;
         data.forEach((imagen) => {
-          j = j < 2 ? j + 1 : 0;
 
           const img = document.createElement("img");
           img.src = imagen.urls.regular;
-          columns[j].insertAdjacentElement("beforeend", img);
+          columns.insertAdjacentElement("beforeend", img);
         });
       })
       .catch((error) => {
