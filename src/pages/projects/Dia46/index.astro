@@ -6,6 +6,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="container dia46">
     <div class="quizBox">
       <div class="boxQuestion">
+        <span class="numberQuestion"></span>
         <h1 id="question"></h1>
         <div class="boxAnswers">
           <label>
@@ -39,14 +40,24 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     background-color: var(--celeste-oscuro);
   }
 
+
+  .numberQuestion {
+    font-size: small;
+    opacity: 0.6;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
   .quizBox {
     width: 600px;
-    height: 360px;
+    height: 320px;
     background-color: #fff;
     border-radius: 16px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   .boxQuestion {
@@ -66,13 +77,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .boxAnswers {
-    width: 70%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: center;
     font-size: larger;
     gap: 5px;
+    text-align: left;
   }
 
   .submit {
@@ -143,13 +155,18 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const option4 = document.querySelector("#option4");
     const options = document.querySelectorAll('[name="answer"]');
     const submit = document.querySelector(".submit");
+    const numberQuestion = document.querySelector(".numberQuestion");
+
+    const boxAnswers = document.querySelector(".boxAnswers");
+
     let correctAnswer;
     let correctsCount = 0;
     let questionNumber = 0;
 
     if (question && submit) {
       correctAnswer = loadQuestion(questionNumber);
-      submit.addEventListener("click", () => {
+
+      const nextQuestion = () => {
         let oneChecked = 0;
         options.forEach((option) => {
           //@ts-ignore
@@ -159,16 +176,42 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
               correctsCount++;
             }
           }
+          //@ts-ignore
+          option.checked = false;
         });
 
         if (oneChecked) {
-          questionNumber++;
-          correctAnswer = loadQuestion(questionNumber);
+          if (!quizData[questionNumber + 1]) {
+            showResults(correctsCount);
+          } else {
+            questionNumber++;
+            correctAnswer = loadQuestion(questionNumber);
+          }
+        } else {
+          alert("Selecciona una opcion para poder continuar");
         }
         console.log(correctsCount);
-      });
+      };
+
+      submit.addEventListener("click", nextQuestion);
+
+      function showResults(correctAnswers) {
+        question.innerHTML = `You answered ${correctAnswers}/${quizData.length} questions correctly`;
+        boxAnswers.remove();
+        submit.textContent = "Reload";
+        submit.removeEventListener("click", nextQuestion);
+        //Recarga la pagina
+        submit.addEventListener("click", () => {
+          window.location.reload();
+        });
+      }
 
       function loadQuestion(number) {
+        
+
+        //@ts-ignore
+        numberQuestion.textContent = number+1 +  '/' + quizData.length;
+
         question.textContent = quizData[number].question;
         option1.textContent = quizData[number].a;
         option2.textContent = quizData[number].b;

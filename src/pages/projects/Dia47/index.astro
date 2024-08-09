@@ -3,14 +3,110 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 47" subtitle="	Testimonial Box Switcher">
-  <div class="container dia47"></div>
+  <div class="container dia47">
+    <div class="boxT">
+      <div class="loader"></div>
+      <div class="contentT">
+        <svg
+          class="quote"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          style="fill: currentColor;transform: ;msFilter:;"
+          ><path
+            d="M3.691 6.292C5.094 4.771 7.217 4 10 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 6.925 10H10a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2H3a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789zM20 20h-6a1 1 0 0 1-1-1v-5l.003-2.919c-.009-.111-.199-2.741 1.688-4.789C16.094 4.771 18.217 4 21 4h1v2.819l-.804.161c-1.37.274-2.323.813-2.833 1.604A2.902 2.902 0 0 0 17.925 10H21a1 1 0 0 1 1 1v7c0 1.103-.897 2-2 2z"
+          ></path></svg
+        >
+        <p class="textT"></p>
+        <svg
+          class="quote"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          style="fill: currentColor;transform: ;msFilter:;"
+          ><path
+            d="M20.309 17.708C22.196 15.66 22.006 13.03 22 13V5a1 1 0 0 0-1-1h-6c-1.103 0-2 .897-2 2v7a1 1 0 0 0 1 1h3.078a2.89 2.89 0 0 1-.429 1.396c-.508.801-1.465 1.348-2.846 1.624l-.803.16V20h1c2.783 0 4.906-.771 6.309-2.292zm-11.007 0C11.19 15.66 10.999 13.03 10.993 13V5a1 1 0 0 0-1-1h-6c-1.103 0-2 .897-2 2v7a1 1 0 0 0 1 1h3.078a2.89 2.89 0 0 1-.429 1.396c-.508.801-1.465 1.348-2.846 1.624l-.803.16V20h1c2.783 0 4.906-.771 6.309-2.292z"
+          ></path></svg
+        >
+      </div>
+      <div class="cardT">
+        <div class="imgT"></div>
+        <div class="infoT">
+          <p class="name"></p>
+          <p class="position"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </LayoutProyecto>
 
 <style>
-  .dia47  {
+  .dia47 {
     min-height: 70vh;
     display: grid;
     place-content: center;
+  }
+
+  .loader {
+    background-color: #fff;
+    height: 4px;
+    width: 0%;
+    transition: width 0.2s linear;
+    align-self: flex-start;
+  }
+
+  .boxT {
+    background-color: var(--naranja-claro);
+    color: #fff;
+    text-wrap: pretty;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 700px;
+  }
+
+  .cardT {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .contentT {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .textT {
+    flex: 20;
+    text-align: left;
+  }
+
+  .quote {
+    flex: 1;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+  }
+
+  .infoT {
+    text-align: left;
+  }
+
+  .infoT p:first-child {
+    font-weight: bold;
+  }
+
+  .imgT {
+    width: 80px;
+    height: 80px;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 50%;
+    background-repeat: no-repeat;
   }
 
   @media (max-width: 600px) {
@@ -18,5 +114,99 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const testimonials = [
+      {
+        name: "Miyah Myles",
+        position: "Marketing",
+        photo:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6",
+        text: "I've worked with literally hundreds of HTML/CSS developers and I have to say the top spot goes to this guy. This guy is an amazing developer. He stresses on good, clean code and pays heed to the details. I love developers who respect each and every aspect of a throughly thought out design and do their best to put it in code. He goes over and beyond and transforms ART into PIXELS - without a glitch, every time.",
+      },
+      {
+        name: "June Cha",
+        position: "Software Engineer",
+        photo: "https://randomuser.me/api/portraits/women/44.jpg",
+        text: "This guy is an amazing frontend developer that delivered the task exactly how we need it, do your self a favor and hire him, you will not be disappointed by the work delivered. He will go the extra mile to make sure that you are happy with your project. I will surely work again with him!",
+      },
+      {
+        name: "Iida Niskanen",
+        position: "Data Entry",
+        photo: "https://randomuser.me/api/portraits/women/68.jpg",
+        text: "This guy is a hard worker. Communication was also very good with him and he was very responsive all the time, something not easy to find in many freelancers. We'll definitely repeat with him.",
+      },
+      {
+        name: "Renee Sims",
+        position: "Receptionist",
+        photo: "https://randomuser.me/api/portraits/women/65.jpg",
+        text: "This guy does everything he can to get the job done and done right. This is the second time I've hired him, and I'll hire him again in the future.",
+      },
+      {
+        name: "Jonathan Nunfiez",
+        position: "Graphic Designer",
+        photo: "https://randomuser.me/api/portraits/men/43.jpg",
+        text: "I had my concerns that due to a tight deadline this project can't be done. But this guy proved me wrong not only he delivered an outstanding work but he managed to deliver 1 day prior to the deadline. And when I asked for some revisions he made them in MINUTES. I'm looking forward to work with him again and I totally recommend him. Thanks again!",
+      },
+      {
+        name: "Sasha Ho",
+        position: "Accountant",
+        photo:
+          "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?h=350&auto=compress&cs=tinysrgb",
+        text: "This guy is a top notch designer and front end developer. He communicates well, works fast and produces quality work. We have been lucky to work with him!",
+      },
+      {
+        name: "Veeti Seppanen",
+        position: "Director",
+        photo: "https://randomuser.me/api/portraits/men/97.jpg",
+        text: "This guy is a young and talented IT professional, proactive and responsible, with a strong work ethic. He is very strong in PSD2HTML conversions and HTML/CSS technology. He is a quick learner, eager to learn new technologies. He is focused and has the good dynamics to achieve due dates and outstanding results.",
+      },
+    ];
+
+    let i = 0; //Contador para el porcentaje
+    let j = 0; //Contador para los testimonios
+    const loader = document.querySelector(".loader");
+    const textT = document.querySelector(".textT");
+    const imgT = document.querySelector(".imgT");
+    const position = document.querySelector(".position");
+    const name = document.querySelector(".name");
+
+    if (loader && testimonials) {
+      startLoading(j);
+    loadT(testimonials[0]);
+
+    function startLoading(j) {
+      i = 0; // Reiniciar el valor de i
+      //@ts-ignore
+      loader.style.width = i + "%"; // Reiniciar el ancho del loader
+
+      const timer = setInterval(() => {
+        if (i >= 100) {
+          clearInterval(timer);
+          if (testimonials.length - 1 > j) {
+            j++;
+          } else {
+            j = 0;
+          }
+          // Volver a iniciar el intervalo después de que finalice
+          startLoading(j);
+          loadT(testimonials[j]);
+        } else {
+          i++;
+          //@ts-ignore
+          loader.style.width = i + "%";
+        }
+      }, 100);
+    }
+
+    function loadT(testimonio) {
+      textT.textContent = testimonio.text;
+      //@ts-ignore
+      imgT.style.backgroundImage = `url('${testimonio.photo}')`;
+      name.textContent = testimonio.name;
+      position.textContent = testimonio.position;
+    }
+    }
+
+    
+  });
 </script>

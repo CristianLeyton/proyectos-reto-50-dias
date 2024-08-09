@@ -3,14 +3,87 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 48" subtitle="Random Image Feed">
-  <div class="container dia48"></div>
+  <div class="container dia48">
+    <div class="column">
+      <div class="loading" style="height: 200px;"></div>
+      <div class="loading" style="height: 350px;"></div>
+      <div class="loading"></div>
+    </div>
+    <div class="column">
+      <div class="loading"></div>
+      <div class="loading" style="height: 200px;"></div>
+      <div class="loading" style="height: 350px;"></div>
+    </div>
+    <div class="column">
+      <div class="loading" style="height: 150px;"></div>
+      <div class="loading" style="height: 400px;"></div>
+      <div class="loading" style="height: 250px;"></div>
+    </div>
+  </div>
 </LayoutProyecto>
 
-<style>
-  .dia48  {
+<style is:inline>
+
+.loading {
+  width: 100%;
+  height: 250px;
+
+  border: 8px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 3px #ddd;
+  
+  background-image: linear-gradient(
+      to right,
+      #f6f7f8 0%,
+      #edeef1 10%,
+      #f6f7f8 20%,
+      #f6f7f8 100%
+    );
+    background-size: 200% 100%;
+    animation: bgAnimated 1s linear infinite;
+  }
+
+  @keyframes bgAnimated {
+    0% {
+      background-position: 50% 0;
+    }
+    100% {
+      background-position: -150% 0;
+    }
+  }
+
+  .dia48 {
     min-height: 70vh;
     display: grid;
-    place-content: center;
+    margin-top: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 1rem;
+    max-width: 1100px;
+  }
+
+  .column {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dia48 img {
+    border: 8px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 3px #ddd;
+    overflow: hidden;
+    filter: grayscale(0.7);
+    transition: transform .5s, filter .4s; 
+    background-color: #fff;
+
+    &:hover {
+      cursor: zoom-in;
+      filter: grayscale(0);
+      transform: scale(1.2); 
+      z-index: 2;
+      box-shadow: none;
+    }
   }
 
   @media (max-width: 600px) {
@@ -18,5 +91,44 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const urlApiImgs = 'https://api.unsplash.com/photos/random/?client_id=pF3OsYybLZJ_88IPtchjuCnH-Mq4pGRyEqpA3hXhFvE&count=30';
+    const columns = document.querySelectorAll(".column");
+    // Realizar la solicitud
+    
+    if (columns && urlApiImgs) {
+      fetch(urlApiImgs)
+      .then((response) => {
+        // Verificar si la respuesta es correcta (status 200-299)
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        // Convertir la respuesta en un objeto JavaScript
+        return response.json();
+      })
+      .then((data) => {
+        // Aquí puedes usar los datos de la API
+        columns.forEach(element => {
+          element.innerHTML = '';
+        });
+        //console.log(data);
+        let j = 0;
+        data.forEach((imagen) => {
+          j = j < 2 ? j + 1 : 0;
+
+          const img = document.createElement("img");
+          img.src = imagen.urls.regular;
+          columns[j].insertAdjacentElement("beforeend", img);
+        });
+      })
+      .catch((error) => {
+        // Manejar errores
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      });
+    }
+    
+  });
 </script>

@@ -150,7 +150,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  //import imageMinion from "./minions.webp";
+  import imageMinion from "./minions.webp";
 
   document.addEventListener("astro:page-load", () => {
     const magicBtn = document.querySelector(".buttonMagic");
@@ -163,7 +163,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             const box = document.createElement("div");
             box.classList.add("box");
             box.classList.add("rotateClose");
-           // box.style.backgroundImage = `url(${imageMinion.src})`;
+            box.style.backgroundImage = `url(${imageMinion.src})`;
             box.style.backgroundPosition = `${-j * 125}px ${-i * 125}px`;
 
             if (window.innerWidth <= 600) {
