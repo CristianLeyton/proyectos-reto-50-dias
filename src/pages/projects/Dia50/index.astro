@@ -1,16 +1,32 @@
 ---
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+import Bricks from "../Dia50/sprites/bricks.png";
+import Sprite from "../Dia50/sprites/sprite.png";
 ---
 
 <LayoutProyecto title="Día 50" subtitle="Insect Catch Game">
-  <div class="container dia50"></div>
+  <div class="container dia50">
+    <canvas class="arkanoid"></canvas>
+
+    <img hidden id="bricks" src={Bricks.src} alt="Sprite Arkanoid Background" />
+    <img hidden id="sprite" src={Sprite.src} alt="Sprite Bricks Arkanoid" />
+  </div>
 </LayoutProyecto>
 
 <style>
-  .dia50  {
+  .dia50 {
     min-height: 70vh;
     display: grid;
     place-content: center;
+    background-color: #2b2b2b;
+  }
+
+  .arkanoid {
+    background-color: var(--azul-oscuro);
+    border: 4px solid var(--celeste-oscuro);
+    border-bottom: none;
+    display: block;
+    background-image: url("./sprites/bkg.png");
   }
 
   @media (max-width: 600px) {
@@ -18,5 +34,358 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const canvas = document.querySelector("canvas");
+    const context = canvas.getContext("2d");
+
+    const $sprite = document.querySelector("#sprite");
+    const $bricks = document.querySelector("#bricks");
+
+    let brickColumnCount;
+
+    if (window.innerWidth <= 600) {
+      canvas.width = 320;
+      canvas.height = 400;
+      //Variables de los ladrillos
+      brickColumnCount = 9; //9
+    } else {
+      canvas.width = 448;
+      canvas.height = 400;
+      //Variables de los ladrillos
+      brickColumnCount = 13;
+    }
+
+    /*Variables del Juego*/
+    let score = 0;
+    let GAMEOVER = false;
+    let YOUWIN = false;
+
+    /* Variables de la Pelota */
+    const ballRadius = 3;
+    //Posicion de la pelota
+    let x = canvas.width / 2;
+    let y = canvas.height - 30;
+    //Velocidad de la pelota
+    let dx = 2;
+    let dy = -2;
+
+    /* Variables de la Paleta */
+    const paddleHeight = 10;
+    const paddleWidth = 50;
+
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    let paddleY = canvas.height - paddleHeight - 10;
+
+    let rightPressed = false;
+    let leftPressed = false;
+
+    let PADDLE_SEN = 5;
+
+    /* Variables de los ladrillos */
+    const brickRowCount = 6; //6
+    const brickWidth = 30;
+    const brickHeight = 15;
+    const brickPadding = 2;
+    const brickoffsetTop = 80;
+    const brickoffsetLeft = 16;
+    const bricks = [];
+
+    const BRICK_STATUS = {
+      ACTIVE: 1,
+      DESTROYED: 0,
+    };
+
+    for (let c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < brickRowCount; r++) {
+        //Calucular la posicion de los ladrillos en la pantalla
+        const brickX = c * (brickWidth + brickPadding) + brickoffsetLeft;
+        const brickY = r * (brickHeight + brickPadding) + brickoffsetTop;
+        //Asignar un color aleatorio a cada ladrillo
+        const random = Math.floor(Math.random() * 8); // número aleatorio del 0 al 7
+        //Guardamos la información de cada ladrillo
+        bricks[c][r] = {
+          x: brickX,
+          y: brickY,
+          status: BRICK_STATUS.ACTIVE,
+          color: random,
+        };
+      }
+    }
+
+    let requestAnimationFrame;
+    function draw() {
+      cleanCanvas();
+      //Aqui se va dibujando
+      drawBall();
+      drawPaddle();
+      drawBricks();
+      console.log(score)
+
+      //Colisiones y movimientos
+      collisionDetection();
+      ballMovement();
+      paddleMovement();
+
+      requestAnimationFrame = window.requestAnimationFrame(draw); //Dibuja constantemente mientras no termine el juego
+
+      if (GAMEOVER) {
+        gameOver();
+        setTimeout(() => {
+          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO 
+        }, 100);
+      }
+
+      if (YOUWIN) {
+        youWin();
+        setTimeout(() => {
+          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO 
+        }, 100);
+      }
+    }
+
+    //Dibujos y trazados
+    function drawBall() {
+      //Comienzo un trazo
+      context.beginPath();
+      //Dibujo un arco, en este caso, un circulo, con la posicion, y el radio
+      context.arc(x, y, ballRadius, 0, Math.PI * 2);
+      //Color de relleno
+      context.fillStyle = "#ffffff";
+      //Rellenar
+      context.fill();
+      //Cierro el trazado
+      context.closePath();
+    }
+
+    function drawPaddle() {
+      context.drawImage(
+        //@ts-ignore
+        $sprite, // imagen
+        29, // clipX: coordenadas de recorte
+        174, // clipY: coordenadas de recorte
+        paddleWidth, // el tamaño del recorte
+        paddleHeight, // tamaño del recorte
+        paddleX, // posición X del dibujo
+        paddleY, // posición Y del dibujo
+        paddleWidth, // ancho del dibujo
+        paddleHeight // alto del dibujo
+      );
+    }
+
+    function drawBricks() {
+      let bricksDestroyed = 0; //Bloques destruidos
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          const currentBrick = bricks[c][r];
+          //Si el bloque esta destruido, continua al al siguiente ciclo de la iteracion
+          if (currentBrick.status === BRICK_STATUS.DESTROYED) {
+            bricksDestroyed++;
+            drawScore(bricksDestroyed);
+            if (bricksDestroyed == brickColumnCount * brickRowCount) {
+              YOUWIN = true; //Si rompiste todos los bloques, ganaste capo
+            }
+            continue;
+          }
+
+          const clipX = currentBrick.color * 32;
+          context.drawImage(
+            //@ts-ignore
+            $bricks,
+            clipX,
+            0,
+            brickWidth, // 31
+            brickHeight, // 14
+            currentBrick.x,
+            currentBrick.y,
+            brickWidth,
+            brickHeight
+          );
+        }
+      }
+    }
+
+    function drawScore(points) {
+      context.clearRect(canvas.width - 25, 0, 25, 20); // LIMPIA SOLO LA ESQUINA DEL CANVAS
+      score = points * 100;
+      context.font = "12px Arial"; // Establece la fuente y el tamaño del texto
+      context.fillStyle = "white"; // Color del texto
+      context.fillText(score.toString(), canvas.width - 25, 15); // Texto y coordenadas (x, y)
+    }
+
+    function cleanCanvas() {
+      //Borrar todo el canvas para redibujarlo
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    //Colisiones y movimientos
+    function collisionDetection() {
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          const currentBrick = bricks[c][r];
+          //Si el bloque esta destruido, continua al al siguiente ciclo de la iteracion
+          if (currentBrick.status === BRICK_STATUS.DESTROYED) {
+            continue;
+          }
+
+          const isBallSameXAsBrick =
+            x > currentBrick.x && x < currentBrick.x + brickWidth;
+          const isBallSameYAsBrick =
+            y > currentBrick.y && y < currentBrick.y + brickHeight;
+
+          y < currentBrick.y + brickHeight;
+
+          if (isBallSameXAsBrick && isBallSameYAsBrick) {
+            dy = -dy;
+            currentBrick.status = BRICK_STATUS.DESTROYED;
+          }
+        }
+      }
+    }
+
+    function ballMovement() {
+      //Rebotar las pelotas en las paredes
+      if (
+        x + dx > canvas.width - ballRadius || //Pared derecha
+        x + dx < ballRadius //Pared izquierda
+      ) {
+        dx = -dx;
+      }
+
+      //Rebotar en el techo y el piso
+      if (
+        y + dy <
+        ballRadius //Rebotar en el techo, es asi, porque la parte de arribas es la coordenada cero
+      ) {
+        dy = -dy;
+      }
+
+      //La pelota toca la pala
+      const isBallSameXAsPaddle = x > paddleX && x < paddleX + paddleWidth;
+      const isBallSameYAsPaddle = y > paddleY && y < paddleY + paddleHeight;
+
+      if (isBallSameXAsPaddle && isBallSameYAsPaddle) {
+        dy = -dy;
+      } else if (
+        // la pelota toca el suelo
+        y + dy >
+        canvas.height - ballRadius
+      ) {
+        GAMEOVER = true;
+        // window.location.reload();
+      }
+
+      //Movimiento constante;
+      x += dx;
+      y += dy;
+    }
+
+    function paddleMovement() {
+      if (rightPressed && paddleX < canvas.width - paddleWidth) {
+        paddleX += PADDLE_SEN;
+      } else if (leftPressed && paddleX > 0) {
+        paddleX -= PADDLE_SEN;
+      }
+    }
+
+    function initEvents() {
+      document.addEventListener("keydown", keyDownHandler);
+      document.addEventListener("keyup", keyUpHandler);
+    }
+
+    function keyDownHandler(event) {
+      const { key } = event;
+      if (key == "Right" || key == "ArrowRight") {
+        rightPressed = true;
+      } else if (key == "Left" || key == "ArrowLeft") {
+        leftPressed = true;
+      }
+    }
+
+    function keyUpHandler(event) {
+      const { key } = event;
+      if (key == "Right" || key == "ArrowRight") {
+        rightPressed = false;
+      } else if (key == "Left" || key == "ArrowLeft") {
+        leftPressed = false;
+      }
+    }
+
+    function gameOver() {
+      context.drawImage(
+        //@ts-ignore
+        $sprite, // imagen
+        322, // clipX: coordenadas de recorte
+        0, // clipY: coordenadas de recorte
+        145, // el tamaño del recorte
+        20, // tamaño del recorte
+        canvas.width / 2 - 72, // posición X del dibujo
+        canvas.height / 2, // posición Y del dibujo
+        145, // ancho del dibujo
+        20 // alto del dibujo
+      );
+
+      resetGame();
+    }
+
+    function youWin() {
+      context.drawImage(
+        //@ts-ignore
+        $sprite, // imagen
+        0, // clipX: coordenadas de recorte
+        0, // clipY: coordenadas de recorte
+        220, // el tamaño del recorte
+        80, // tamaño del recorte
+        canvas.width / 2 - 110, // posición X del dibujo
+        canvas.height / 2, // posición Y del dibujo
+        220, // ancho del dibujo
+        80 // alto del dibujo
+      );
+
+      resetGame();
+    }
+
+    function resetGame() {
+      const imageX = canvas.width / 2 - 30;
+      const imageY = canvas.height / 2 + 100;
+      const imageWidth = 60;
+      const imageHeight = 30;
+
+      context.drawImage(
+        //@ts-ignore
+        $sprite, // imagen
+        220, // clipX: coordenadas de recorte
+        74, // clipY: coordenadas de recorte
+        50, // el tamaño del recorte
+        25, // tamaño del recorte
+        imageX, // posición X del dibujo
+        imageY, // posición Y del dibujo
+        imageWidth, // ancho del dibujo
+        imageHeight // alto del dibujo
+      );
+
+      // Agregar el evento click
+      canvas.addEventListener("click", function (event) {
+        // Obtener las coordenadas del clic
+        const rect = canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+
+        // Verificar si el clic está dentro de la imagen
+        if (
+          clickX >= imageX &&
+          clickX <= imageX + imageWidth &&
+          clickY >= imageY &&
+          clickY <= imageY + imageHeight
+        ) {
+          // Recargar la página
+          window.location.reload();
+        }
+      });
+
+      
+    }
+
+    initEvents();
+    draw();
+  });
 </script>
