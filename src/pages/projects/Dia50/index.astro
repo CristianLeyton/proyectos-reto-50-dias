@@ -4,7 +4,8 @@ import Bricks from "../Dia50/sprites/bricks.png";
 import Sprite from "../Dia50/sprites/sprite.png";
 ---
 
-<LayoutProyecto title="Día 50" subtitle="Insect Catch Game">
+<LayoutProyecto title="Día 50" subtitle="Arkanoid Game">
+  <!-- Gracias a @midudev https://www.youtube.com/watch?v=b6du6MvQmuQ -->
   <div class="container dia50">
     <canvas class="arkanoid"></canvas>
 
@@ -40,6 +41,8 @@ import Sprite from "../Dia50/sprites/sprite.png";
 </LayoutProyecto>
 
 <style>
+
+    /*   <!-- Gracias a @midudev https://www.youtube.com/watch?v=b6du6MvQmuQ --> */
   .dia50 {
     min-height: 70vh;
     display: grid;
@@ -83,6 +86,7 @@ import Sprite from "../Dia50/sprites/sprite.png";
 </style>
 
 <script>
+  /*   <!-- Gracias a @midudev https://www.youtube.com/watch?v=b6du6MvQmuQ --> */
   document.addEventListener("astro:page-load", () => {
     const canvas = document.querySelector("canvas");
     const context = canvas.getContext("2d");
@@ -256,7 +260,7 @@ import Sprite from "../Dia50/sprites/sprite.png";
     }
 
     function drawScore(points) {
-      context.clearRect(canvas.width - 30, 0, 25, 20); // LIMPIA SOLO LA ESQUINA DEL CANVAS
+      context.clearRect(canvas.width - 30, 0, 30, 20); // LIMPIA SOLO LA ESQUINA DEL CANVAS
       score = points * 100;
       context.font = "12px Arial"; // Establece la fuente y el tamaño del texto
       context.fillStyle = "white"; // Color del texto
