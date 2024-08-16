@@ -84,7 +84,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   document.addEventListener("astro:page-load", () => {
 
     const $ = (select) => document.querySelector(select);
-    const checkboxes = document.querySelectorAll('input[type=checkbox]');
+    const checkboxes = document.querySelectorAll('.dia32 input[type=checkbox]');
+
+
 
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', ()=> {

@@ -4,9 +4,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <LayoutProyecto title="Día 49" subtitle="Todo List">
   <div class="container bg-[#F3F4F6] p-0 sm:p-4">
-    <div class="dia49 font-sans">
+    <div class="dia49">
       <header>
-        <button title="Crear nueva tarea" class="btnPrimary poppins-medium">
+        <button title="Crear nueva tarea" class="btnPrimary openModalNewTask">
           Nueva Tarea <span
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,11 +62,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
               <th scope="col"> Acciones </th>
             </tr>
           </thead>
-          <tbody>
-            <!--             <tr>
-              <td> No hay ninguna tarea pendiente. </td>
-            </tr> -->
-            <tr>
+          <tbody id="tableTasks">
+            <tr class="">
+              <th class="font-normal"> No hay ninguna tarea pendiente. </th>
+            </tr>
+            <!-- <tr>
               <td>
                 <button class="checkboxCompleted">
                   <i
@@ -95,15 +95,86 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
                 <button class="btnAction edit" title="Editar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></button>
                 <button class="btnAction delete" title="Eliminar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"></path></svg></button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </main>
+
+      <!-- MODALES -->
+      <dialog id="newTaskModal">
+        <div class="createNewTask">
+          <header>Nueva tarea:</header>
+          <form id="newTaskForm">
+            <label class="input">
+              Nombre:
+              <input
+                required
+                type="text"
+                id="nameNewTask"
+                placeholder="Ingrese el nombre de la tarea"
+              />
+            </label>
+
+            <label class="input">
+              Detalles:
+              <textarea
+                id="descriptionNewTask"
+                placeholder="De ser necesario, puede agregar detalles..."
+              ></textarea>
+            </label>
+
+            <div class="inputTags">
+              Etiquetas:
+
+              <label class="inputCheckbox tagImportant">
+                <input type="checkbox" id="tagImportantNewTask" />
+                <span class=""
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span>Importante
+              </label>
+
+              <label class="inputCheckbox tagOpcional">
+                <input type="checkbox" id="tagOpcionalNewTask" />
+                <span class=""
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span>Opcional
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <footer>
+          <button class="closeModalNewTask btnSecondary">Cancelar</button>
+          <button
+            form="newTaskForm"
+            type="submit"
+            class="btnCreateNewTask btnPrimary">Guardar</button
+          >
+        </footer>
+      </dialog>
     </div>
   </div>
 </LayoutProyecto>
 
-<style>
+<style is:inline>
   :root {
     --checkBox: #4f46e5;
 
@@ -113,7 +184,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     --btnEdit: #1f2937;
     --btnEditHover: #374151;
     --btnDelete: #dc2626;
-    --btnDeleteHover: #EF4444;
+    --btnDeleteHover: #ef4444;
 
     --color-terciary: #f9fafb;
   }
@@ -135,7 +206,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     gap: 10px;
   }
 
-  .dia49 .btnPrimary {
+  .dia49 .btnPrimary,
+  .dia49 .btnSecondary {
     display: flex;
     width: fit-content;
     padding-inline: 16px;
@@ -154,9 +226,31 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .btnPrimary {
     background-color: var(--btnPrimary);
     color: #ffffff;
+    font-family: "Poppins";
 
     &:hover {
       background-color: var(--btnPrimaryHover);
+    }
+
+    &:active {
+      outline: 2px solid var(--btnPrimary);
+      outline-offset: 2px;
+    }
+
+    & span {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .btnSecondary {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    outline: transparent;
+    font-family: "Poppins";
+
+    &:hover {
+      background-color: var(--color-terciary);
     }
 
     &:active {
@@ -225,9 +319,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     & th {
       width: 100%;
       text-transform: uppercase;
-      font-family: "Poppins";
       font-size: small;
       font-weight: 500;
+      font-family: "Poppins";
 
       &:first-child {
         flex: 0;
@@ -246,7 +340,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
 
       &:last-child {
-         /* border: 1px solid red;  */
+        /* border: 1px solid red;  */
         flex: 1.5;
       }
     }
@@ -261,14 +355,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     padding: 1rem;
     background-color: white;
     border-bottom: 1px solid #e2e2e2;
-    
+
     &:hover {
       background-color: var(--color-terciary);
     }
 
     & td {
       width: 100%;
-      font-family: "Poppins";
       font-size: small;
       font-weight: 500;
 
@@ -284,10 +377,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         text-wrap: nowrap;
         text-overflow: ellipsis;
         padding-left: 5rem;
-      
-      &::first-letter {
-        text-transform: capitalize;
-      }
+
+        &::first-letter {
+          text-transform: capitalize;
+        }
       }
 
       &:nth-child(3) {
@@ -305,22 +398,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             width: 16px;
           }
         }
-
       }
 
       &:last-child {
-         /* border: 1px solid red;  */
-         flex: 1.5;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         gap: 3px
+        /* border: 1px solid red;  */
+        flex: 1.5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
       }
     }
   }
 
   .tagImportant {
-    color: #DC2626;
+    color: #dc2626;
   }
 
   .tagOpcional {
@@ -336,9 +428,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     border: 1px solid #7e7e7e;
     width: 24px;
     height: 24px;
-    transition: color 0.1s ease-in-out,
-    outline 0.1s cubic-bezier(.4,0,.2,1);
-
+    transition:
+      color 0.1s ease-in-out,
+      outline 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       outline: 2px solid var(--checkBox);
@@ -356,12 +448,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
   }
 
-
   .btnAction {
     color: white;
     padding: 4px 10px;
     border-radius: 6px;
-    transition: outline 0.1s cubic-bezier(.4,0,.2,1);
+    transition: outline 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 
     & svg {
       width: 18px;
@@ -370,15 +461,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .details {
-      border: 1px solid #ccc;
-      background-color: white;
-      color: #7e7e7e;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: #7e7e7e;
 
-      &:hover {
-        background-color: var(--color-terciary);
-      }
+    &:hover {
+      background-color: var(--color-terciary);
+    }
 
-      &:active {
+    &:active {
       z-index: 2;
       background-color: white;
       outline: 2px solid var(--btnPrimary);
@@ -389,10 +480,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .edit {
     background-color: var(--btnEdit);
     &:hover {
-        background-color: var(--btnEditHover);
-      }
+      background-color: var(--btnEditHover);
+    }
 
-      &:active {
+    &:active {
       z-index: 2;
       background-color: var(--btnEdit);
       outline: 2px solid var(--btnEdit);
@@ -403,14 +494,96 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .delete {
     background-color: var(--btnDelete);
     &:hover {
-        background-color: var(--btnDeleteHover);
-      }
-    
+      background-color: var(--btnDeleteHover);
+    }
+
     &:active {
       z-index: 2;
       background-color: var(--btnDelete);
       outline: 2px solid var(--btnDelete);
       outline-offset: 2px;
+    }
+  }
+
+  .dia49 #newTaskModal {
+    border-radius: 10px;
+    box-shadow: 0 3px 5px #7a7a7a;
+    overflow: hidden;
+
+    & footer {
+      margin: 0;
+      background-color: #f3f4f6;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      gap: 10px;
+    }
+  }
+
+  .dia49 #newTaskModal::backdrop {
+    background-color: #44444490;
+  }
+
+  .dia49 .createNewTask {
+    margin: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 675px;
+
+    & input,
+    & textarea {
+      border: 1px solid #eee;
+      outline: transparent;
+      padding: 6px 12px;
+      border-radius: 4px;
+
+      &:focus {
+        outline: 2px solid var(--checkBox);
+        outline-offset: -1px;
+      }
+    }
+
+    & header {
+      color: #4f46e5;
+      font-weight: 600;
+      font-size: large;
+    }
+
+    & form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      & .input {
+        display: flex;
+        flex-direction: column;
+
+        font-size: 14px;
+      }
+
+      & .inputTags {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      & .inputCheckbox {
+        border: 1px solid #eee;
+        padding: 3px 6px;
+        border-radius: 6px;
+        display: flex;
+        flex-wrap: nowrap;
+        width: fit-content;
+        font-size: small;
+        align-items: center;
+
+        & span {
+          transform: scale(0.7);
+        }
+      }
     }
   }
 
@@ -444,48 +617,200 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       border-radius: 4px;
 
       & svg {
-      transform: scale(1.4);
-    }
+        transform: scale(1.4);
+      }
     }
 
     .dia49 thead tr {
+      & th {
+        &:nth-child(2) {
+          flex: 2;
+          text-align: left;
+          padding-left: 1.5rem;
+        }
 
-    & th {
-
-      &:nth-child(2) {
-        flex: 2;
-        text-align: left;
-        padding-left: 1.5rem;
-      }
-
-      &:nth-child(3) {
-        display: none;
-      }
-    }
-  }
-
-  .dia49 tbody tr {
-
-    & td {
-
-      &:first-child {
-        padding-left: 0;
-        flex: 0;
-      }
-
-      &:nth-child(2) {
-        padding-left: 1.5rem;
-      }
-
-      &:nth-child(3) {
-        display: none;
+        &:nth-child(3) {
+          display: none;
+        }
       }
     }
-  }
 
+    .dia49 tbody tr {
+      & td {
+        &:first-child {
+          padding-left: 0;
+          flex: 0;
+        }
+
+        &:nth-child(2) {
+          padding-left: 1.5rem;
+        }
+
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    }
+
+    .dia49 .createNewTask {
+      width: 290px;
+    }
   }
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const tableTasks = document.querySelector("#tableTasks");
+
+    let tasks = [];
+
+    function getTasks() {
+      let localTasks = JSON.parse(localStorage.getItem("tasks"));
+      if (localTasks != null) {
+        tasks = localTasks; //Guarda todas las tareas del localstorage en este array
+        tableTasks.innerHTML = "";
+
+        localTasks.forEach((task) => {
+          const rowTask = document.createElement("tr");//Creo una fila
+          rowTask.classList.add("notePending");
+
+          const tdTask1 = document.createElement("td");//Primer columna
+          const btnCheckBox = document.createElement("button");
+          btnCheckBox.classList.add('checkboxCompleted');
+          btnCheckBox.innerHTML = `                  <i
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      style="fill: currentColor;transform: ;msFilter:;"
+                      ><path
+                        d="M7 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7zm4 10.414-2.707-2.707 1.414-1.414L11 12.586l3.793-3.793 1.414 1.414L11 15.414z"
+                      ></path></svg
+                    ></i
+                  >`; // Es el svg del boton del checkbox
+          tdTask1.appendChild(btnCheckBox);
+          rowTask.appendChild(tdTask1);
+
+          const tdTask2 = document.createElement("td");//Segunda columna
+          tdTask2.classList.add("note");
+          tdTask2.textContent = task.name;
+          rowTask.appendChild(tdTask2);
+
+          const tdTask3 = document.createElement("td");//Tercer columna
+          const span1 = document.createElement('span');
+          span1.classList.add('tagImportant');
+          span1.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
+                Importante`;
+          tdTask3.appendChild(span1);
+
+          const span2 = document.createElement('span');
+          span2.classList.add('tagOpcional');
+          span2.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
+                  Opcional`;
+          tdTask3.appendChild(span2);
+
+          rowTask.appendChild(tdTask3);
+
+          const tdTask4 = document.createElement("td");//Cuarta columnda
+          const btnDetails = document.createElement("button");
+          btnDetails.classList.add('btnAction');
+          btnDetails.classList.add('details');
+          btnDetails.title = 'Resumen';
+          btnDetails.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V5h16l.002 14H4z"></path><path d="M6 7h12v2H6zm0 4h12v2H6zm0 4h6v2H6z"></path></svg>`;
+          tdTask4.appendChild(btnDetails);
+
+          const btnEdit = document.createElement("button");
+          btnEdit.classList.add('btnAction');
+          btnEdit.classList.add('edit');
+          btnEdit.title = 'Editar';
+          btnEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg>`;
+          tdTask4.appendChild(btnEdit);
+
+          const btnDelete = document.createElement("button");
+          btnDelete.classList.add('btnAction');
+          btnDelete.classList.add('delete');
+          btnDelete.title = 'Eliminar';
+          btnDelete.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"></path></svg>`;
+          tdTask4.appendChild(btnDelete);
+          rowTask.appendChild(tdTask4);
+
+          tableTasks.insertAdjacentElement("beforeend", rowTask);
+        });
+      }
+    }
+
+    function setTask() {
+      const btnSetTask = document.querySelector(".btnCreateNewTask");
+
+      btnSetTask.addEventListener("click", () => {
+        const modalNewTask = document.querySelector("#newTaskModal");
+        const taskName = document.querySelector("#nameNewTask");
+        const taskDescription = document.querySelector("#descriptionNewTask");
+        const tagImportantNewTask = document.querySelector(
+          "#tagImportantNewTask"
+        );
+        const tagOpcionalNewTask = document.querySelector(
+          "#tagOpcionalNewTask"
+        );
+
+        const newTask = {
+          //@ts-ignore
+          name: taskName.value,
+          //@ts-ignore
+          description: taskDescription.value,
+          tags: [
+            //@ts-ignore
+            tagImportantNewTask.checked ? "Importante" : "",
+            //@ts-ignore
+            tagOpcionalNewTask.checked ? "Opcional" : "",
+          ],
+        };
+
+        if (newTask.name) {
+          tasks.push(newTask);
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+          //@ts-ignore
+          modalNewTask.close();
+          getTasks(); //Recarga las tareas
+          //@ts-ignore
+          document.querySelector("#newTaskForm").reset(); //Reinicia todos los campos del formulario
+        }
+      });
+    }
+
+    /* Abrir y cerrar modales */
+    function startModals() {
+      createNewTaskModal();
+    }
+
+    function createNewTaskModal() {
+      const modalNewTask = document.querySelector("#newTaskModal");
+      const openModalNewTask = document.querySelector(".openModalNewTask");
+      const closeModalNewTask = document.querySelector(".closeModalNewTask");
+
+      openModalNewTask.addEventListener("click", () => {
+        //@ts-ignore
+        modalNewTask.showModal();
+      });
+
+      closeModalNewTask.addEventListener("click", () => {
+        //@ts-ignore
+        modalNewTask.close();
+        console.log("Cancelada");
+      });
+      // Escuchar clicks en el modal
+      modalNewTask.addEventListener("click", (event) => {
+        // Si el objetivo del click es el modal (y no su contenido), lo cerramos
+        if (event.target === modalNewTask) {
+          //@ts-ignore
+          modalNewTask.close();
+          console.log("Cancelada");
+        }
+      });
+    }
+
+    /* Llamo a las funciones */
+    getTasks();
+    startModals();
+    setTask();
+  });
 </script>

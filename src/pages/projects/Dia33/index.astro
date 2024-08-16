@@ -227,7 +227,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         let allNotes = container.querySelectorAll(".noteContainer");
         const notes = [];
         if (allNotes.length == 0) {
-          localStorage.clear();
+          localStorage.removeItem('notes');
         } else {
           allNotes.forEach((note) => {
             if (note.querySelector("p").textContent.trim() != "") {

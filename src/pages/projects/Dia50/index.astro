@@ -89,8 +89,9 @@ import Sprite from "../Dia50/sprites/sprite.png";
   /*   <!-- Gracias a @midudev https://www.youtube.com/watch?v=b6du6MvQmuQ --> */
   document.addEventListener("astro:page-load", () => {
     const canvas = document.querySelector("canvas");
-    const context = canvas.getContext("2d");
-
+    if (canvas) {
+      const context = canvas.getContext("2d");
+      
     const $sprite = document.querySelector("#sprite");
     const $bricks = document.querySelector("#bricks");
 
@@ -476,5 +477,7 @@ import Sprite from "../Dia50/sprites/sprite.png";
 
     initEvents();
     draw();
+    }
+
   });
 </script>
