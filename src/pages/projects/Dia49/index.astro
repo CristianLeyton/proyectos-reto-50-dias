@@ -170,6 +170,41 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           >
         </footer>
       </dialog>
+
+      <dialog id="viewDetailsModal">
+        <div class="viewTask">
+          <header>Resumen de la tarea:</header>
+          <p>
+            <span class="taskSpan">Nombre:</span>
+            <span class="viewNameTask"></span>
+          </p>
+          <p>
+            <span class="taskSpan">Detalles:</span>
+            <span class="viewDetailTask"></span>
+          </p>
+          <p>
+            <span class="taskSpan">Etiquetas:</span>
+            <span class="viewTagsTask"></span>
+          </p>
+        </div>
+        <footer>
+          <button class="closeModalViewTask btnSecondary">Cerrar</button>
+        </footer>
+      </dialog>
+
+      <dialog id="deleteTaskModal">
+        <div class="deleteTask">
+          <header><i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M11.001 10h2v5h-2zM11 16h2v2h-2z"></path><path d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.986 1.986 0 0 0 .054 1.968A1.984 1.984 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.989 1.989 0 0 0 .054-1.968L13.768 4.2zM4.661 19 12 5.137 19.344 19H4.661z"></path></svg></i> ¿Eliminar tarea?</header>
+          <p>
+            ¿Estás seguro? ¡Esta acción no se puede revertir!
+          </p>
+          <p>
+        </div>
+        <footer>
+          <button class="btnDelete">Eliminar</button>
+          <button class="closeModalViewTask btnSecondary">Cerrar</button>
+        </footer>
+      </dialog>
     </div>
   </div>
 </LayoutProyecto>
@@ -207,7 +242,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
 
   .dia49 .btnPrimary,
-  .dia49 .btnSecondary {
+  .dia49 .btnSecondary,
+  .dia49 .btnDelete {
     display: flex;
     width: fit-content;
     padding-inline: 16px;
@@ -261,6 +297,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     & span {
       width: 20px;
       height: 20px;
+    }
+  }
+
+  .btnDelete {
+    background-color: var(--btnDelete);
+    color: #ffffff;
+    font-family: "Poppins";
+
+    &:hover {
+      background-color: var(--btnDeleteHover);
+    }
+
+    &:active {
+      outline: 2px solid var(--btnDelete);
+      outline-offset: 2px;
     }
   }
 
@@ -456,7 +507,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
 
       &:nth-child(2) {
-        text-decoration:line-through;
+        text-decoration: line-through;
       }
     }
   }
@@ -518,7 +569,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
   }
 
-  .dia49 #newTaskModal {
+  .dia49 #newTaskModal,
+  .dia49 #viewDetailsModal,
+  .dia49 #deleteTaskModal {
     border-radius: 10px;
     box-shadow: 0 3px 5px #7a7a7a;
     overflow: hidden;
@@ -534,11 +587,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
   }
 
-  .dia49 #newTaskModal::backdrop {
+  .dia49 #newTaskModal::backdrop,
+  .dia49 #viewDetailsModal::backdrop,
+  .dia49 #deleteTaskModal::backdrop {
     background-color: #44444490;
   }
 
-  .dia49 .createNewTask {
+  .dia49 .createNewTask,
+  .dia49 .viewTask,
+  .dia49 .deleteTask {
     margin: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
@@ -600,7 +657,46 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
   }
 
+  .viewTask {
+    font-size: 14px;
 
+    & .taskSpan {
+      color: var(--btnPrimary);
+    }
+  }
+
+  .viewTagsTask {
+    display: flex;
+    align-items: center;
+
+    & div {
+      font-size: small;
+    }
+
+    & span {
+          transform: scale(0.7);
+        }
+  }
+
+  .deleteTask {
+    & header {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      color: var(--btnDelete)!important;
+      
+      & i {
+        background-color: #FEE2E2;
+        padding: 7px 10px 10px 10px;
+        border-radius: 50%;
+      }
+    }
+
+    & p {
+       font-size: 14px; 
+       text-wrap: pretty;
+      }
+  }
 
   @media (max-width: 765px) {
     .dia49 {
@@ -667,7 +763,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
     }
 
-    .dia49 .createNewTask {
+    .dia49 .createNewTask,
+    .dia49 .viewTask,
+    .dia49 .deleteTask {
       width: 290px;
     }
   }
@@ -705,7 +803,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
                       ></path></svg
                     ></i
                   >`; // Es el svg del boton del checkbox
-          btnCheckBox.addEventListener("click", () => {taskCompleted(task)});//Marca como completada la tarea 
+          btnCheckBox.addEventListener("click", () => {
+            taskCompleted(task);
+          }); //Marca como completada la tarea
+          btnCheckBox.title = "Completada";
           tdTask1.appendChild(btnCheckBox);
           rowTask.appendChild(tdTask1);
 
@@ -735,6 +836,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           btnDetails.classList.add("details");
           btnDetails.title = "Resumen";
           btnDetails.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V5h16l.002 14H4z"></path><path d="M6 7h12v2H6zm0 4h12v2H6zm0 4h6v2H6z"></path></svg>`;
+          btnDetails.addEventListener("click", () => {
+            viewDetailTaskModal(task);
+          }); //Envia los detalles de la tarea al modal
           tdTask4.appendChild(btnDetails);
 
           const btnEdit = document.createElement("button");
@@ -803,11 +907,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       });
     }
 
-    /* Abrir y cerrar modales */
-    function startModals() {
-      createNewTaskModal();
-    }
-
+    /* Modales */
     function createNewTaskModal() {
       const modalNewTask = document.querySelector("#newTaskModal");
       const openModalNewTask = document.querySelector(".openModalNewTask");
@@ -821,7 +921,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       closeModalNewTask.addEventListener("click", () => {
         //@ts-ignore
         modalNewTask.close();
-        console.log("Cancelada");
       });
       // Escuchar clicks en el modal
       modalNewTask.addEventListener("click", (event) => {
@@ -829,14 +928,75 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         if (event.target === modalNewTask) {
           //@ts-ignore
           modalNewTask.close();
-          console.log("Cancelada");
         }
       });
     }
 
+    function viewDetailTaskModal(task) {
+      const modalDetailTask = document.querySelector("#viewDetailsModal");
+      const closeModalDetailTask = document.querySelector(
+        ".closeModalViewTask"
+      );
+
+      const viewNameTask = document.querySelector(".viewNameTask");
+      const viewDetailTask = document.querySelector(".viewDetailTask");
+      const viewTagsTask = document.querySelector(".viewTagsTask");
+
+      viewNameTask.textContent = task.name;
+      viewDetailTask.textContent = task.description;
+
+      const tagImportant = `<span class="tagImportant"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span><div class="tagImportant">Importante</div>`;
+      const tagOpcional = `<span class="tagOpcional"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span><div class="tagOpcional">Opcional</div>`;
+
+      viewTagsTask.innerHTML = '';
+      task.tags[0] == 'Importante' ? viewTagsTask.insertAdjacentHTML('beforeend',tagImportant) :'';
+      task.tags[1] == 'Opcional' ? viewTagsTask.insertAdjacentHTML('beforeend',tagOpcional) :'';
+      //@ts-ignore
+      modalDetailTask.showModal();
+
+      closeModalDetailTask.addEventListener("click", () => {
+        //@ts-ignore
+        modalDetailTask.close();
+      });
+      // Escuchar clicks en el modal
+      modalDetailTask.addEventListener("click", (event) => {
+        // Si el objetivo del click es el modal (y no su contenido), lo cerramos
+        if (event.target === modalDetailTask) {
+          //@ts-ignore
+          modalDetailTask.close();
+        }
+      });
+    }
+    
+    function deleteTaskModal(task) {
+      
+    }
+
     /* Llamo a las funciones */
     getTasks();
-    startModals();
     setTask();
+    createNewTaskModal();
   });
 </script>
