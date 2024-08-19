@@ -2,7 +2,7 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 49" subtitle="Todo List">
+<LayoutProyecto title="Día 49" subtitle="Todo App">
   <div class="container bg-[#F3F4F6] p-0 sm:p-4">
     <div class="dia49">
       <header>
@@ -818,8 +818,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     document.addEventListener("astro:page-load", () => {
       const tableTasks = document.querySelector("#tableTasks");
 
-      const importante = 'Importante';
-      const opcional = 'Opcional';
+      const importante = "Importante";
+      const opcional = "Opcional";
 
       let tasks = [];
 
@@ -1225,6 +1225,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         });
       }
 
+      function filterTasks() {
+
+      }
       /* Llamo a las funciones */
       getTasks();
       setTask();
