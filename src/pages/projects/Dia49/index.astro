@@ -30,9 +30,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
           <label>
             Mostrar primero:
-            <select name="tags" id="tags">
-              <option value="antigua">Más antigua</option>
-              <option value="nueva">Más nueva</option>
+            <select name="order" id="order">
+              <option id="firstOld" value="antigua">Más antigua</option>
+              <option id="firstNew" value="nueva">Más nueva</option>
             </select>
           </label>
         </div>
@@ -159,6 +159,66 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         </div>
         <footer>
           <button class="closeModalViewTask btnSecondary">Cerrar</button>
+        </footer>
+      </dialog>
+
+      <dialog id="editTaskModal">
+        <div class="editTask">
+          <header>Editar tarea:</header>
+          <form id="editTaskForm">
+            <label class="input">
+              Nombre:
+              <input required type="text" id="nameEditTask" />
+            </label>
+
+            <label class="input">
+              Detalles:
+              <textarea id="descriptionEditTask"></textarea>
+            </label>
+
+            <div class="inputTags">
+              Etiquetas:
+
+              <label class="inputCheckbox tagImportant">
+                <input type="checkbox" id="tagImportantEditTask" />
+                <span class=""
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span>Importante
+              </label>
+
+              <label class="inputCheckbox tagOpcional">
+                <input type="checkbox" id="tagOpcionalEditTask" />
+                <span class=""
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: currentColor;transform: ;msFilter:;"
+                    ><path
+                      d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
+                    ></path></svg
+                  >
+                </span>Opcional
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <footer>
+          <button class="closeModalEditTask btnSecondary">Cancelar</button>
+          <button form="editTaskForm" class="btnSaveEdit btnPrimary"
+            >Guardar</button
+          >
         </footer>
       </dialog>
 
@@ -550,7 +610,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     .dia49 #newTaskModal,
     .dia49 #viewDetailsModal,
-    .dia49 #deleteTaskModal {
+    .dia49 #deleteTaskModal,
+    .dia49 #editTaskModal {
       border-radius: 10px;
       box-shadow: 0 3px 5px #7a7a7a;
       overflow: hidden;
@@ -568,13 +629,15 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     .dia49 #newTaskModal::backdrop,
     .dia49 #viewDetailsModal::backdrop,
-    .dia49 #deleteTaskModal::backdrop {
+    .dia49 #deleteTaskModal::backdrop,
+    .dia49 #editTaskModal::backdrop {
       background-color: #44444490;
     }
 
     .dia49 .createNewTask,
     .dia49 .viewTask,
-    .dia49 .deleteTask {
+    .dia49 .deleteTask,
+    .dia49 .editTask {
       margin: 1rem 1.5rem;
       display: flex;
       flex-direction: column;
@@ -677,7 +740,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
     }
 
-    @media (max-width: 765px) {
+    @media (max-width: 639px) {
       .dia49 {
         border-radius: 0;
         box-shadow: none;
@@ -744,7 +807,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
       .dia49 .createNewTask,
       .dia49 .viewTask,
-      .dia49 .deleteTask {
+      .dia49 .deleteTask,
+      .dia49 .editTask {
         width: 290px;
       }
     }
@@ -754,11 +818,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     document.addEventListener("astro:page-load", () => {
       const tableTasks = document.querySelector("#tableTasks");
 
+      const importante = 'Importante';
+      const opcional = 'Opcional';
+
       let tasks = [];
 
       function getTasks() {
         let localTasks = JSON.parse(localStorage.getItem("tasks"));
-        console.log(localTasks);
         if (localTasks != null && localTasks != 0) {
           tasks = localTasks; //Guarda todas las tareas del localstorage en este array
           tableTasks.innerHTML = "";
@@ -796,17 +862,22 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             rowTask.appendChild(tdTask2);
 
             const tdTask3 = document.createElement("td"); //Tercer columna
-            const span1 = document.createElement("span");
-            span1.classList.add("tagImportant");
-            span1.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
-                Importante`;
-            tdTask3.appendChild(span1);
 
-            const span2 = document.createElement("span");
-            span2.classList.add("tagOpcional");
-            span2.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
+            if (task.tags[0] == importante) {
+              const span1 = document.createElement("span");
+              span1.classList.add("tagImportant");
+              span1.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
+                ${importante}`;
+              tdTask3.appendChild(span1);
+            }
+
+            if (task.tags[1] == opcional) {
+              const span2 = document.createElement("span");
+              span2.classList.add("tagOpcional");
+              span2.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"></path></svg>
                   Opcional`;
-            tdTask3.appendChild(span2);
+              tdTask3.appendChild(span2);
+            }
 
             rowTask.appendChild(tdTask3);
 
@@ -826,6 +897,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             btnEdit.classList.add("edit");
             btnEdit.title = "Editar";
             btnEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg>`;
+            btnEdit.addEventListener("click", () => {
+              editTaskModal(task);
+            }); //Envia la tarea a ser editada
             tdTask4.appendChild(btnEdit);
 
             const btnDelete = document.createElement("button");
@@ -875,15 +949,20 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
             description: taskDescription.value,
             tags: [
               //@ts-ignore
-              tagImportantNewTask.checked ? "Importante" : "",
+              tagImportantNewTask.checked ? importante : "",
               //@ts-ignore
-              tagOpcionalNewTask.checked ? "Opcional" : "",
+              tagOpcionalNewTask.checked ? opcional : "",
             ],
             completed: false,
           };
 
           if (newTask.name) {
-            tasks.push(newTask);
+            let orderTasks = localStorage.getItem("orderTasks");
+            if (orderTasks == "firstOld") {
+              tasks.push(newTask);
+            } else {
+              tasks.unshift(newTask);
+            }
             localStorage.setItem("tasks", JSON.stringify(tasks));
             //@ts-ignore
             modalNewTask.close();
@@ -943,7 +1022,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
                       d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
                     ></path></svg
                   >
-                </span><div class="tagImportant">Importante</div>`;
+                </span><div class="tagImportant">${importante}</div>`;
         const tagOpcional = `<span class="tagOpcional"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -955,13 +1034,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
                       d="M19 10.132v-6c0-1.103-.897-2-2-2H7c-1.103 0-2 .897-2 2V22l7-4.666L19 22V10.132z"
                     ></path></svg
                   >
-                </span><div class="tagOpcional">Opcional</div>`;
+                </span><div class="tagOpcional">${opcional}</div>`;
 
         viewTagsTask.innerHTML = "";
-        task.tags[0] == "Importante"
+        task.tags[0] == importante
           ? viewTagsTask.insertAdjacentHTML("beforeend", tagImportant)
           : "";
-        task.tags[1] == "Opcional"
+        task.tags[1] == opcional
           ? viewTagsTask.insertAdjacentHTML("beforeend", tagOpcional)
           : "";
         //@ts-ignore
@@ -977,6 +1056,98 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
           if (event.target === modalDetailTask) {
             //@ts-ignore
             modalDetailTask.close();
+          }
+        });
+      }
+
+      function editTaskModal(task) {
+        const editTaskModal = document.querySelector("#editTaskModal");
+        const closeModalEditTask = document.querySelector(
+          ".closeModalEditTask"
+        );
+        const btnEditTask = document.querySelector(".btnSaveEdit");
+
+        const nameEditTask = document.querySelector("#nameEditTask");
+        const descriptionEditTask = document.querySelector(
+          "#descriptionEditTask"
+        );
+
+        const tagImportantEditTask = document.querySelector(
+          "#tagImportantEditTask"
+        );
+        const tagOpcionalEditTask = document.querySelector(
+          "#tagOpcionalEditTask"
+        );
+
+        //@ts-ignore
+        nameEditTask.value = task.name;
+        //@ts-ignore
+        descriptionEditTask.value = task.description;
+
+        //Limpio los chechboxs
+        //@ts-ignore
+        tagImportantEditTask.checked = false;
+        //@ts-ignore
+        tagOpcionalEditTask.checked = false;
+
+        //Marco los checkbox correctos
+        task.tags[0] == importante
+          ? //@ts-ignore
+            (tagImportantEditTask.checked = true)
+          : null;
+        task.tags[1] == opcional
+          ? //@ts-ignore
+            (tagOpcionalEditTask.checked = true)
+          : null;
+
+        //@ts-ignore
+        editTaskModal.showModal();
+
+        closeModalEditTask.addEventListener("click", () => {
+          //@ts-ignore
+          editTaskModal.close();
+        });
+        // Escuchar clicks en el modal
+        editTaskModal.addEventListener("click", (event) => {
+          // Si el objetivo del click es el modal (y no su contenido), lo cerramos
+          if (event.target === editTaskModal) {
+            //@ts-ignore
+            editTaskModal.close();
+          }
+        });
+
+        // Remover cualquier listener previo antes de agregar uno nuevo
+        const newBtnEditTask = btnEditTask.cloneNode(true);
+        btnEditTask.replaceWith(newBtnEditTask);
+
+        //Guardar cambios
+        newBtnEditTask.addEventListener("click", (e) => {
+          //@ts-ignore
+          if (nameEditTask.value) {
+            e.preventDefault();
+
+            //@ts-ignore
+            task.name = nameEditTask.value;
+            //@ts-ignore
+            task.description = descriptionEditTask.value;
+
+            //Marco los checkbox correctos
+            //@ts-ignore
+            tagImportantEditTask.checked == true
+              ? //@ts-ignore
+                (task.tags[0] = importante)
+              : (task.tags[0] = "");
+            //@ts-ignore
+            tagOpcionalEditTask.checked == true
+              ? //@ts-ignore
+                (task.tags[1] = opcional)
+              : (task.tags[1] = "");
+
+            localStorage.setItem("tasks", JSON.stringify(tasks)); //Actualiza las tareas en el localstorage
+            getTasks(); //Recarga las tareas*/
+
+            //@ts-ignore
+            editTaskModal.close(); // Cierra el modal después de editar
           }
         });
       }
@@ -1009,9 +1180,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
         //Eliminar tarea si doy click al boton "Eliminar"
         newBtnDelete.addEventListener("click", () => {
-            tasks.forEach((task, i) => {
+          tasks.forEach((task, i) => {
             if (task.name == deleteTask.name) {
-              console.log(deleteTask, i);
               tasks.splice(i, 1);
             }
           });
@@ -1023,10 +1193,43 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         });
       }
 
+      function orderTasks() {
+        const orderSelect = document.querySelector("#order");
+        let orderTasks = localStorage.getItem("orderTasks");
+
+        if (!orderTasks) {
+          localStorage.setItem("orderTasks", "firstOld");
+          orderTasks = JSON.parse(localStorage.getItem("orderTasks"));
+        }
+
+        if (orderTasks != "firstOld") {
+          document.querySelector("#firstNew").setAttribute("selected", "true");
+        }
+
+        orderSelect.addEventListener("change", (event) => {
+          orderTasks = localStorage.getItem("orderTasks");
+
+          if (orderTasks == "firstOld") {
+            tasks.reverse();
+            localStorage.setItem("orderTasks", "firstNew");
+          } else {
+            tasks.reverse();
+            localStorage.setItem("orderTasks", "firstOld");
+            document
+              .querySelector("#firstNew")
+              .setAttribute("selected", "true");
+          }
+
+          localStorage.setItem("tasks", JSON.stringify(tasks)); //Actualiza las tareas en el localstorage
+          getTasks(); //Recarga las tareas*/
+        });
+      }
+
       /* Llamo a las funciones */
       getTasks();
       setTask();
       createNewTaskModal();
+      orderTasks();
     });
   </script>
 </LayoutProyecto>
