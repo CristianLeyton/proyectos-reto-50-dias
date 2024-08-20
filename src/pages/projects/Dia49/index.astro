@@ -21,7 +21,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         <div class="filters">
           <label>
             Etiquetas:
-            <select name="tags" id="tags">
+            <select name="tags" id="filterTags">
               <option value="">Todas</option>
               <option value="importante">Importante</option>
               <option value="opcional">Opcional</option>
@@ -296,12 +296,12 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       transition:
         background 0.2s ease-in-out,
         outline 0.08s ease-in-out;
+      font-family: "Poppins-Medium";
     }
 
     .btnPrimary {
       background-color: var(--btnPrimary);
       color: #ffffff;
-      font-family: "Poppins";
 
       &:hover {
         background-color: var(--btnPrimaryHover);
@@ -322,7 +322,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       background-color: #ffffff;
       border: 1px solid #ccc;
       outline: transparent;
-      font-family: "Poppins";
 
       &:hover {
         background-color: var(--color-terciary);
@@ -342,7 +341,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     .btnDelete {
       background-color: var(--btnDelete);
       color: #ffffff;
-      font-family: "Poppins";
 
       &:hover {
         background-color: var(--btnDeleteHover);
@@ -410,8 +408,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
         width: 100%;
         text-transform: uppercase;
         font-size: small;
-        font-weight: 500;
-        font-family: "Poppins";
+        font-family: "Poppins-Medium";
+        font-weight: 400;
 
         &:first-child {
           flex: 0;
@@ -1226,13 +1224,77 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       }
 
       function filterTasks() {
+        const filter = document.querySelector("#filterTags");
+        const tableTasks = document.querySelector("#tableTasks");
 
+        filter.addEventListener("change", (event) => {
+          //@ts-ignore
+          switch (filter.value) {
+            case "importante":
+              getTasks(); //Recargo todas las tareas
+
+              tableTasks.childNodes.forEach((row) => {
+                // Quito las filas que no tengan el tag 'Importante'
+                //@ts-ignore
+                let tags = row.children[2]; // Usar children en lugar de childNodes
+
+                let tag = false;
+                if (tags && tags.hasChildNodes()) {
+                  tags.childNodes.forEach((span) => {
+                    if (span.textContent.trim() === "Importante") {
+                      tag = true;
+                    }
+                  });
+
+                  if (!tag) {
+                    //@ts-ignore
+                    row.style.display = 'none'; // Ocultar fila si no tiene 'Importante'
+                  }
+                } else {
+                   //@ts-ignore
+                  row.style.display = 'none'; // Ocultar fila si no tiene hijos */
+                }
+              });
+
+              break;
+            case "opcional":
+              getTasks(); //Recargo todas las tareas
+
+              tableTasks.childNodes.forEach((row) => {
+                // Quito las filas que no tengan el tag 'Opcional'
+                //@ts-ignore
+                let tags = row.children[2]; // Usar children en lugar de childNodes
+
+                let tag = false;
+                if (tags && tags.hasChildNodes()) {
+                  tags.childNodes.forEach((span) => {
+                    if (span.textContent.trim() === "Opcional") {
+                      tag = true;
+                    }
+                  });
+
+                  if (!tag) {
+                    //@ts-ignore
+                    row.style.display = 'none'; // Ocultar fila si no tiene 'Importante'
+                  }
+                } else {
+                   //@ts-ignore
+                  row.style.display = 'none'; // Ocultar fila si no tiene hijos */
+                }
+              });
+              break;
+            default:
+              getTasks(); //Recargo todas las tareas
+              break;
+          }
+        });
       }
       /* Llamo a las funciones */
       getTasks();
       setTask();
       createNewTaskModal();
       orderTasks();
+      filterTasks();
     });
   </script>
 </LayoutProyecto>
