@@ -7,17 +7,17 @@ var projects = Array.from(allProjects);
 
 //Ordena el array de projectos correctamente
 projects.sort((a, b) => {
-    const dayA = parseInt(a.url.match(/\d+/)[0]);
-    const dayB = parseInt(b.url.match(/\d+/)[0]);
-    return dayA - dayB;
+  const dayA = parseInt(a.url.match(/\d+/)[0]);
+  const dayB = parseInt(b.url.match(/\d+/)[0]);
+  return dayA - dayB;
 });
 
 //Ordeno el array de nombres de acuerdo al numero de dia
 var names = Array.from(allNames);
 names.sort((a, b) => {
-    const dayA = parseInt(a.frontmatter.dia);
-    const dayB = parseInt(b.frontmatter.dia);
-    return dayA - dayB;
+  const dayA = parseInt(a.frontmatter.dia);
+  const dayB = parseInt(b.frontmatter.dia);
+  return dayA - dayB;
 });
 ---
 
@@ -70,7 +70,8 @@ names.sort((a, b) => {
                   href={project.url}
                   class="text-gray-900 rounded px-4 py-3 hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
                 >
-                  Día {names[index].frontmatter.dia}: {names[index].frontmatter.name}
+                  Día {names[index].frontmatter.dia}:{" "}
+                  {names[index].frontmatter.name}
                 </a>
               ))
             }
@@ -82,7 +83,7 @@ names.sort((a, b) => {
         <a
           href="/"
           class="text-gray-900 rounded hover:text-[#38b8ff] transition-all duration-150 ease-in-out"
-            >Inicio</a
+          >Inicio</a
         >
       </li>
 
@@ -113,8 +114,26 @@ names.sort((a, b) => {
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    document.querySelector("#MostrarSubMenuD").addEventListener("click", () => {
-      document.querySelector("#SubMenuD").classList.toggle("hidden");
-    });
+    document
+      .querySelector("#MostrarSubMenuD")
+      .addEventListener("click", (event) => {
+        const subMenu = document.querySelector("#SubMenuD");
+        subMenu.classList.toggle("hidden");
+
+        // Evitar que el click en el botón cierre el menú inmediatamente
+        event.stopPropagation();
+
+        // Escuchar clics en cualquier lugar del documento
+        document.addEventListener("click", (event) => {
+          // Verificar si el clic fue fuera del submenú y del botón
+          if (
+            //@ts-ignore
+            !subMenu.contains(event.target) &&
+            event.target !== document.querySelector("#MostrarSubMenuD")
+          ) {
+            subMenu.classList.add("hidden");
+          }
+        });
+      });
   });
 </script>
