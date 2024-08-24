@@ -117,7 +117,8 @@ import Sprite from "../Dia50/sprites/sprite.png";
     /* Variables de la Pelota */
     const ballRadius = 3;
     //Posicion de la pelota
-    let x = canvas.width / 2;
+    let x = randomSign ? (canvas.width / 2) + Math.floor(Math.random() * (canvas.width/2)): (canvas.width / 2) - Math.floor(Math.random() * (canvas.width/2); // aleatoriamente  
+
     let y = canvas.height - 30;
 
     //Velocidad de la pelota
