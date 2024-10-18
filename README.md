@@ -57,3 +57,6 @@ https://reto-50-dias.vercel.app/
 | 48  | [Random Image Feed](https://github.com/CristianLeyton/proyectos-reto-50-dias/tree/master/src/pages/projects/Dia48)                         | [Live Demo](https://reto-50-dias.vercel.app/projects/Dia48)             |
 | 49  | [Todo App](https://github.com/CristianLeyton/proyectos-reto-50-dias/tree/master/src/pages/projects/Dia49)                                         | [Live Demo](https://reto-50-dias.vercel.app/projects/Dia49)                     |
 | 50  | [Arkanoid Game](https://github.com/CristianLeyton/proyectos-reto-50-dias/tree/master/src/pages/projects/Dia50)                         | [Live Demo](https://reto-50-dias.vercel.app/projects/Dia50)             |
+
+Ver más de mis proyectos en:
+https://www.cdl.net.ar/
