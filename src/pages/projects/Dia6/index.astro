@@ -3,39 +3,38 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
 <LayoutProyecto title="Día 6" subtitle="Scroll animation">
-<div class="container">
-  <div class="contain">
-    <h3>Scroll to see the animation</h3>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
-    <article class="card">Content</article>
+  <div class="container">
+    <div class="contain">
+      <h3>Scroll to see the animation</h3>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+      <article class="card">Content</article>
+    </div>
   </div>
-</div>
 </LayoutProyecto>
 
 <style>
-
-    .container {
-      background-color: #efedd6;
-      height: 70vh;
-      overflow-y: scroll;
-      display: grid;
-      place-items: center;
-      overflow-x: hidden;
-    }
-    .contain {
+  .container {
+    background-color: #efedd6;
+    height: 70vh;
+    overflow-y: scroll;
+    display: grid;
+    place-items: center;
+    overflow-x: hidden;
+  }
+  .contain {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -67,54 +66,54 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   }
   .card:nth-child(odd) {
     left: -77%;
-    opacity: 0; 
+    opacity: 0;
   }
 
   .card:nth-child(even) {
     left: 77%;
-    opacity: 0; 
-  }  
-  
+    opacity: 0;
+  }
+
   .card.show {
     left: 0;
     opacity: 1;
   }
 
   @media (max-width: 500px) {
-    .card
-    {
+    .card {
       width: 300px;
     }
 
     .contain {
       width: 100%;
     }
-    }
-
+  }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
-
     // Crear el observador con una callback y opciones
-    const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    } else {
-      const boundingClientRect = entry.boundingClientRect;
-      if (boundingClientRect.bottom > window.innerHeight) {
-        entry.target.classList.remove('show');
-      }
-    }
-  });
-}, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          } else {
+            const boundingClientRect = entry.boundingClientRect;
+            if (boundingClientRect.bottom > window.innerHeight) {
+              entry.target.classList.remove("show");
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll(".card");
 
     // Empezar a observar cada elemento
-    cards.forEach(card => {
+    cards.forEach((card) => {
       observer.observe(card);
     });
-  });
+  }); 
 </script>
