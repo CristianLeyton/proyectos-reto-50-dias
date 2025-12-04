@@ -1,0 +1,974 @@
+---
+import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+---
+
+<LayoutProyecto title="Día 51" subtitle="Acertijos">
+  <div class="container dia51">
+    <div class="container">
+      <div class="container-fondo"></div>
+      <section class="box">
+        <main>
+          <h2 class="title">Acertijo</h2>
+          <p id="acertijo" class="acertijo">Pensando en un acertijo...</p>
+
+          <div class="buttons-actions">
+            <button id="btnPista" class="btn"> Ver pista </button>
+            <button id="btnRespuesta" class="btn btnRespuesta">
+              Ver respuesta
+            </button>
+          </div>
+        </main>
+      </section>
+
+      <section class="box-pista hide">
+        <main>
+          <h2 class="title">Pista</h2>
+          <p id="pista" class="pista">Aqui va la pista...</p>
+          <div class="buttons-actions">
+            <button id="btnAcertijo" class="btn btnAcertijo">
+              Ver acertijo
+            </button>
+            <button id="btnRespuesta" class="btn btnRespuesta">
+              Ver respuesta
+            </button>
+          </div>
+        </main>
+      </section>
+
+      <section class="box-respuesta hide">
+        <main>
+          <h2 class="title">Respuesta</h2>
+          <p id="respuesta" class="respuesta">Aqui va la respuesta...</p>
+          <div class="buttons-actions">
+            <button id="btnAcertijo" class="btn btnAcertijo">
+              Ver acertijo
+            </button>
+            <button id="btnNext" class="btn"> Siguiente acertijo </button>
+          </div>
+        </main>
+      </section>
+    </div>
+  </div>
+</LayoutProyecto>
+
+<style>
+  .dia51 {
+    min-height: 70vh;
+    display: grid;
+    place-content: center;
+  }
+
+  .container {
+    display: flex;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .container-fondo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--celeste);
+    z-index: -2;
+  }
+
+  .box,
+  .box-pista,
+  .box-respuesta {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.1),
+      0 6px 6px rgba(0, 0, 0, 0.1);
+
+    & main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 1rem;
+      width: 400px;
+      min-height: 250px;
+      height: fit-content;
+    }
+  }
+
+  .title {
+    font-weight: bolder;
+    color: var(--text-color-secondary);
+  }
+
+  .acertijo,
+  .pista,
+  .respuesta {
+    text-align: center;
+    color: var(--text-color);
+    text-wrap: pretty;
+    font-size: large;
+    font-weight: bold;
+    height: fit-content;
+    padding: 1rem;
+  }
+
+  .btn {
+    background-color: var(--naranja-claro);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  .buttons-actions {
+    display: flex;
+    gap: 1rem;
+    font-size: small;
+  }
+
+  .box {
+    transition: all 0.5s ease-in-out;
+    position: relative;
+  }
+  .box-pista,
+  .box-respuesta {
+    transform: rotateY(-180deg);
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+  }
+
+  .hide {
+    transform: rotateY(180deg);
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .show {
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 1;
+  }
+
+  @media (max-width: 500px) {
+    .container {
+    }
+
+    .box {
+      width: 320px;
+      min-height: 320px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const acertijos = [
+      {
+        id: 1,
+        acertijo:
+          "Un hombre sin techo recoge colillas de cigarrillos de la calle. Puede hacer un cigarro con cinco colillas. Hoy está de suerte, ha encontrado 25 colillas. ¿Cuántos cigarrillos podrá hacer?",
+        pista:
+          "¡Recuerde, puede utilizar las colillas de los cigarrillos que ha hecho!",
+        respuesta:
+          "6. Puede hacer 5 cigarrillos y después, con las colillas de los 5, puede hacer un cigarrillo más.",
+      },
+      {
+        id: 2,
+        acertijo:
+          "Antes de que el Everest fuera descubierto, ¿cuál era la montaña más alta del mundo?",
+        pista: "¡Simplemente no lo habían descubierto todavía!",
+        respuesta:
+          "¡el Everest! ¡Simplemente no la habían descubierto todavía!",
+      },
+      {
+        id: 3,
+        acertijo:
+          "¿Qué es lo que no hace preguntas pero necesita ser contestado?",
+        pista: "¡Todas las casas tienen uno!",
+        respuesta: "¡Un teléfono!",
+      },
+      {
+        id: 4,
+        acertijo:
+          "Un lechero tiene 2 botellas vacías, una de 3 galones y una de 5 galones. Él quiere medir 1 galón exacto. ¿Cómo puede hacer eso?",
+        pista:
+          "El lechero usará la botella de 3 galones primero para vaciar la leche en la botella de 5 galones.",
+        respuesta:
+          "El lechero rellenará la botella de 3 galones y vaciará la leche en la botella de 5 galones. Rellenará la botella de 3 galones de Nuevo y continuará llenando la botella de 5 galones hasta que esté llena. La leche que queda en la botella de 3 galones es exactamente 1 galón.",
+      },
+      {
+        id: 5,
+        acertijo:
+          "¿Cuál es la respuesta de esta suma? 1 + 1 + 1 + 1 + 1 1 + 1 + 1 + 1 + 1 1 + 1 x 0 + 1 = ?",
+        pista: "Todos los números que puede Pertenecen a una sola ecuación.",
+        respuesta:
+          "La respuesta es 30. Hay dos trucos en esta pregunta. El primero es 1 por 0. Eso es solo una distracción. Sí, 1 por 0 es 0, pero eso no afecta a lo demás. El Segundo truco es que las líneas que terminan con 1 no tienen un signo de + junto a ellas. Esto significa que deben combinarse con las líneas siguientes. Aquí tiene los números, todos en una línea: 1 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 11 + 1 x 0 + 1 = ?",
+      },
+      {
+        id: 6,
+        acertijo:
+          "Ana nació el 24 de diciembre, pero su cumpleaños es siempre en verano. ¿Cómo es esto posible?",
+        pista: "¿Donde vive Ana?",
+        respuesta: "Vive en el hemisferio sur.",
+      },
+      {
+        id: 7,
+        acertijo: "¿Qué es tan frágil que cuando dice su nombre lo rompe?",
+        pista: "Cuando su nombre es pronunciado, se acaba.",
+        respuesta: "El silencio.",
+      },
+      {
+        id: 8,
+        acertijo:
+          "¿Cómo puede modificar esta ecuación con un solo cambio (línea recta) para hacerla correcta? 5 + 5 + 5 = 550",
+        pista: "¡Simplemente no funciona como una suma simple!",
+        respuesta:
+          "Puede convertir uno de los signos + en un 4. La nueva ecuación es 545 + 5 = 550.",
+      },
+      {
+        id: 9,
+        acertijo:
+          "Eugenio murió después de una larga vida de 87 años, pero en su tumba escribieron el siguiente epitafio: “Eugenio vivió una buena y larga vida – Él amaba a sus hijo y a su bella esposa –Él era bueno, generoso y merecía lo mejor – Aunque solo tuviera 21 cumpleaños.” ¿Cómo es posible esto?",
+        pista: "Eugenio nació en un día muy especial, que es la respuesta.",
+        respuesta:
+          "Eugenio nació el 29 de febrero en un año bisiesto. Consecuentemente, a sus 87 años, solo tuvo 21 cumpleaños. En los demás años no hubo un 29 de febrero.",
+      },
+      {
+        id: 10,
+        acertijo:
+          "Un caballo está atado a una cuerda de 20 pies. El caballo quiere beber un poco de agua que está a 30 pies de distancia. El caballo llega al agua fácilmente. ¿Cómo es esto posible?",
+        pista: "Toda cuerda tiene dos extremos.",
+        respuesta: "¡El otro extremo de la cuerda no está atado a nada!",
+      },
+      {
+        id: 11,
+        acertijo:
+          "Si me tienes, me quieres compartir. Si me compartes, ya no me tienes. ¿Qué soy?",
+        pista: "Lo comparte usando su boca.",
+        respuesta: "Un secreto.",
+      },
+      {
+        id: 12,
+        acertijo:
+          "Una chica tenía 13 años en su último cumpleaños, y tendrá 15 años en su próximo cumpleaños. ¿Cómo es esto posible?",
+        pista: "Esto es posible porque hoy es un día muy especial.",
+        respuesta: "Hoy cumple 14 años.",
+      },
+      {
+        id: 13,
+        acertijo:
+          "¿Qué ocurre una en un minuto, dos veces en un momento y nunca en cien años?",
+        pista: "Busca la respuesta dentro de la pregunta.",
+        respuesta: "La letra m.",
+      },
+      {
+        id: 14,
+        acertijo:
+          "Juan y Susana tienen los dos unas manzanas. Si Juan le da una manzana a Susana, ambos tendrán el mismo número de manzanas. Si Susana le da una manzana a Juan, Juan tendrá el doble de manzanas que Susana. ¿Cuántas manzanas tienen cada uno?",
+        pista: "Cada uno tiene menos de diez manzanas.",
+        respuesta: "Juan tiene 7 manzanas y Susana tiene 5 manzanas.",
+      },
+      {
+        id: 15,
+        acertijo: "¿Qué va arriba y abajo pero nunca, nunca se mueve?",
+        pista: "Le ayuda a ir abajo y arriba, también.",
+        respuesta: "Un escalera",
+      },
+      {
+        id: 16,
+        acertijo:
+          "Este es el único crimen que no puede castigarse si se comete. ¿Qué es?",
+        pista: "Es mejor si solo se lo imagina.",
+        respuesta: "Suicidio.",
+      },
+      {
+        id: 17,
+        acertijo: "Dame comida y viviré. Dame agua y moriré. ¿Qué soy?",
+        pista: "No vive en la tierra.",
+        respuesta: "Fuego.",
+      },
+      {
+        id: 18,
+        acertijo:
+          "Rellenamos una bañera con agua. Si tuviera una cucharilla, una taza y un cubo, ¿qué haría para vaciar la bañera lo antes posible?",
+        pista: "¡Deje de vaciarla a mano!",
+        respuesta: "¡Saque el tapón!",
+      },
+      {
+        id: 19,
+        acertijo:
+          "¿Qué representa esto? 24 = HeuD 26 = LdA 7 = DdlS 9 = VduG 12 = SdZ",
+        pista:
+          "El número de la izquierda indica la cantidad de elementos de la respuesta.",
+        respuesta:
+          "24 horas de un día. 26 letras del alfabeto. 7 días de la semana. 9 vidas de un gato. 12 signos del Zodiaco.",
+      },
+      {
+        id: 20,
+        acertijo:
+          "5 gatos pueden coger 5 ratones en 5 minutos. ¿Cuántos gatos se necesita para coger 100 ratones en 100 minutos?",
+        pista: "¡Haz lo mejor con lo que tengas!",
+        respuesta:
+          "5 gatos. Los mismos cinco podrían seguir cogiendo 5 ratones cada 5 minutos durante 100 minutos.",
+      },
+      {
+        id: 21,
+        acertijo:
+          "Usas un cuchillo para cortarme la cabeza y lloras a mi lado cuando estoy muerta. ¿Qué soy?",
+        pista: "El crimen se cometió en la cocina.",
+        respuesta: "Una cebolla.",
+      },
+      {
+        id: 22,
+        acertijo:
+          "Soy más ligero que una pluma, aun así el más fuerte de los hombres no puede aguantarme por más de dos minutos. ¿Qué soy?",
+        pista: "Es tan ligero como el aire.",
+        respuesta: "Su aliento.",
+      },
+      {
+        id: 23,
+        acertijo:
+          "¿Cuáles son las dos cosas que nadie come antes del desayuno?",
+        pista: "¿Si se salta el desayuno, qué puede comer?",
+        respuesta: "El almuerzo y la cena.",
+      },
+      {
+        id: 24,
+        acertijo:
+          "Dos madres y dos hijas estaban haciendo tartas. Cada una de ellas hizo una tarta, pero al final solo había tres tartas. ¿Cómo es esto posible?",
+        pista: "Todas las mujeres son de la misma familia.",
+        respuesta:
+          "¡Una chica, su madre y su abuela estaban haciendo las tartas!",
+      },
+      {
+        id: 25,
+        acertijo:
+          "Dos hombres de un club de ajedrez estaban jugando ajedrez. Jugaron cinco partidas. Cada uno ganó el mismo número de partidas. ¿Cómo es esto posible?",
+        pista:
+          "Estos dos hombres no fueron los únicos que jugaron ajedrez en el club ese día.",
+        respuesta: "Jugaron con personas diferentes.",
+      },
+      {
+        id: 26,
+        acertijo: "¿Qué palabra tiene todas las 26 letras diferentes en ella?",
+        pista: "¡Incluso los niños de primero saben esto!",
+        respuesta: "El alfabeto.",
+      },
+      {
+        id: 27,
+        acertijo:
+          "¿Cómo puede poner 21 naranjas en 4 bolsas y seguir teniendo un número impar de naranjas en cada bolsa?",
+        pista: "Una bolsa no necesita ser una bolsa pequeña.",
+        respuesta:
+          "Pone 1, 3, y 5 naranjas en tres bolsas diferentes. Luego pone la cuarta bolsa alrededor de las primeras tres bolsas que contienen 1, 3, y 5 naranjas. ¡Esto te da 21 naranjas!",
+      },
+      {
+        id: 28,
+        acertijo:
+          "Dos profesores enseñan en la misma escuela. Uno es el padre del hijo del otro. ¿Qué relación tienen?",
+        pista: "¡Es su madre!",
+        respuesta: "Son marido y mujer.",
+      },
+      {
+        id: 29,
+        acertijo:
+          "¿Cómo pueden los bolsillos de los pantalones estar vacíos pero todavía tener algo dentro?",
+        pista: "Esto es algo que todo el mundo puede tener.",
+        respuesta: "Tienen agujeros.",
+      },
+      {
+        id: 30,
+        acertijo:
+          "¿En qué año el Día de Navidad y la Noche Vieja cayeron en el mismo día?",
+        pista: "Mire el calendario para ver si esto ocurrirá este año.",
+        respuesta: "Ocurre cada año, el 1 de enero y el 25 de diciembre.",
+      },
+      {
+        id: 31,
+        acertijo:
+          "Usted y Margarita tienen la misma cantidad de fresas. ¿Cuántas fresas tiene que darle Margarita para que tenga 10 más que ella?",
+        pista:
+          "La cantidad de fresas que tenéis los dos no importa. 1 fresa que da es una fresa perdida.",
+        respuesta:
+          "Margarita tiene que darle 5 fresas. Cuando le da 5, ella perderá 5 y usted ganará 5 resultando en una diferencia neta de 10. 1986]",
+      },
+      {
+        id: 32,
+        acertijo:
+          "Un hombre caminó bajo una fuerte lluvia durante veinte minutos sin mojarse ni un solo pelo de su cabeza. No llevaba un sombrero, ni un paraguas, ni sujeto nada sobre su cabeza. Su ropa estaba empapada. ¿Cómo fue esto posible?",
+        pista: "¿Piense que tipo de pelo no puede estropearse con la lluvia?",
+        respuesta: "El hombre simplemente no tiene pelo, es calvo.",
+      },
+      {
+        id: 33,
+        acertijo:
+          "¿Qué es negra cuando está limpia y blanca cuando está sucia?",
+        pista: "La usan los maestros.",
+        respuesta: "Una pizarra",
+      },
+      {
+        id: 34,
+        acertijo:
+          "¿Qué es más grande que Dios, más maligno que el demonio, los pobres lo tienen, los ricos lo necesitan, y si lo come morirá?",
+        pista: "Es lo opuesto de todo.",
+        respuesta: "Nada.",
+      },
+      {
+        id: 35,
+        acertijo:
+          "Tengo manitas pero no puedo dar palmadas. No puedo hablar pero puedo contestar a una pregunta. ¿Qué soy?",
+        pista:
+          "A veces esto es lo único que podría oír en el silencio de una habitación.",
+        respuesta: "Un reloj",
+      },
+      {
+        id: 36,
+        acertijo:
+          'Un hombre en prisión recibe un visitante. Después el guardia pregunta al preso quién era el visitante. El preso contesta: "No tengo hermanos ni hermanas, pero el padre de ese hombre es el hijo de mi padre." ¿Qué parentesco tiene el preso con el visitante?',
+        pista: "El padre del visitante es el hijo del padre del preso.",
+        respuesta: "Es su hijo.",
+      },
+      {
+        id: 37,
+        acertijo:
+          "Siempre la quiere. A veces la puede tener, pero nunca dura para siempre. ¿Qué es?",
+        pista:
+          "¿Qué es aquello que siempre quiere tener, pero nunca puede tener por más de unos momentos?",
+        respuesta: "Silencio.",
+      },
+      {
+        id: 38,
+        acertijo: "¿Cuántas veces puede sustraer el número 5 de 20?",
+        pista: "Después de la primera vez que sustrae 5 de 20, ya no es 20.",
+        respuesta: "Solo una vez.",
+      },
+      {
+        id: 39,
+        acertijo:
+          "Él se ha casado con muchas mujeres, pero él nunca ha estado casado. ¿Quién es él?",
+        pista: "Este hombre es un sacerdote.",
+        respuesta: "Un cura.",
+      },
+      {
+        id: 40,
+        acertijo:
+          "Dos personas nacieron exactamente en el mismo momento, pero no tienen el mismo cumpleaños. ¿Cómo puede ser esto?",
+        pista: "Una persona nació antes que la otra en el papel.",
+        respuesta:
+          "Nacieron en lugares distintos, en zonas horarias distintas.",
+      },
+      {
+        id: 41,
+        acertijo:
+          "Aunque se mueran de hambre, los nativos del Ártico nunca se comerán un huevo de pingüino. ¿Por qué no?",
+        pista:
+          "Es porque no han visto muchos pingüinos últimamente. ¿Sabe por qué?",
+        respuesta: "Los pingüinos viven en la Antártida, no en el Ártico.",
+      },
+      {
+        id: 42,
+        acertijo:
+          "Hay dos cuerdas y ambas tardan exactamente 1 hora en quemarse de un cabo al otro. No puede cortar la cuerda. ¿Cómo puede quemar las dos cuerdas en un total de 45 minutos?",
+        pista:
+          "Al quemar una cuerda desde ambos lados al mismo tiempo, la cuerda se quemará por completo en la mitad del tiempo exactamente. Use está técnica.",
+        respuesta:
+          "Queme una de las cuerdas desde ambos lados y la otra cuerda desde un lado. Después de media hora una de las cuerdas se habrá quemado por completo y la otra se habrá quemado por la mitad. En este punto enciende la cuerda restante desde el lado no quemado y tardará 15 minutos para que la otra mitad de la cuerda se queme, un total de 45 minutos. 2026, 2027]",
+      },
+      {
+        id: 43,
+        acertijo:
+          "Tengo un ojo, pero no puedo ver. Soy tan pequeño que puedes perderme fácilmente. ¿Qué soy yo?",
+        pista:
+          "Una vez un dios dijo que un camello podría pasar a través de mí.",
+        respuesta:
+          "Una aguja. Una vez Jesús dijo, “Y otra vez os digo que es más fácil que un camello pase por el ojo de una aguja, que el que un rico entre en el reino de Dios.” 2030]",
+      },
+      {
+        id: 44,
+        acertijo:
+          "Una cesta contiene 5 manzanas. ¿Sabe cómo dividirla entre 5 niños para que cada uno tenga una manzana y una manzana quede en la cesta?",
+        pista:
+          "El quinto niño pensó que la cesta sería un bonito regalo para su madre.",
+        respuesta:
+          "4 niños reciben una manzana (una manzana para cada uno) ... ¡y el quinto niño recibe la manzana restante con la cesta!",
+      },
+      {
+        id: 45,
+        acertijo:
+          "Saque uno y rasque mi cabeza, ahora soy negro pero antes era rojo.",
+        pista: "Enciende la luz.",
+        respuesta: "Un fósforo.",
+      },
+      {
+        id: 46,
+        acertijo:
+          "Recientemente una madre dio a luz a dos niñas el mismo día, al mismo tiempo, en el mismo mes y año y aun así no son gemelas. ¿Cómo es esto posible?",
+        pista: "Nacieron en el mismo embarazo.",
+        respuesta: "Eran parte de un grupo de trillizos (o de más).",
+      },
+      {
+        id: 47,
+        acertijo:
+          "¿Dónde puede encontrar calles sin vehículos, bosques sin árboles, y ciudades sin casas?",
+        pista: "Le ayuda a ir a todas partes.",
+        respuesta: "¡En un mapa!",
+      },
+      {
+        id: 48,
+        acertijo:
+          "Solo tengo dos columnas vertebrales y miles de costillas. Voy por el mundo sin moverme. ¿Qué soy yo?",
+        pista: "Es un invento que conecta ciudades y países.",
+        respuesta: "Ferrocarril",
+      },
+      {
+        id: 49,
+        acertijo: "¿Qué es lo que llena con las manos vacías?",
+        pista: "Es algo que viste.",
+        respuesta: "Guantes",
+      },
+      {
+        id: 50,
+        acertijo:
+          'Una mujer de 62 años y una chica de 16 años entran en un restaurante. Un hombre pasa por su lado y las dos mujeres dicen "hola padre". ¿Es esto posible?',
+        pista:
+          "La edad del hombre no tiene nada que ver con la edad de esas dos mujeres.",
+        respuesta: "Ese hombre es un cura.",
+      },
+      {
+        id: 51,
+        acertijo: "¿Qué está lleno de agujeros pero aun así retiene el agua?",
+        pista: "Tiene por lo menos uno en su baño.",
+        respuesta: "Una esponja.",
+      },
+      {
+        id: 52,
+        acertijo:
+          "Una casa azul está hecha de ladrillos azules. Una casa amarilla está hecha de ladrillos amarillos. Una casa roja está hecha de ladrillos rojos. Una casa de color naranja está hecha de ladrillos de color naranja. ¿De qué estaría hecha una casa verde, si no de ladrillos verdes?",
+        pista: "¿Qué es una “casa verde”?",
+        respuesta: "Es un invernadero, por lo tanto de cristal.",
+      },
+      {
+        id: 53,
+        acertijo:
+          "Tres cajas cerradas tienen manzanas, plátanos, o ambos, y están etiquetadas “manzanas”, “plátanos” y “mixta”. Sin embargo, cada caja tiene la etiqueta incorrecta en ella. Usted solo puede abrir una caja para ver su contenido. ¿Qué caja debe abrir para averiguar el contenido de las tres cajas?",
+        pista:
+          "No quiere abrir la caja que contiene la fruta mixta porque eso no le ayudaría a determinar cuál de las otras dos cajas es la que tiene las manzanas y cuál tiene los plátanos.",
+        respuesta:
+          'La caja con la etiqueta "Mixta" no es la caja “Mixta”. Ábrala y saque una fruta. Digamos que es una manzana. Debe ser la caja de las "manzanas". La caja marcada "Plátanos" no es la caja con los plátanos. Tampoco es la caja de las manzanas. Por lo tanto es la caja “Mixta”. La última caja (etiquetada como "Manzanas") debe ser la caja con los plátanos. 2068, 2069]',
+      },
+      {
+        id: 54,
+        acertijo: "No puede mantener esto hasta que no lo haya dado.",
+        pista: "Tiene que ver con una promesa.",
+        respuesta: "Su palabra.",
+      },
+      {
+        id: 55,
+        acertijo: "¿Qué es suyo pero sus amigos lo usan más que usted?",
+        pista: "Es la manera con la que se dirige a usted.",
+        respuesta: "Su nombre.",
+      },
+      {
+        id: 56,
+        acertijo: '¿A qué pregunta nunca puede contestar "sí" honestamente?',
+        pista: "¡Dígalo usted mismo!",
+        respuesta: "¿Está dormido?",
+      },
+      {
+        id: 57,
+        acertijo:
+          "Un asesino es condenado a muerte. Él tiene que elegir entre tres habitaciones. La primera está llena de fuego, la segunda está llena de asesinos con pistolas cargadas, y la tercera está llena de leones que no han comido en tres días. ¿Qué habitación es más segura para él?",
+        pista:
+          "¿Qué es más peligroso, el fuego, un asesino o una bestia que está muerta de hambre?",
+        respuesta:
+          "¡La tercera habitación es la más segura! ¡Los leones que llevan tres días sin comer están muertos! 2100]",
+      },
+      {
+        id: 58,
+        acertijo:
+          "Jesica tiene dos relojes de arena, uno de 11 minutos y otro de 13 minutos. Quiere medir 15 minutos exactamente. ¿Cómo puede hacer esto?",
+        pista:
+          "Jessica debe usar los dos relojes de arena al mismo tiempo. El reloj de 11 minutos debe volcarse dos veces. 2102]",
+        respuesta:
+          "Jesica empezará con ambos relojes, y cuando el reloj de 11 minutos ha terminado, inmediatamente le dará la vuelta otra vez. Cuando el reloj de 13 minutos termina al reloj de 11 minutos le quedarán 9 minutos, así que Jesica le dará la vuelta y durará otros 2 minutos, 13 minutos + 2 minutos = 15 minutos.",
+      },
+      {
+        id: 59,
+        acertijo:
+          'Una mujer se quedó horrorizada al encontrar una mosca en su té. El camarero cogió su taza y fue a la cocina y volvió con otra taza de té. Ella gritó, "¡Me ha traído el mismo té!" ¿Cómo lo supo?',
+        pista: "Ella se dio cuenta en el momento en el que bebió del nuevo té.",
+        respuesta:
+          "Ya le había echado azúcar y cuando bebió del nuevo té estaba ya dulce.",
+      },
+      {
+        id: 60,
+        acertijo:
+          "Es medianoche y está lloviendo. Según las estadísticas del tiempo, ¿qué posibilidades hay de que haga sol dentro de 72 horas?",
+        pista: "¿Cuál es la razón por la que el sol no brilla ahora?",
+        respuesta:
+          "¡Dentro de 72 horas será medianoche otra vez, por lo que no habrá sol!",
+      },
+      {
+        id: 61,
+        acertijo: "¿Cuál fue el primer planeta que se descubrió?",
+        pista: "El más cerca de usted.",
+        respuesta: "El planeta Tierra.",
+      },
+      {
+        id: 62,
+        acertijo:
+          "En su cajón de calcetines hay 6 calcetines verdes, 4 calcetines azules, 8 calcetines negros, y 2 calcetines rojos. Si está oscuro y no puede ver los colores, ¿cuántos calcetines debería sacar para asegurarse de que tiene un conjunto?",
+        pista:
+          "Es muy poco probable que tenga un conjunto con solo 2 o 3 calcetines.",
+        respuesta:
+          "5 calcetines. Hay 4 colores en total. Usted podría tener 4 calcetines de colores diferentes, pero el quinto tendrá que coincidir con uno de los colores que ya tiene. ",
+      },
+      {
+        id: 63,
+        acertijo:
+          "Dos hombres están en el desierto. Los dos llevan mochila. Uno de ellos está muerto. El que está vivo tiene su mochila abierta, y el que está muerto la tiene cerrada. ¿Qué hay en la mochila?",
+        pista: "No puede hacer esto con un paracaídas.",
+        respuesta: "Un paracaídas.",
+      },
+      {
+        id: 64,
+        acertijo:
+          "Según un antiguo libro, el crimen de un hombre causó la eliminación del 25% de la población mundial. ¿Qué crimen fue ese?",
+        pista: "El primer asesinato que tuvo lugar.",
+        respuesta:
+          "Según este, Abel fue matado por su hermano Caín. Abel y Caín fueron los dos hijos de Adán y Eva. Por lo tanto la población fue reducida de 4 a 3.",
+      },
+      {
+        id: 65,
+        acertijo:
+          "No tengo voz pero aun así te hablo. Tengo hojas pero no soy un árbol. Tengo una espina dorsal y bisagras pero no soy ni un hombre ni una puerta. ¿Qué soy yo?",
+        pista: "No es un árbol pero sus hojas están hechas de árbol.",
+        respuesta: "Un libro.",
+      },
+      {
+        id: 66,
+        acertijo:
+          "Está dando un paseo por el parque en un día frío, cuando ve unos objetos en el suelo: Una bufanda, una zanahoria y unos cuantos trozos de carbón. ¿A quién pertenecen?",
+        pista: "Es enero y la semana pasada nevó mucho.",
+        respuesta: "¡Pertenecen a un hombre de nieve que se derritió!",
+      },
+      {
+        id: 67,
+        acertijo:
+          "Hay tres bombillas en una habitación. En otra habitación hay 3 interruptores que corresponden a estas tres bombillas (en un orden aleatorio) . Está en la habitación de los interruptores y no puede ver las bombillas. Si solo puede visitar la habitación de las bombillas una vez, ¿cómo puede averiguar que interruptor pertenece a cada bombilla?",
+        pista:
+          "Cuando las bombillas se encienden pasan dos cosas: luz Y calor.",
+        respuesta:
+          "Encienda una de las bombillas por un periodo de tiempo lo suficientemente largo como para que se caliente. Después apáguela. Encienda el Segundo interruptor y vaya a la habitación de las bombillas. Habrá una bombilla pagada y caliente (el primer interruptor que encendió), una bombilla que está fría y está encendida (el Segundo interruptor), y una bombilla apagada y fría (el tercer interruptor).",
+      },
+      {
+        id: 68,
+        acertijo: "¿Qué es lo que siempre viene pero nunca llega?",
+        pista: "Lo esperamos cada día.",
+        respuesta: "El mañana.",
+      },
+      {
+        id: 69,
+        acertijo:
+          "Un hombre conducía su camión. No tenía las luces encendidas. La luna no se veía. En frente, una mujer cruzaba la calle. ¿Cómo la vio?",
+        pista: "¿Por qué no se veía la luna?",
+        respuesta: "Era de día.",
+      },
+      {
+        id: 70,
+        acertijo:
+          "Salen de noche sin ser llamados, y se pierden de día sin ser robados. ¿Qué son?",
+        pista: "¡No los vemos de día!",
+        respuesta: "Estrellas.",
+      },
+      {
+        id: 71,
+        acertijo:
+          "Tú eres mi hermano, pero yo no soy tu hermano. ¿Quién soy yo?",
+        pista: "¡Piensa en la relación que tiene con tu hermano!",
+        respuesta: "Tu hermana.",
+      },
+      {
+        id: 72,
+        acertijo:
+          "Cinco hombres se pasaron toda la noche tocando unos objetos. En la madrugada todos habían conseguido la misma cantidad de dinero. ¿Qué eran estos hombres?",
+        pista: "Tocaron cartas.",
+        respuesta: "Jugadores de Póquer.",
+      },
+      {
+        id: 73,
+        acertijo:
+          "Un hombre necesita cruzar un río. Puede coger una barca. Pero la barca solo puede llevar una cosa a la vez. El hombre tiene 3 cosas que tiene que llevar. Un zorro, una oveja, y col. Si llevara el zorro, entonces la oveja se comería la col. Pero si llevara la col, el zorro se comería a la oveja. ¿Cómo puede llevarlos?",
+        pista:
+          "Las cosas que no pueden ir juntas son el zorro y la oveja (el zorro se come a la oveja), y la oveja y la col (la oveja se come la col).",
+        respuesta:
+          "El hombre lleva a la oveja primero (el zorro no se comerá la col). Después le hombre vuelve y se lleva al zorro, pero trae de vuelta a la oveja. Deja a la oveja y se lleva la col al otro lado. Después vuelve de nuevo y se trae a la oveja.",
+      },
+      {
+        id: 74,
+        acertijo:
+          "Sam le dijo a su madre que “’¡El perro de Peter puede saltar por encima de su casa!”. Al principio su madre no creyó eso pero después de que Jorge lo explicará, su madre sonrió y estuvo de acuerdo con que el perro de Peter puede efectivamente saltar sobre su casa. ¿Qué explicó Jorge a su madre?",
+        pista:
+          "¿Por encima de qué casa puede saltar el perro? Piense un poco….",
+        respuesta:
+          "Lo que dijo Sam inicialmente confundió a su madre pero Jorge lo explicó rápidamente: El perro puede saltar por encima de su caseta para perro, no la casa de Peter.",
+      },
+      {
+        id: 75,
+        acertijo:
+          "¿Es posible saltar desde una escalera de 30 pies a un suelo de cemento sin hacerse daño?",
+        pista: "¿Qué hace si sabe que cuanto más alto está más daño se hará?",
+        respuesta: "¡Puede saltar del escalón de abajo!",
+      },
+      {
+        id: 76,
+        acertijo:
+          "Un hombre vive en la planta número quince de un edificio de apartamentos. Cada mañana coge el ascensor y baja al vestíbulo y sale del edificio. Por la tarde sube al ascensor, y, y si hay otra persona en el ascensor, va a su planta directamente. Sino, va la planta número diez y sube cinco plantas a pie. ¿Por qué hace esto?",
+        pista:
+          "Tiene que ver con un problema que tiene con los botones del ascensor.",
+        respuesta:
+          "El hombre sufre de enanismo. No puede llegar al botón de arriba del ascensor, pero puede pedirle a alguien que lo pulse por él.",
+      },
+      {
+        id: 77,
+        acertijo: "¿Qué tres palabras contienen miles de cartas?",
+        pista: "¡El cartero sabe la respuesta!",
+        respuesta: "Oficina de correos.",
+      },
+      {
+        id: 78,
+        acertijo: "¿Cuándo trae mala suerte ver a un gato blanco?",
+        pista:
+          "Piense en alguien que odia los gatos blancos tanto como a los negros.",
+        respuesta: "Cuando es de noche y es el único que está en su camino.",
+      },
+      {
+        id: 79,
+        acertijo:
+          "Solo puede darse, no cogerse o comprarse. Lo desea el pecador, pero el santo no. ¿Qué es?",
+        pista: "Es una palabra que tiene 8 letras.",
+        respuesta: "Perdón.",
+      },
+      {
+        id: 80,
+        acertijo:
+          "Es su cumpleaños y tiene 7 invitados. ¿Cómo puede dividir una tarta de cumpleaños en ocho trozos iguales con solo tres cortes rectos?",
+        pista: "¡Es una tarta de cumpleaños tridimensional!",
+        respuesta:
+          "Corte la tarta en rodajas (dos cortes para hacer cuatro partes) y luego corte la tarta horizontalmente por la mitad, lo que dará 8 trozos iguales.",
+      },
+      {
+        id: 81,
+        acertijo:
+          'Una familia va en el autobús. Todos tienen mucha hambre, y cuando ven un restaurante, pulsan el botón de stop. Son los únicos que bajan del autobús. Una hora más tarde ven las noticias y averiguan que el autobús en el que iban fue aplastado por una roca y la mitad de los pasajeros murieron. Estaban muy impactados pero la madre dijo "Ojalá no nos hubiéramos bajado nunca." El padre no podía creerse lo que ella dijo, antes de decir, "Oh, sí." ¿Por qué diría esto la madre?',
+        pista: "¡La madre no está contenta porque no murieron en el accidente!",
+        respuesta:
+          "Si no se hubieran bajado, el autobús nunca habría parado y estaría más adelante en la carretera cuando la roca cayó.",
+      },
+      {
+        id: 82,
+        acertijo:
+          "Un niño y su padre van en coche por una carretera cuando se estrellan contra un árbol. El padre murió al instante y el niño fue llevado de inmediato al hospital. Allí, el médico entra y dice ¡¡¡oh, dios mío ese es mi hijo!!! ¿Cómo es esto posible?",
+        pista: "El médico tiene una relación estrecha con el hombre que murió.",
+        respuesta: "El médico es la madre del niño.",
+      },
+      {
+        id: 83,
+        acertijo:
+          "Hay seis vasos en una fila. Los tres primeros están llenos de vino y los otros tres están vacíos. Con solo un movimiento, ¿puede colocarlos para que los vasos llenos y los vacíos se vayan alternando?",
+        pista: "¡Sea ingenioso! También puede mover el contenido del vaso.",
+        respuesta: "Vierta el vino del segundo vaso en el quinto vaso.",
+      },
+      {
+        id: 84,
+        acertijo:
+          "¿Qué es lo que todo el mundo necesita, todo el mundo da, todo el mundo pide y muy pocos toman?",
+        pista: "Puede ser gratuito o puede pagar por él.",
+        respuesta: "Consejo.",
+      },
+      {
+        id: 85,
+        acertijo:
+          "Un hombre está preso en un calabozo. En lo alto de una de las paredes hay una ventana sin barrotes pero está demasiado alto para alcanzarla, por lo que el hombre abandona la esperanza de escapar a través de ella. Él decide cavar su salida. Sin embargo horas después se detiene cuando se da cuenta que tardaría toda su vida en hacer un túnel. Unos días más tarde, una idea viene a su mente, y él comienza a cavar de nuevo. ¿Puede adivinar cuál es su plan?",
+        pista: "Su plan tiene que ver con la ventana sin barrotes.",
+        respuesta:
+          "Quiere recoger la tierra después de cavar y subirse encima de ella para llegar a la ventana.",
+      },
+      {
+        id: 86,
+        acertijo:
+          "Un hombre es encontrado muerto. Los detectives le encontraron colgado con un charco de agua debajo de él. ¿Cómo murió el hombre?",
+        pista:
+          "El asesino colocó algo debajo de los pies del hombre. ¿Qué colocó?",
+        respuesta:
+          "El hombre estaba encima de un bloque de hielo que se derritió.",
+      },
+      {
+        id: 87,
+        acertijo:
+          "Pueden revivir a los muertos. Pueden hacerle llorar o hacerle reír o hacerle joven de nuevo. Nacen en un instante pero duran toda una vida. ¿Qué son?",
+        pista: "Solo viven en nuestra mente.",
+        respuesta: "Recuerdos.",
+      },
+      {
+        id: 88,
+        acertijo:
+          "Tú tienes una, otros tienen dos, un gorila tiene tres y un ser humano tiene cuatro, una personalidad tiene cinco y un ciudadano mundial tiene seis. ¿Qué es?",
+        pista: "Esta respuesta es muy corta.",
+        respuesta: "Vocales.",
+      },
+      {
+        id: 89,
+        acertijo: "Tengo 88 notas pero ninguna es un número. ¿Qué soy?",
+        pista: "Es un objeto que produce música.",
+        respuesta: "Un piano.",
+      },
+      {
+        id: 90,
+        acertijo:
+          'El señor Parker, un hombre de negocios, se va de viaje y pasa por su oficina de camino al aeropuerto, cerca de la medianoche. El vigilante nocturno, Paul le detiene y le dice: "Sr. Parker, por favor no tome ese vuelo. ¡Tuve un sueño anoche, poco después de medianoche, de que su avión se estrellará y todo el mundo morirá! " El hombre de negocios cancela su viaje y por supuesto, el avión se estrella, y no hay sobrevivientes. El Sr. Parker le da Pablo una recompensa de $ 20,000 por salvar su vida, y luego le despide. ¿Por qué?',
+        pista:
+          "El vigilante nocturno no debería estar durmiendo mientras trabaja.",
+        respuesta: "Pablo había estado durmiendo mientras trabajaba.",
+      },
+      {
+        id: 91,
+        acertijo:
+          "Soy la parte del pájaro que no está en el cielo. Puedo nadar en el océano y aun así estar seco. ¿Qué soy?",
+        pista: "Es una parte de su cuerpo que no puede tocar.",
+        respuesta: "Sombra.",
+      },
+      {
+        id: 92,
+        acertijo:
+          'Un hombre fue encontrado muerto con una pistola en la mano. Una grabadora se encontró sobre su mesa, a su lado. El detective pulsó el botón de reproducción de la grabadora y escuchó: "Yo no puedo continuar. No tengo nada en este mundo por que vivir." Luego se escuchó el sonido de un disparo. El detective dijo de inmediato que se trataba de un asesinato y no un suicidio. ¿Cómo lo supo?',
+        pista:
+          "¡Es tan evidente, que el detective ni siquiera tuvo que rebobinar la cinta para reproducir el mensaje de nuevo!",
+        respuesta:
+          "La cinta empezó al principio del mensaje, por lo que otra persona la había rebobinado y después se había ido de la habitación.",
+      },
+      {
+        id: 93,
+        acertijo: "Cuantos más hace, más deja. ¿Qué son?",
+        pista: "Imagínese caminando por una playa.",
+        respuesta: "Pasos.",
+      },
+      {
+        id: 94,
+        acertijo: "¿Cuántos animales de cada especie cogió Moisés en el Arca?",
+        pista:
+          "Primero, pregúntese: ¿Cuándo construyó el arca, antes o después de liberar a los Hebreos de su esclavitud?",
+        respuesta: "Ninguno, ¡fue Noé el que construyó el arca!",
+      },
+      {
+        id: 95,
+        acertijo: "Divida 10 entre 1/2 y sume diez. ¿Cuál es la respuesta?",
+        pista: "No es 15.",
+        respuesta: "10: 1/2 = 20. Más 10 = 30.",
+      },
+      {
+        id: 96,
+        acertijo:
+          "Mientras iba a San Ives, me encontré con un hombre con 7 esposas. Cada esposa tenía nueve sacos. Cada saco tenía nueve gatos. Cada gato tenía cinco gatitos. Gatitos, gatos, sacos y esposas, ¿cuántos iban a San Ives?",
+        pista: "Hay una distracción en este acertijo.",
+        respuesta: "Solo yo iba a San Ives.",
+      },
+      {
+        id: 97,
+        acertijo:
+          "Un hombre y una mujer estaban de vacaciones en la India. Entraron en un restaurante y el camarero les trajo dos bebidas. Las bebidas eran las mismas. El hombre bebió su vaso de inmediato, y no le pasó nada malo. La mujer se tomó su tiempo, bebiéndola lentamente. Ella se enfermó una hora más tarde. ¿Por qué?",
+        pista: "Ambos se tomaron un vaso de limonada con hielo.",
+        respuesta:
+          "Los cubitos de hielo estaban hechos con agua contaminada. El hombre lo bebió antes de que el hielo se derritiera.",
+      },
+      {
+        id: 98,
+        acertijo:
+          "Ponga una moneda en una botella vacía e inserte un corcho en el cuello. ¿Cómo se puede sacar la moneda sin quitar el corcho o romper la botella?",
+        pista: "Lo que sube, puede bajar.",
+        respuesta: "Empuje el corcho en la botella. Después saque la moneda.",
+      },
+      {
+        id: 99,
+        acertijo:
+          "Un reloj de sol tiene menos partes móviles que cualquier otro reloj. ¿Cuál tiene más partes móviles que todos?",
+        pista:
+          "Es también uno de los dispositivos más antiguos para medir el tiempo.",
+        respuesta: "Un reloj de arena.",
+      },
+      {
+        id: 100,
+        acertijo:
+          "Hay un hombre atrapado en una habitación con 2 puertas. En esas dos puertas hay lo siguiente: En la primera, un sol que freirá a cualquier persona que entra. En la segunda, un dragón que escupe fuego y que hiere a cualquiera que hay en la habitación. ¿Cómo escapa el hombre?",
+        pista: "El hombre tiene que esperar al tiempo.",
+        respuesta:
+          "El hombre debe esperar hasta la noche, cuando el sol se haya ido.",
+      },
+    ];
+
+    const btnPista = document.querySelector("#btnPista");
+    const btnRespuesta = document.querySelectorAll(".btnRespuesta");
+    const btnAcertijo = document.querySelectorAll(".btnAcertijo");
+    const btnNext = document.querySelector("#btnNext");
+
+    const acertijo = document.querySelector(".box");
+    const pista = document.querySelector(".box-pista");
+    const respuesta = document.querySelector(".box-respuesta");
+
+    btnPista.addEventListener("click", () => {
+      acertijo.classList.add("hide");
+      pista.classList.add("show");
+    });
+
+    btnAcertijo.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        acertijo.classList.remove("hide");
+        pista.classList.remove("show");
+        respuesta.classList.remove("show");
+      });
+    });
+
+    btnRespuesta.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        console.log("click respuesta");
+        acertijo.classList.add("hide");
+        pista.classList.remove("show");
+        respuesta.classList.add("show");
+      });
+    });
+
+    let currentRiddleIndex = Math.floor(Math.random() * acertijos.length);
+    console.log(currentRiddleIndex);
+    let currentRiddle = acertijos[currentRiddleIndex];
+    document.getElementById("acertijo").innerText = currentRiddle.acertijo;
+    document.getElementById("pista").innerText = currentRiddle.pista;
+    document.getElementById("respuesta").innerText = currentRiddle.respuesta;
+
+    btnNext.addEventListener("click", () => {
+      currentRiddleIndex = Math.floor(Math.random() * acertijos.length);
+      currentRiddle = acertijos[currentRiddleIndex];
+
+      document.getElementById("acertijo").innerText = currentRiddle.acertijo;
+      document.getElementById("pista").innerText = currentRiddle.pista;
+      document.getElementById("respuesta").innerText = currentRiddle.respuesta;
+
+      acertijo.classList.remove("hide");
+      pista.classList.remove("show");
+      respuesta.classList.remove("show");
+
+      console.log(currentRiddleIndex);
+    });
+  });
+</script>
