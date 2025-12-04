@@ -122,9 +122,10 @@ import Sprite from "../Dia50/sprites/sprite.png";
     let y = canvas.height - 30;
 
     //Velocidad de la pelota
+    const accelerate = 4;
     const randomSign = Math.floor(Math.random() * 2); // número aleatorio del 0 al 1
-    let dx = randomSign ? 2 : -2; // aleatoriamente inicia rebotando a la derecha o a la izquierda
-    let dy = -2;
+    let dx = randomSign ? accelerate : -accelerate; // aleatoriamente inicia rebotando a la derecha o a la izquierda
+    let dy = -accelerate;
 
     /* Variables de la Paleta */
     const paddleHeight = 10;
@@ -136,7 +137,7 @@ import Sprite from "../Dia50/sprites/sprite.png";
     let rightPressed = false;
     let leftPressed = false;
 
-    let PADDLE_SEN = 4;
+    let PADDLE_SEN = 6;
 
     /* Variables de los ladrillos */
     const brickRowCount = 6; //6
@@ -171,34 +172,6 @@ import Sprite from "../Dia50/sprites/sprite.png";
     }
 
     let requestAnimationFrame;
-    function draw() {
-      cleanCanvas();
-      //Aqui se va dibujando
-      drawBall();
-      drawPaddle();
-      drawBricks();
-
-      //Colisiones y movimientos
-      collisionDetection();
-      ballMovement();
-      paddleMovement();
-
-      requestAnimationFrame = window.requestAnimationFrame(draw); //Dibuja constantemente mientras no termine el juego
-
-      if (GAMEOVER) {
-        gameOver();
-        setTimeout(() => {
-          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO
-        }, 100);
-      }
-
-      if (YOUWIN) {
-        youWin();
-        setTimeout(() => {
-          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO
-        }, 100);
-      }
-    }
 
     //Dibujos y trazados
     function drawBall() {
@@ -475,6 +448,71 @@ import Sprite from "../Dia50/sprites/sprite.png";
         }
       });
     }
+
+    // a que velocidad de fps queremos que renderice nuestro juego
+  const fps = 60
+  
+  let msPrev = window.performance.now()
+  let msFPSPrev = window.performance.now() + 1000;
+  const msPerFrame = 1000 / fps
+  let frames = 0
+  let framesPerSec = fps;
+
+  function drawUI() {
+    context.fillText(`FPS: ${framesPerSec}`, 5, 10)
+  }
+
+  function draw() {
+    if (GAMEOVER) return
+    
+    requestAnimationFrame = window.requestAnimationFrame(draw); //Dibuja constantemente mientras no termine el juego
+    const msNow = window.performance.now()
+    const msPassed = msNow - msPrev
+
+    if (msPassed < msPerFrame) return
+
+    const excessTime = msPassed % msPerFrame
+    msPrev = msNow - excessTime
+
+    frames++
+
+    if (msFPSPrev < msNow)
+    {
+      msFPSPrev = window.performance.now() + 1000
+      framesPerSec = frames;
+      frames = 0;
+    }
+
+
+    cleanCanvas();
+      //Aqui se va dibujando
+      drawBall();
+      drawPaddle();
+      drawBricks();
+      drawUI();
+
+      //Colisiones y movimientos
+      collisionDetection();
+      ballMovement();
+      paddleMovement();
+
+
+      if (GAMEOVER) {
+        gameOver();
+        setTimeout(() => {
+          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO
+        }, 100);
+      }
+
+      if (YOUWIN) {
+        youWin();
+        setTimeout(() => {
+          window.cancelAnimationFrame(requestAnimationFrame); //Detiene el JUEGO
+        }, 100);
+      }
+
+
+  }
 
     initEvents();
     draw();
