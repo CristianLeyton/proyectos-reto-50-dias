@@ -8,7 +8,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="container-fondo"></div>
       <section class="box">
         <main>
-          <h2 class="title">Acertijo</h2>
+          <h2 class="title">
+            Acertijo <span class="acertijo-numero">00</span>
+          </h2>
           <p id="acertijo" class="acertijo">Pensando en un acertijo...</p>
 
           <div class="buttons-actions">
@@ -22,7 +24,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
       <section class="box-pista hide">
         <main>
-          <h2 class="title">Pista</h2>
+          <h2 class="title">Pista <span class="acertijo-numero">00</span></h2>
           <p id="pista" class="pista">Aqui va la pista...</p>
           <div class="buttons-actions">
             <button id="btnAcertijo" class="btn btnAcertijo">
@@ -37,7 +39,9 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
       <section class="box-respuesta hide">
         <main>
-          <h2 class="title">Respuesta</h2>
+          <h2 class="title">
+            Respuesta <span class="acertijo-numero">00</span>
+          </h2>
           <p id="respuesta" class="respuesta">Aqui va la respuesta...</p>
           <div class="buttons-actions">
             <button id="btnAcertijo" class="btn btnAcertijo">
@@ -60,7 +64,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
   .container {
     display: flex;
-    height: 70vh;
+    min-height: 70vh;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -79,6 +83,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   .box,
   .box-pista,
   .box-respuesta {
+    margin: 30px 10px;
     background-color: #f8fafc;
     border-radius: 12px;
     box-shadow:
@@ -87,13 +92,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     & main {
       display: flex;
+      gap: 0.5rem;
       flex-direction: column;
       align-items: center;
-      justify-content: space-around;
+      justify-content: center;
       padding: 1rem;
       width: 400px;
-      min-height: 250px;
-      height: fit-content;
+      min-height: 320px;
+      height: max-content;
     }
   }
 
@@ -165,9 +171,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     .container {
     }
 
-    .box {
-      width: 320px;
-      min-height: 320px;
+    .box,
+    .box-pista,
+    .box-respuesta {
+      & main {
+        width: 300px;
+        min-height: 300px;
+      }
     }
   }
 </style>
@@ -926,6 +936,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     const acertijo = document.querySelector(".box");
     const pista = document.querySelector(".box-pista");
     const respuesta = document.querySelector(".box-respuesta");
+    const acertijoNumero = document.querySelectorAll(".acertijo-numero");
 
     btnPista.addEventListener("click", () => {
       acertijo.classList.add("hide");
@@ -952,6 +963,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     let currentRiddleIndex = Math.floor(Math.random() * acertijos.length);
     console.log(currentRiddleIndex);
     let currentRiddle = acertijos[currentRiddleIndex];
+    acertijoNumero.forEach((num) => {
+      //@ts-ignore
+      num.innerText = currentRiddle.id;
+    });
     document.getElementById("acertijo").innerText = currentRiddle.acertijo;
     document.getElementById("pista").innerText = currentRiddle.pista;
     document.getElementById("respuesta").innerText = currentRiddle.respuesta;
@@ -960,6 +975,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       currentRiddleIndex = Math.floor(Math.random() * acertijos.length);
       currentRiddle = acertijos[currentRiddleIndex];
 
+      acertijoNumero.forEach((num) => {
+        //@ts-ignore
+        num.innerText = currentRiddle.id;
+      });
       document.getElementById("acertijo").innerText = currentRiddle.acertijo;
       document.getElementById("pista").innerText = currentRiddle.pista;
       document.getElementById("respuesta").innerText = currentRiddle.respuesta;
