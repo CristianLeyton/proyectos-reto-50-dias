@@ -133,10 +133,10 @@
   },
   {
     "id": 23,
-    "acertijo": "¿Cuáles son las dos cosas que nadie come antes del desayuno?",
-    "pista": "¿Si se salta el desayuno, qué puede comer?",
-    "respuesta": "El almuerzo y la cena."
-  },
+    "acertijo": "Tienes un guante en un bolsillo oscuro. ¿Cuántos guantes debes sacar del bolsillo para asegurarte de tener al menos un par completo?",
+    "pista": "No importa si son del mismo par o no. La pregunta es sobre UN par completo.",
+    "respuesta": "Debes sacar dos guantes del bolsillo."
+  }, 
   {
     "id": 24,
     "acertijo": "Dos madres y dos hijas estaban haciendo tartas. Cada una de ellas hizo una tarta, pero al final solo había tres tartas. ¿Cómo es esto posible?",
@@ -157,9 +157,9 @@
   },
   {
     "id": 27,
-    "acertijo": "¿Cómo puede poner 21 naranjas en 4 bolsas y seguir teniendo un número impar de naranjas en cada bolsa?",
+    "acertijo": "¿Cómo puede poner 21 naranjas en 4 bolsas y seguir teniendo un número impar en cada bolsa?",
     "pista": "Una bolsa no necesita ser una bolsa pequeña.",
-    "respuesta": "Pone 1, 3, y 5 naranjas en tres bolsas diferentes. Luego pone la cuarta bolsa alrededor de las primeras tres bolsas que contienen 1, 3, y 5 naranjas. ¡Esto te da 21 naranjas!"
+    "respuesta": "Pone 1, 3, y 5 naranjas en tres bolsas diferentes. Luego pone la cuarta bolsa con 12 naranjas alrededor de las primeras tres bolsas que contienen 1, 3, y 5 naranjas. ¡Esto te da 21 naranjas! Y cada bolsa tiene un número impar de cosas dentro. "
   },
   {
     "id": 28,
@@ -904,12 +904,5 @@
     "acertijo": "Tienes una caja con 3 interruptores en la posición 'apagado'. Cada interruptor controla una bombilla en otra habitación. Solo puedes ir una vez a la otra habitación. ¿Cómo puedes determinar qué interruptor controla cada bombilla?",
     "pista": "Usa una propiedad física de la electricidad además de la luz.",
     "respuesta": "Enciendes un interruptor por unos minutos (para calentarlo), lo apagas y enciendes el segundo. Entras: la bombilla encendida es la #2; la apagada pero caliente es la #1; la apagada y fría es la #3."
-  },
-  {
-    "id": 152,
-    "acertijo": "Tienes un guante en un bolsillo oscuro. ¿Cuántos guantes debes sacar del bolsillo para asegurarte de tener al menos un par completo?",
-    "pista": "No importa si son del mismo par o no. La pregunta es sobre UN par completo.",
-    "respuesta": "Debes sacar dos guantes del bolsillo."
   }
-
 ]
