@@ -87,7 +87,7 @@
     "id": 15,
     "acertijo": "¿Qué va arriba y abajo pero nunca, nunca se mueve?",
     "pista": "Le ayuda a ir abajo y arriba, también.",
-    "respuesta": "Un escalera"
+    "respuesta": "Una escalera"
   },
   {
     "id": 16,
@@ -109,7 +109,7 @@
   },
   {
     "id": 19,
-    "acertijo": "¿Qué representa esto? 24 = HeuD 26 = LdA 7 = DdlS 9 = VduG 12 = SdZ",
+    "acertijo": "¿Qué representa esto? \n24 = HeuD \n26 = LdA \n7 = DdlS \n9 = VduG \n12 = SdZ",
     "pista": "El número de la izquierda indica la cantidad de elementos de la 'respuesta'.",
     "respuesta": "24 horas de un día. 26 letras del alfabeto. 7 días de la semana. 9 vidas de un gato. 12 signos del Zodiaco."
   },
