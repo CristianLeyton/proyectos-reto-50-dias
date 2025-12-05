@@ -244,10 +244,11 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     btnNext.addEventListener("click", () => {
       localStorage.setItem('acertijoNumero', (parseInt(localStorage.getItem('acertijoNumero')) + 1).toString());
-      nextRiddle();
       acertijo.classList.remove("hide");
       pista.classList.remove("show");
       respuesta.classList.remove("show");
+
+      nextRiddle()
     });
 
     // Inicializar con el primer riddle
