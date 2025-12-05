@@ -187,7 +187,8 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-  import acertijosData from "./acertijos.json";
+
+import acertijosData from "./acertijos.json";
 
   document.addEventListener("astro:page-load", () => {
     const acertijos = acertijosData;
@@ -217,7 +218,6 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
     btnRespuesta.forEach((btn) => {
       btn.addEventListener("click", () => {
-        console.log("click respuesta");
         acertijo.classList.add("hide");
         pista.classList.remove("show");
         respuesta.classList.add("show");
@@ -239,7 +239,10 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
       document.getElementById("acertijo").innerText = currentRiddle.acertijo;
       document.getElementById("pista").innerText = currentRiddle.pista;
+
+      setTimeout(() => {
       document.getElementById("respuesta").innerText = currentRiddle.respuesta;
+      }, 500);
     }
 
     btnNext.addEventListener("click", () => {
