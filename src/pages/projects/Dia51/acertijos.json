@@ -9,7 +9,7 @@
     "id": 2,
     "acertijo": "Antes de que el Everest fuera descubierto, ¿cuál era la montaña más alta del mundo?",
     "pista": "¡Simplemente no lo habían descubierto todavía!",
-    "respuesta": "¡el Everest! ¡Simplemente no la habían descubierto todavía!"
+    "respuesta": "¡El Everest! ¡Simplemente no la habían descubierto todavía!"
   },
   {
     "id": 3,
@@ -26,8 +26,8 @@
   {
     "id": 5,
     "acertijo": "¿Cuál es la 'respuesta' de esta suma? \n\n1 + 1 + 1 + 1 + 1\n 1 + 1 + 1 + 1 + 1\n  1 + 1 x 0 + 1 = ?",
-    "pista": "Todos los números que puede Pertenecen a una sola ecuación.",
-    "respuesta": "La 'respuesta' es 30. Hay dos trucos en esta pregunta. El primero es 1 por 0. Eso es solo una distracción. Sí, 1 por 0 es 0, pero eso no afecta a lo demás. El Segundo truco es que las líneas que terminan con 1 no tienen un signo de + junto a ellas. Esto significa que deben combinarse con las líneas siguientes. Aquí tiene los números, todos en una línea: 1 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 11 + 1 x 0 + 1 = ?"
+    "pista": "Todos los números que puede ver pertenecen a una sola ecuación.",
+    "respuesta": "La 'respuesta' es 30. Hay dos trucos en esta pregunta. El primero es 1 por 0. Eso es solo una distracción. Sí, 1 por 0 es 0, pero eso no afecta a lo demás. El Segundo truco es que las líneas que terminan con 1 no tienen un signo de + junto a ellas. Esto significa que deben combinarse con las líneas siguientes. Aquí tiene los números, todos en una línea: \n1 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 11 + 1 x 0 + 1 = ?"
   },
   {
     "id": 6,
