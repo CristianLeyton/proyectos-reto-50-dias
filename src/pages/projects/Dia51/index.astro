@@ -8,9 +8,14 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="container-fondo"></div>
 
       <header>
-        <button>🔽</button>
-        <input type="number" />
-        <button>🔼</button>
+        <button id="btnAnteriorAcertijo" title="Acertijo anterior">🔽</button>
+
+        <form id="formAcertijo">
+          <input type="number" id="inputAcertijo" min="0" />
+        </form>
+        <button id="btnSiguienteAcertijo" title="Acertijo siguiene">🔼</button>
+
+        <button id="randomAcertijo" title="Acertijo aleatorio"> 🔀 </button>
       </header>
 
       <!-- Acertijo caja -->
@@ -68,22 +73,21 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 
 <style>
   .dia51 {
-    min-height: 70vh;
     display: grid;
     place-content: center;
   }
 
   .container {
     display: flex;
-    min-height: 70vh;
-    justify-content: center;
     align-items: center;
     position: relative;
     flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    min-height: 70vh;
   }
 
   header {
-    position: sticky;
+    position: absolute;
     top: 0;
     width: fit-content;
     display: flex;
@@ -94,13 +98,19 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     input {
       width: 4rem;
       text-align: center;
-
     }
 
     button {
       transform: rotate(90deg) scale(1.4);
       margin-top: 1px;
       margin-left: 4px;
+      margin-right: 6px;
+    }
+
+    #randomAcertijo {
+      transform: rotate(0deg) scale(1.4);
+      margin-top: 3px;
+      margin-left: 60px;
       margin-right: 6px;
     }
   }
@@ -113,12 +123,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     height: 100%;
     background-color: var(--celeste);
     z-index: -2;
+    transition: all 0.5s ease-in-out;
   }
 
   .box,
   .box-pista,
   .box-respuesta {
-    margin: 30px 10px;
+    margin: 70px 10px 50px 10px;
     background-color: #f8fafc;
     border-radius: 12px;
     box-shadow:
@@ -223,16 +234,33 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   document.addEventListener("astro:page-load", () => {
     const acertijos = acertijosData;
 
+    // Selección de elementos del DOM
+    // Botones
     const btnPista = document.querySelector("#btnPista");
     const btnRespuesta = document.querySelectorAll(".btnRespuesta");
     const btnAcertijo = document.querySelectorAll(".btnAcertijo");
     const btnNext = document.querySelector("#btnNext");
+    const btnBefore = document.querySelector("#btnAnteriorAcertijo");
+    const btnSiguiente = document.querySelector("#btnSiguienteAcertijo");
+    const btnRandom = document.querySelector("#randomAcertijo");
 
+    // Cajas
     const acertijo = document.querySelector(".box");
     const pista = document.querySelector(".box-pista");
     const respuesta = document.querySelector(".box-respuesta");
-    const acertijoNumero = document.querySelectorAll(".acertijo-numero");
 
+    // Textos
+    const acertijoNumero = document.querySelectorAll(".acertijo-numero");
+    const acertijoText = document.querySelector("#acertijo");
+    const respuestaText = document.querySelector("#respuesta");
+    const pistaText = document.querySelector("#pista");
+
+    // Formulario
+    const formAcertijo = document.querySelector("#formAcertijo");
+    const inputAcertijo = document.querySelector("#inputAcertijo");
+    inputAcertijo.setAttribute("max", (acertijos.length - 1).toString());
+
+    // Eventos de los botones
     btnPista.addEventListener("click", () => {
       acertijo.classList.add("hide");
       pista.classList.add("show");
@@ -254,39 +282,80 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       });
     });
 
-    if (localStorage.getItem("acertijoNumero") === null) {
-      localStorage.setItem("acertijoNumero", "0");
-    }
+    // Inicializar con el primer riddle
+    const getIndexAcertijo = () => {
+      const storedIndex = localStorage.getItem("acertijoNumero");
+      if (storedIndex !== null) {
+        return parseInt(storedIndex);
+      }
+      return 0;
+    };
+
+    const setIndexAcertijo = (index) => {
+      localStorage.setItem("acertijoNumero", parseInt(index).toString());
+    };
+
+    let currentRiddleIndex = getIndexAcertijo();
 
     function nextRiddle() {
-      /*       const currentRiddleIndex = Math.floor(Math.random() * acertijos.length); */
-      const currentRiddleIndex = parseInt(
-        localStorage.getItem("acertijoNumero")
-      );
+      currentRiddleIndex = getIndexAcertijo();
       const currentRiddle = acertijos[currentRiddleIndex];
+
       acertijoNumero.forEach((num) => {
         //@ts-ignore
         num.innerText = currentRiddle.id;
       });
 
-      document.getElementById("acertijo").innerText = currentRiddle.acertijo;
-      document.getElementById("pista").innerText = currentRiddle.pista;
-
+      //@ts-ignore
+      acertijoText.innerText = currentRiddle.acertijo;
+      //@ts-ignore
+      pistaText.innerText = currentRiddle.pista;
       setTimeout(() => {
-        document.getElementById("respuesta").innerText =
-          currentRiddle.respuesta;
+        //@ts-ignore
+        respuestaText.innerText = currentRiddle.respuesta;
       }, 500);
-    }
 
-    btnNext.addEventListener("click", () => {
-      localStorage.setItem(
-        "acertijoNumero",
-        (parseInt(localStorage.getItem("acertijoNumero")) + 1).toString()
-      );
+      //@ts-ignore
+      inputAcertijo.value = currentRiddle.id;
+
       acertijo.classList.remove("hide");
       pista.classList.remove("show");
       respuesta.classList.remove("show");
+    }
 
+    btnNext.addEventListener("click", () => {
+      setIndexAcertijo(currentRiddleIndex + 1);
+      nextRiddle();
+    });
+
+    btnSiguiente.addEventListener("click", () => {
+      setIndexAcertijo(currentRiddleIndex + 1);
+      nextRiddle();
+    });
+
+    btnBefore.addEventListener("click", () => {
+      setIndexAcertijo(currentRiddleIndex - 1);
+      nextRiddle();
+    });
+
+    btnRandom.addEventListener("click", () => {
+      setIndexAcertijo(Math.floor(Math.random() * acertijos.length));
+      nextRiddle();
+    });
+
+    formAcertijo.addEventListener("submit", (e) => {
+      e.preventDefault();
+      //@ts-ignore
+      const valorInput = parseInt(inputAcertijo.value - 1);
+      if (
+        isNaN(valorInput) ||
+        valorInput < 0 ||
+        valorInput >= acertijos.length
+      ) {
+        alert("Por favor, ingresa un número válido de acertijo.");
+        return;
+      }
+      setIndexAcertijo(valorInput);
       nextRiddle();
     });
 
