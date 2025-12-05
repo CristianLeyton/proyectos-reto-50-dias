@@ -43,8 +43,8 @@
   },
   {
     "id": 8,
-    "acertijo": "¿Cómo puede modificar esta ecuación con un solo cambio (línea recta) para hacerla correcta? 5 + 5 + 5 = 550",
-    "pista": "¡Simplemente no funciona como una suma simple!",
+    "acertijo": "¿Cómo puede modificar esta ecuación, agregando una sola línea recta, para hacerla correcta? 5 + 5 + 5 = 550",
+    "pista": "Escribe la suma en un papel. Y al agregar la línea recta, la operación sigue siendo una suma",
     "respuesta": "Puede convertir uno de los signos + en un 4. La nueva ecuación es 545 + 5 = 550."
   },
   {
