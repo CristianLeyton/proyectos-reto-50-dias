@@ -8,14 +8,29 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
       <div class="container-fondo"></div>
 
       <header>
-        <button id="btnAnteriorAcertijo" title="Acertijo anterior">🔽</button>
+        <button id="btnAnteriorAcertijo" title="Anterior" class="size-8">❮</button>
 
         <form id="formAcertijo">
-          <input type="number" id="inputAcertijo" min="0" />
+          <input type="number" id="inputAcertijo" min="0" class="h-8 text-lg"/>
         </form>
-        <button id="btnSiguienteAcertijo" title="Acertijo siguiene">🔼</button>
+        <button id="btnSiguienteAcertijo" title="Siguiente" class="size-8">❯</button>
 
-        <button id="randomAcertijo" title="Acertijo aleatorio"> 🔀 </button>
+        <button id="randomAcertijo" title="Aleatorio">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-7"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+            ></path>
+          </svg>
+        </button>
       </header>
 
       <!-- Acertijo caja -->
@@ -101,16 +116,27 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     }
 
     button {
-      transform: rotate(90deg) scale(1.4);
       margin-top: 1px;
       margin-left: 4px;
       margin-right: 6px;
+      background-color: var(--naranja-claro);
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.99);
+      }
     }
 
     #randomAcertijo {
-      transform: rotate(0deg) scale(1.4);
-      margin-top: 3px;
-      margin-left: 60px;
+      margin-top: 1px;
+      margin-left: 40px;
       margin-right: 6px;
     }
   }
