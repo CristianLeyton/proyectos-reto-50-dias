@@ -6,6 +6,13 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
   <div class="container dia51">
     <div class="container">
       <div class="container-fondo"></div>
+
+      <header>
+        <button>🔽</button>
+        <input type="number" />
+        <button>🔼</button>
+      </header>
+
       <!-- Acertijo caja -->
       <section class="box">
         <main>
@@ -72,6 +79,30 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: column;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem 0rem 1rem;
+
+    input {
+      width: 4rem;
+      text-align: center;
+
+    }
+
+    button {
+      transform: rotate(90deg) scale(1.4);
+      margin-top: 1px;
+      margin-left: 4px;
+      margin-right: 6px;
+    }
   }
 
   .container-fondo {
@@ -187,8 +218,7 @@ import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 </style>
 
 <script>
-
-import acertijosData from "./acertijos.json";
+  import acertijosData from "./acertijos.json";
 
   document.addEventListener("astro:page-load", () => {
     const acertijos = acertijosData;
@@ -224,13 +254,15 @@ import acertijosData from "./acertijos.json";
       });
     });
 
-    if (localStorage.getItem('acertijoNumero') === null) {
-      localStorage.setItem('acertijoNumero', '0');
+    if (localStorage.getItem("acertijoNumero") === null) {
+      localStorage.setItem("acertijoNumero", "0");
     }
 
     function nextRiddle() {
-/*       const currentRiddleIndex = Math.floor(Math.random() * acertijos.length); */
-      const currentRiddleIndex = parseInt(localStorage.getItem('acertijoNumero'));
+      /*       const currentRiddleIndex = Math.floor(Math.random() * acertijos.length); */
+      const currentRiddleIndex = parseInt(
+        localStorage.getItem("acertijoNumero")
+      );
       const currentRiddle = acertijos[currentRiddleIndex];
       acertijoNumero.forEach((num) => {
         //@ts-ignore
@@ -241,17 +273,21 @@ import acertijosData from "./acertijos.json";
       document.getElementById("pista").innerText = currentRiddle.pista;
 
       setTimeout(() => {
-      document.getElementById("respuesta").innerText = currentRiddle.respuesta;
+        document.getElementById("respuesta").innerText =
+          currentRiddle.respuesta;
       }, 500);
     }
 
     btnNext.addEventListener("click", () => {
-      localStorage.setItem('acertijoNumero', (parseInt(localStorage.getItem('acertijoNumero')) + 1).toString());
+      localStorage.setItem(
+        "acertijoNumero",
+        (parseInt(localStorage.getItem("acertijoNumero")) + 1).toString()
+      );
       acertijo.classList.remove("hide");
       pista.classList.remove("show");
       respuesta.classList.remove("show");
 
-      nextRiddle()
+      nextRiddle();
     });
 
     // Inicializar con el primer riddle
