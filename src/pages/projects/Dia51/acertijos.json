@@ -344,7 +344,7 @@
   {
     "id": 58,
     "acertijo": "Jesica tiene dos relojes de arena, uno de 11 minutos y otro de 13 minutos. Quiere medir 15 minutos exactamente. ¿Cómo puede hacer esto?",
-    "pista": "Jessica debe usar los dos relojes de arena al mismo tiempo. El reloj de 11 minutos debe volcarse dos veces. 2102]",
+    "pista": "Jessica debe usar los dos relojes de arena al mismo tiempo. El reloj de 11 minutos debe volcarse dos veces.",
     "respuesta": "Jesica empezará con ambos relojes, y cuando el reloj de 11 minutos ha terminado, inmediatamente le dará la vuelta otra vez. Cuando el reloj de 13 minutos termina al reloj de 11 minutos le quedarán 9 minutos, así que Jesica le dará la vuelta y durará otros 2 minutos, 13 minutos + 2 minutos = 15 minutos."
   },
   {
