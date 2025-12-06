@@ -337,9 +337,9 @@
   },
   {
     "id": 57,
-    "acertijo": "Un asesino es condenado a muerte. Él tiene que elegir entre tres habitaciones. La primera está llena de fuego, la segunda está llena de asesinos con pistolas cargadas, y la tercera está llena de leones que no han comido en tres días. ¿Qué habitación es más segura para él?",
-    "pista": "¿Qué es más peligroso, el fuego, un asesino o una bestia que está muerta de hambre?",
-    "respuesta": "¡La tercera habitación es la más segura! ¡Los leones que llevan tres días sin comer están muertos! 2100]"
+    "acertijo": "¿Qué es aquello que tiene pico y no come?", 
+    "pista": "Quizá el acertijo 2 esté relacionado",
+    "respuesta": "Una montaña"
   },
   {
     "id": 58,
