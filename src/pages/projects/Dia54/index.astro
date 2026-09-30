@@ -1,0 +1,374 @@
+---
+import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
+---
+
+<LayoutProyecto title="Día 54" subtitle="Amigo Invisible">
+  <div class="container dia54">
+    <section class="box">
+      <!-- Paso 1: Participantes -->
+      <div id="pasoParticipantes" class="paso">
+        <h2>Participantes</h2>
+        <form id="formParticipante">
+          <input
+            type="text"
+            id="inputNombre"
+            placeholder="Nombre del participante"
+            autocomplete="off"
+            maxlength="30"
+          />
+          <button type="submit" class="btn">Agregar</button>
+        </form>
+        <p id="errorParticipante" class="error hide"></p>
+        <ul id="listaParticipantes" class="lista"></ul>
+
+        <div class="buttons-actions">
+          <button id="btnSortear" class="btn" disabled>Sortear</button>
+        </div>
+      </div>
+
+      <!-- Paso 2: Revelar -->
+      <div id="pasoRevelar" class="paso hide">
+        <h2>¿Quién eres?</h2>
+        <select id="selectParticipante">
+          <option value="" selected>Elige tu nombre...</option>
+        </select>
+        <button id="btnRevelar" class="btn">Revelar</button>
+
+        <div id="resultado" class="resultado hide">
+          <p class="regala"><span id="nombreRevelado"></span> le regala a</p>
+          <p id="nombreAsignado" class="asignado"></p>
+        </div>
+
+        <div class="buttons-actions">
+          <button id="btnVolver" class="btn btnSecundario">← Volver</button>
+          <button id="btnReiniciar" class="btn btnSecundario">Reiniciar sorteo</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</LayoutProyecto>
+
+<style>
+  .dia54 {
+    min-height: 70vh;
+    display: grid;
+    place-content: center;
+    background-color: var(--celeste);
+  }
+
+  .box {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.1),
+      0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 400px;
+    max-width: 90vw;
+  }
+
+  h2 {
+    text-align: center;
+    color: var(--text-color-secondary);
+    margin-bottom: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  input,
+  select {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border: 2px solid var(--celeste-claro);
+    outline: none;
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: #fff;
+    transition: border-color 0.2s ease-in-out;
+
+    &:focus {
+      border-color: var(--celeste-oscuro);
+    }
+  }
+
+  .error {
+    color: #e5484d;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .btn {
+    background-color: var(--naranja-claro);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  .btnSecundario {
+    background-color: var(--celeste);
+  }
+
+  .lista {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* :global porque los <li> y botones se crean por JS y no reciben el scope de Astro */
+  .lista :global(li) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid var(--celeste-claro);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    color: var(--text-color);
+  }
+
+  .lista :global(button) {
+    color: #e5484d;
+    font-weight: bold;
+    padding: 0 0.25rem;
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  /* :not(.hide) para que el display:flex no pise al .hide */
+  #pasoRevelar:not(.hide) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .resultado {
+    background-color: #fff;
+    border: 2px solid var(--celeste-claro);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .regala {
+    font-size: 0.95rem;
+    color: var(--text-color-secondary);
+  }
+
+  .asignado {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: var(--naranja-claro);
+  }
+
+  .buttons-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: small;
+  }
+
+  /* Equivalente a .hide del Día 51 */
+  .hide {
+    display: none;
+  }
+
+  @media (max-width: 500px) {
+    .box {
+      width: 320px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const pasoParticipantes = document.querySelector("#pasoParticipantes");
+    const pasoRevelar = document.querySelector("#pasoRevelar");
+    const formParticipante = document.querySelector("#formParticipante");
+    const inputNombre = document.querySelector("#inputNombre");
+    const errorParticipante = document.querySelector("#errorParticipante");
+    const listaParticipantes = document.querySelector("#listaParticipantes");
+    const btnSortear = document.querySelector("#btnSortear");
+    const selectParticipante = document.querySelector("#selectParticipante");
+    const btnRevelar = document.querySelector("#btnRevelar");
+    const resultado = document.querySelector("#resultado");
+    const nombreRevelado = document.querySelector("#nombreRevelado");
+    const nombreAsignado = document.querySelector("#nombreAsignado");
+    const btnVolver = document.querySelector("#btnVolver");
+    const btnReiniciar = document.querySelector("#btnReiniciar");
+
+    const MINIMO = 3;
+    let participantes = [];
+    let asignaciones = {};
+
+    const mostrarError = (mensaje) => {
+      //@ts-ignore
+      errorParticipante.innerText = mensaje;
+      errorParticipante.classList.remove("hide");
+    };
+
+    const renderLista = () => {
+      //@ts-ignore
+      listaParticipantes.innerHTML = "";
+
+      participantes.forEach((nombre) => {
+        const li = document.createElement("li");
+
+        const span = document.createElement("span");
+        span.innerText = nombre;
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.type = "button";
+        btnEliminar.title = "Eliminar";
+        btnEliminar.innerText = "✕";
+        btnEliminar.addEventListener("click", () => {
+          participantes = participantes.filter((n) => n !== nombre);
+          renderLista();
+        });
+
+        li.append(span, btnEliminar);
+        //@ts-ignore
+        listaParticipantes.appendChild(li);
+      });
+
+      //@ts-ignore
+      btnSortear.disabled = participantes.length < MINIMO;
+    };
+
+    formParticipante.addEventListener("submit", (e) => {
+      e.preventDefault();
+      //@ts-ignore
+      const nombre = inputNombre.value.trim();
+
+      if (!nombre) {
+        mostrarError("Escribe un nombre");
+        return;
+      }
+      if (participantes.some((n) => n.toLowerCase() === nombre.toLowerCase())) {
+        mostrarError("Ese nombre ya está en la lista");
+        return;
+      }
+
+      errorParticipante.classList.add("hide");
+      participantes.push(nombre);
+      //@ts-ignore
+      inputNombre.value = "";
+      //@ts-ignore
+      inputNombre.focus();
+      renderLista();
+    });
+
+    // Fisher-Yates: baraja hasta que nadie se asigne a sí mismo
+    const sortear = () => {
+      let barajado;
+      let intentos = 0;
+
+      do {
+        barajado = [...participantes];
+        for (let i = barajado.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [barajado[i], barajado[j]] = [barajado[j], barajado[i]];
+        }
+        intentos++;
+      } while (
+        barajado.some((nombre, i) => nombre === participantes[i]) &&
+        intentos < 1000
+      );
+
+      if (barajado.some((nombre, i) => nombre === participantes[i])) {
+        return null;
+      }
+
+      const asignaciones = {};
+      participantes.forEach((nombre, i) => {
+        asignaciones[nombre] = barajado[i];
+      });
+      return asignaciones;
+    };
+
+    const hacerSorteo = () => {
+      const resultadoSorteo = sortear();
+
+      if (!resultadoSorteo) {
+        mostrarError("No se pudo sortear, intenta de nuevo");
+        return false;
+      }
+
+      asignaciones = resultadoSorteo;
+
+      //@ts-ignore
+      selectParticipante.innerHTML =
+        '<option value="" selected>Elige tu nombre...</option>';
+      participantes.forEach((nombre) => {
+        const option = document.createElement("option");
+        option.value = nombre;
+        option.innerText = nombre;
+        //@ts-ignore
+        selectParticipante.appendChild(option);
+      });
+
+      resultado.classList.add("hide");
+      return true;
+    };
+
+    btnSortear.addEventListener("click", () => {
+      if (hacerSorteo()) {
+        pasoParticipantes.classList.add("hide");
+        pasoRevelar.classList.remove("hide");
+      }
+    });
+
+    btnRevelar.addEventListener("click", () => {
+      //@ts-ignore
+      const elegido = selectParticipante.value;
+
+      if (!elegido) {
+        mostrarError("Elige tu nombre para revelar");
+        return;
+      }
+
+      nombreRevelado.innerText = elegido;
+      nombreAsignado.innerText = asignaciones[elegido];
+      resultado.classList.remove("hide");
+      errorParticipante.classList.add("hide");
+    });
+
+    btnVolver.addEventListener("click", () => {
+      resultado.classList.add("hide");
+      pasoRevelar.classList.add("hide");
+      pasoParticipantes.classList.remove("hide");
+    });
+
+    // "Reiniciar sorteo": nuevo sorteo con los mismos participantes
+    btnReiniciar.addEventListener("click", () => {
+      hacerSorteo();
+    });
+  });
+</script>

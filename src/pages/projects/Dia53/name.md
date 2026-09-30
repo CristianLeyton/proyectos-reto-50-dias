@@ -1,5 +1,5 @@
 ---
 dia: '53'
-name: 'Snake Game'
-image: './assets/images/dia53.png'
+name: 'Enlaces de WhatsApp'
+image: '/assets/images/dia53.png'
 ---

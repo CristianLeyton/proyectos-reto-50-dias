@@ -2,21 +2,229 @@
 import LayoutProyecto from "../../../layouts/LayoutProyecto.astro";
 ---
 
-<LayoutProyecto title="Día 53" subtitle="Snake Game">
-  <div class="container dia53"></div>
+<LayoutProyecto title="Día 53" subtitle="Enlaces de WhatsApp">
+  <div class="container dia53">
+    <section class="box">
+      <form id="formWA">
+        <label for="inputNumero">Número (con código de país)</label>
+        <input
+          type="tel"
+          id="inputNumero"
+          placeholder="5493875459077"
+          spellcheck="false"
+        />
+        <label for="inputTexto">Mensaje (opcional)</label>
+        <textarea
+          id="inputTexto"
+          rows="3"
+          placeholder="Hola! Me gustaria hablar contigo..."
+        ></textarea>
+        <p id="error" class="error hide">Ingresa un número válido</p>
+        <button type="submit" class="btn">Generar enlace</button>
+      </form>
+
+      <div id="resultado" class="resultado hide">
+        <p id="enlace" class="enlace"></p>
+        <div class="buttons-actions">
+          <button id="btnCopiar" class="btn">Copiar</button>
+          <a id="btnProbar" class="btn2" href="#" target="_blank" rel="noopener">Probar</a>
+        </div>
+      </div>
+    </section>
+  </div>
 </LayoutProyecto>
 
 <style>
-  .dia52  {
+  .dia53 {
     min-height: 70vh;
     display: grid;
     place-content: center;
+    background-color: var(--naranja-muy-claro);
   }
 
-  @media (max-width: 600px) {
+  .box {
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.1),
+      0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 400px;
+    max-width: 90vw;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--text-color-secondary);
+  }
+
+  input,
+  textarea {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border: 2px solid var(--naranja-muy-claro);
+    outline: none;
+    font-size: 1rem;
+    color: var(--text-color);
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s ease-in-out;
+
+    &:focus {
+      border-color: var(--naranja-claro);
+    }
+  }
+
+  textarea {
+    margin-bottom: 0.75rem;
+  }
+
+  .error {
+    color: #e5484d;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .btn {
+    background-color: var(--naranja-claro);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+    .btn2 {
+    background-color: #25D366;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  .resultado {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--naranja-muy-claro);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .enlace {
+    width: 100%;
+    text-align: center;
+    word-break: break-all;
+    color: #25D366;
+    font-weight: bold;
+    user-select: all;
+  }
+
+  .buttons-actions {
+    display: flex;
+    gap: 1rem;
+    font-size: small;
+  }
+
+  /* Equivalente a .hide del Día 51 */
+  .hide {
+    display: none;
+  }
+
+  @media (max-width: 500px) {
+    .box {
+      width: 320px;
+    }
   }
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", () => {});
+  document.addEventListener("astro:page-load", () => {
+    const formWA = document.querySelector("#formWA");
+    const inputNumero = document.querySelector("#inputNumero");
+    const inputTexto = document.querySelector("#inputTexto");
+    const error = document.querySelector("#error");
+    const resultado = document.querySelector("#resultado");
+    const enlace = document.querySelector("#enlace");
+    const btnCopiar = document.querySelector("#btnCopiar");
+    const btnProbar = document.querySelector("#btnProbar");
+
+    const mostrarError = (mensaje) => {
+      //@ts-ignore
+      error.innerText = mensaje;
+      error.classList.remove("hide");
+      resultado.classList.add("hide");
+    };
+
+    formWA.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Solo dígitos: wa.me exige formato internacional sin +, espacios ni guiones
+      const numero = inputNumero.value.replace(/\D/g, "");
+
+      if (!numero) {
+        mostrarError("Ingresa un número con código de país (ej: 5493875459077)");
+        return;
+      }
+
+      const texto = inputTexto.value.trim();
+      const enlaceGenerado = texto
+        ? `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`
+        : `https://wa.me/${numero}`;
+
+      //@ts-ignore
+      enlace.innerText = enlaceGenerado;
+      //@ts-ignore
+      btnProbar.href = enlaceGenerado;
+      error.classList.add("hide");
+      resultado.classList.remove("hide");
+    });
+
+    btnCopiar.addEventListener("click", async () => {
+      try {
+        //@ts-ignore
+        await navigator.clipboard.writeText(enlace.innerText);
+      } catch {
+        // Fallback para contextos sin Clipboard API
+        const temporal = document.createElement("textarea");
+        temporal.value = enlace.innerText;
+        document.body.appendChild(temporal);
+        temporal.select();
+        document.execCommand("copy");
+        temporal.remove();
+      }
+
+      btnCopiar.innerText = "¡Copiado!";
+      setTimeout(() => {
+        btnCopiar.innerText = "Copiar";
+      }, 1500);
+    });
+  });
 </script>
