@@ -332,19 +332,19 @@
   {
     "id": 56,
     "acertijo": "¿A qué pregunta nunca puede contestar 'sí' honestamente?",
-    "pista": "¡Dígalo usted mismo!",
-    "respuesta": "¿Está dormido?"
+    "pista": "Esta es una pregunta que los compañeros de habitación, las parejas y los hermanos se hacen a menudo.",
+    "respuesta": "¿Estás dormido?"
   },
   {
     "id": 57,
-    "acertijo": "Un asesino es condenado a muerte. Él tiene que elegir entre tres habitaciones. La primera está llena de fuego, la segunda está llena de asesinos con pistolas cargadas, y la tercera está llena de leones que no han comido en tres días. ¿Qué habitación es más segura para él?",
-    "pista": "¿Qué es más peligroso, el fuego, un asesino o una bestia que está muerta de hambre?",
-    "respuesta": "¡La tercera habitación es la más segura! ¡Los leones que llevan tres días sin comer están muertos! 2100]"
+    "acertijo": "¿Qué es aquello que tiene pico y no come?", 
+    "pista": "Quizá el acertijo 2 esté relacionado",
+    "respuesta": "Una montaña"
   },
   {
     "id": 58,
     "acertijo": "Jesica tiene dos relojes de arena, uno de 11 minutos y otro de 13 minutos. Quiere medir 15 minutos exactamente. ¿Cómo puede hacer esto?",
-    "pista": "Jessica debe usar los dos relojes de arena al mismo tiempo. El reloj de 11 minutos debe volcarse dos veces. 2102]",
+    "pista": "Jessica debe usar los dos relojes de arena al mismo tiempo. El reloj de 11 minutos debe volcarse dos veces.",
     "respuesta": "Jesica empezará con ambos relojes, y cuando el reloj de 11 minutos ha terminado, inmediatamente le dará la vuelta otra vez. Cuando el reloj de 13 minutos termina al reloj de 11 minutos le quedarán 9 minutos, así que Jesica le dará la vuelta y durará otros 2 minutos, 13 minutos + 2 minutos = 15 minutos."
   },
   {
@@ -374,7 +374,7 @@
   {
     "id": 63,
     "acertijo": "Dos hombres están en el desierto. Los dos llevan mochila. Uno de ellos está muerto. El que está vivo tiene su mochila abierta, y el que está muerto la tiene cerrada. ¿Qué hay en la mochila?",
-    "pista": "No puede hacer esto con un paracaídas.",
+    "pista": "Las últimas palabras del hombre muerto fueron ¡'dios mío, no se abre'!",
     "respuesta": "Un paracaídas."
   },
   {
@@ -428,8 +428,8 @@
   {
     "id": 72,
     "acertijo": "Cinco hombres se pasaron toda la noche tocando unos objetos. En la madrugada todos habían conseguido la misma cantidad de dinero. ¿Qué eran estos hombres?",
-    "pista": "Tocaron cartas.",
-    "respuesta": "Jugadores de Póquer."
+    "pista": "Estos hombres tocaron unos objetos especiales.", 
+    "respuesta": "Músicos."
   },
   {
     "id": 73,
@@ -465,13 +465,13 @@
     "id": 78,
     "acertijo": "¿Cuándo trae mala suerte ver a un gato blanco?",
     "pista": "Piense en alguien que odia los gatos blancos tanto como a los negros.",
-    "respuesta": "Cuando es de noche y es el único que está en su camino."
+    "respuesta": "Cuando se es un ratón."
   },
   {
     "id": 79,
     "acertijo": "Solo puede darse, no cogerse o comprarse. Lo desea el pecador, pero el santo no. ¿Qué es?",
-    "pista": "Es una palabra que tiene 8 letras.",
-    "respuesta": "Perdón."
+    "pista": "No puede tenerlo sin arrepentirse primero.",
+    "respuesta": "El Perdón."
   },
   {
     "id": 80,
@@ -482,7 +482,7 @@
   {
     "id": 81,
     "acertijo": "Una familia va en el autobús. Todos tienen mucha hambre, y cuando ven un restaurante, pulsan el botón de stop. Son los únicos que bajan del autobús. Una hora más tarde ven las noticias y averiguan que el autobús en el que iban fue aplastado por una roca y la mitad de los pasajeros murieron. Estaban muy impactados pero la madre dijo 'Ojalá no nos hubiéramos bajado nunca.' El padre no podía creerse lo que ella dijo, antes de decir, 'Oh, sí.' ¿Por qué diría esto la madre?",
-    "pista": "¡La madre no está contenta porque no murieron en el accidente!",
+    "pista": "¿En qué pensó la madre que la hizo sentirse culpable por lo que pasó?",
     "respuesta": "Si no se hubieran bajado, el autobús nunca habría parado y estaría más adelante en la carretera cuando la roca cayó."
   },
   {
@@ -524,8 +524,8 @@
   {
     "id": 88,
     "acertijo": "Tú tienes una, otros tienen dos, un gorila tiene tres y un ser humano tiene cuatro, una personalidad tiene cinco y un ciudadano mundial tiene seis. ¿Qué es?",
-    "pista": "Esta 'respuesta' es muy corta.",
-    "respuesta": "Vocales."
+    "pista": "Mi cuerpo está hecho de letras.",
+    "respuesta": "Sílabas."
   },
   {
     "id": 89,
@@ -536,14 +536,14 @@
   {
     "id": 90,
     "acertijo": "El señor Parker, un hombre de negocios, se va de viaje y pasa por su oficina de camino al aeropuerto, cerca de la medianoche. El vigilante nocturno, Paul le detiene y le dice: 'Sr. Parker, por favor no tome ese vuelo. ¡Tuve un sueño anoche, poco después de medianoche, de que su avión se estrellará y todo el mundo morirá!'  El hombre de negocios cancela su viaje y por supuesto, el avión se estrella, y no hay sobrevivientes. El Sr. Parker le da Pablo una recompensa de $ 20,000 por salvar su vida, y luego le despide. ¿Por qué?",
-    "pista": "El vigilante nocturno no debería estar durmiendo mientras trabaja.",
-    "respuesta": "Pablo había estado durmiendo mientras trabajaba."
+    "pista": "El vigilante hizo algo que no le gustó al señor Parker. ¿Qué fue eso?",
+    "respuesta": "El vigilante nocturno no debería estar durmiendo mientras trabaja."
   },
   {
     "id": 91,
     "acertijo": "Soy la parte del pájaro que no está en el cielo. Puedo nadar en el océano y aun así estar seco. ¿Qué soy?",
-    "pista": "Es una parte de su cuerpo que no puede tocar.",
-    "respuesta": "Sombra."
+    "pista": " Imagínese un pájaro volando por encima de usted. ¿Qué parte del pájaro no está en el aire? ",
+    "respuesta": "Su Sombra."
   },
   {
     "id": 92,
